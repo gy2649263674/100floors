@@ -4,4 +4,5 @@
 #include<graphics.h>
 #include"graph.h"
 #include"role.h"
+#include"scene.h"
 #include<string>

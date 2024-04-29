@@ -22,16 +22,8 @@ const IMAGE* Role:: get_frame(int index)const
 }
 void  Role::rotate()
 {
-	~state;
 }
 int Role::get_frame()
 {
-	if (state == R)
-	{
-		return pic_index++;
-	}
-	else if (state == L)
-	{
-		return pic_index--;
-	}
+	return 0;
 }

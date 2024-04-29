@@ -4,10 +4,10 @@
 #include<graphics.h>
 #include<vector>
 #include"role.h"
+//class Role;
 class Atlas//图片集合类
 {
 public:
-	friend void test(Atlas&a);
 	const IMAGE* get_image(int index)const;
 	Atlas()
 	{}
@@ -21,18 +21,8 @@ public:
 	{
 		*this = Atlas(role->get_role_name(), role->get_image_num());
 	}*/
-	~Atlas()
-	{
-		for (auto &it : arr)
-		{
-			delete it;
-		}
-	}
-	void add_image(const char *name ,int n)
-	{
-		 *this= Atlas(name, n);
-	}
 private:
+	//Role* u;
 	std::vector<IMAGE*>arr;
 };
 
@@ -71,5 +61,6 @@ public:
 private:
 	Atlas images;
 };
+
 
 
