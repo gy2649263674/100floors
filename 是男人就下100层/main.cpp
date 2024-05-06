@@ -16,12 +16,13 @@ int freamtime = 0;
 Board board[10];
 IMAGE character_img[10];
 IMAGE character_img_mask[10];
+IMAGE character_img_l[10];
+IMAGE character_img_l_mask[10];
 IMAGE background;
 IMAGE board_img[4];
 Character role;
 ExMessage msg = { 0 };
 int act = 1;
-int ract = 1;
 //游戏初始化
 void gameInit()
 {
@@ -39,7 +40,20 @@ void gameInit()
 	loadimage(character_img_mask + 3, "./picture/character 1/run3_mask.png", 60, 60);
 	loadimage(character_img_mask + 4, "./picture/character 1/run4_mask.png", 60, 60);
 	loadimage(character_img_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
+	loadimage(character_img_l, "./picture/character 1/stand.png", 60, 60);
+	loadimage(character_img_l + 1, "./picture/character 1/run1_l.png", 60, 60);
+	loadimage(character_img_l + 2, "./picture/character 1/run2_l.png", 60, 60);
+	loadimage(character_img_l + 3, "./picture/character 1/run3_l.png", 60, 60);
+	loadimage(character_img_l + 4, "./picture/character 1/run4_l.png", 60, 60);
+	loadimage(character_img_l + 5, "./picture/character 1/falling.png", 60, 60);
+	loadimage(character_img_l_mask, "./picture/character 1/stand_mask.png", 60, 60);
+	loadimage(character_img_l_mask + 1, "./picture/character 1/run1_l_mask.png", 60, 60);
+	loadimage(character_img_l_mask + 2, "./picture/character 1/run2_l_mask.png", 60, 60);
+	loadimage(character_img_l_mask + 3, "./picture/character 1/run3_l_mask.png", 60, 60);
+	loadimage(character_img_l_mask + 4, "./picture/character 1/run4_l_mask.png", 60, 60);
+	loadimage(character_img_l_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
 	srand((unsigned int)time(NULL));
+
 	for (int i = 0; i < 10; i++)
 	{
 		if (i == 0)
@@ -77,22 +91,22 @@ void gamedraw()
 	}
 	if (msg.vkcode == VK_LEFT)
 	{
-		Draw::flipimage(role.x, role.y, character_img_mask[act], SRCAND);
-		Draw::flipimage(role.x, role.y, character_img[act], SRCPAINT);
-		//Timer::timer(2000, 3);
+		putimage(role.x, role.y, &character_img_l_mask[act/4], SRCAND);
+		putimage(role.x, role.y, &character_img_l[act/4], SRCPAINT);
 	}
 	else if (msg.vkcode == VK_RIGHT)
 	{
-		Timer::timer(2000, 3);
-		putimage(role.x, role.y, &character_img_mask[act], SRCAND);
-		putimage(role.x, role.y, &character_img[act], SRCPAINT);
+		putimage(role.x, role.y, &character_img_mask[act/4], SRCAND);
+		putimage(role.x, role.y, &character_img[act/4], SRCPAINT);
 	}
 	else
 	{
+		/*putimage(role.x, role.y, &character_img_l_mask[act / 4], SRCAND);
+		putimage(role.x, role.y, &character_img_l[act / 4], SRCPAINT);*/
 		putimage(role.x, role.y, &character_img_mask[0], SRCAND);
 		putimage(role.x, role.y, &character_img[0], SRCPAINT);
 	}
-
+	msg.message = 0;
 }
 
 void board_move()
@@ -112,6 +126,7 @@ void board_move()
 
 int main()
 {
+
 	//创建图形窗口
 	initgraph(LENGTH, WIDTH);
 	gameInit();
@@ -120,7 +135,7 @@ int main()
 		BeginBatchDraw();
 		cleardevice();
 		gamedraw();
-		if (Timer::timer(10, 1))
+		if (Timer::timer(20, 1))
 			role.character_move();
 		if(Timer::timer(5,0))
 			board_move();

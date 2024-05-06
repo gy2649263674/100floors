@@ -12,7 +12,7 @@ extern ExMessage msg;
 void Character::character_move()
 {
 	
-	int speed = 5;
+	int speed = 8;
 	if (GetAsyncKeyState(VK_LEFT))
 	{
 		x -= speed;
@@ -31,7 +31,7 @@ void Character::character_move()
 	}
 	/*putimage(x, y, &character_img_mask[0], SRCAND);
 	putimage(x, y, &character_img[0], SRCPAINT);*/
-	if (act > 5)
+	if (act > 20)
 		act = 1;
 	//判断玩家在哪一块板子上
 	for (int i = 0; i < 10; i++)
@@ -50,6 +50,6 @@ void Character::character_move()
 	}
 	if (ob = -1 )
 	{
-		y += 1;
+		y += 5;
 	}
 }
