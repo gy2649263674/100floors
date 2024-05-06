@@ -43,6 +43,8 @@ void Character::character_move()
 		{
 			this->y = board[i].y - h;
 			ob = i;
+			if (board->type == 1)
+				health--;
 			break;
 		}
 		else

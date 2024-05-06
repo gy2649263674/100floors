@@ -7,6 +7,7 @@ public:
 	int y;
 	int h;
 	int ob;
+	int health;
 	void character_move();
 };
 

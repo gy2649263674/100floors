@@ -3,6 +3,7 @@
 #include <ctime>
 #include <Windows.h>
 #include "Timer.h"
+#include "Anime.h"
 #include "board.h"
 #include "Character.h"
 #include "Draw.h"
@@ -10,9 +11,6 @@
 #define LENGTH 900
 #define BOARD_GAP 150
 using namespace std;
-const clock_t FPS = 1000 / 60;
-int starttime = 0;
-int freamtime = 0;
 Board board[10];
 IMAGE character_img[10];
 IMAGE character_img_mask[10];
@@ -20,6 +18,9 @@ IMAGE character_img_l[10];
 IMAGE character_img_l_mask[10];
 IMAGE background;
 IMAGE board_img[4];
+IMAGE conveyor_right;
+IMAGE conveyor_left;
+IMAGE fake;
 Character role;
 ExMessage msg = { 0 };
 int act = 1;
@@ -68,14 +69,16 @@ void gameInit()
 		//board[i].y = rand() % (WIDTH);
 		board[i].len = 100;
 		board[i].exist = true;
-		board[i].type = rand() % 3;
+		board[i].type = rand() % 5;
 	}
 	role.h = 60;
 	role.x = board[0].x + board[0].len / 2 - role.h / 2;
 	role.y = board[0].y - role.h;
+	role.health = 5;
 	role.ob = -1;
 }
 //游戏绘制
+//类型0为普通，1为尖刺,2为假板，3为左传送，4为右传送
 void gamedraw()
 {
 	for (int i = 0; i < 10; i++)
@@ -101,8 +104,6 @@ void gamedraw()
 	}
 	else
 	{
-		/*putimage(role.x, role.y, &character_img_l_mask[act / 4], SRCAND);
-		putimage(role.x, role.y, &character_img_l[act / 4], SRCPAINT);*/
 		putimage(role.x, role.y, &character_img_mask[0], SRCAND);
 		putimage(role.x, role.y, &character_img[0], SRCPAINT);
 	}
@@ -130,6 +131,7 @@ int main()
 	//创建图形窗口
 	initgraph(LENGTH, WIDTH);
 	gameInit();
+	Anime::anime_fake(1);
 	while (1)
 	{
 		BeginBatchDraw();
