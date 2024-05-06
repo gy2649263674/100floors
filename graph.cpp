@@ -2,22 +2,16 @@
 #include"all.h"
 //using namespace std;
 
-Atlas::Atlas(const char* characterName, int n)
-{
-	for (int i = 0; i < n; i++)
-	{
-		IMAGE* temp = new IMAGE;
-		char imageName[255] = { 0 };
-		//sprintf(imageName, "%s%d.png", imageName, i);
-		loadimage(temp, imageName, 128, 256);
-		(this->arr).push_back(temp);
-	}
-}
-
-const IMAGE* Atlas::get_image(int index)const
-{
-	return arr[index];
-}
+//Atlas::Atlas(const char* characterName, int n)
+//{
+//	for (int i = 0; i < n; i++)
+//	{
+//		IMAGE* temp = new IMAGE;
+//		char imageName[255] = { 0 };
+//		loadimage(temp, imageName, 128, 256);
+//		(this->arr).push_back(temp);
+//	}
+//}
 //void Animation::showAnimation(const Role&role,ExMessage&msg)
 //void Animation::showAnimation(const Role&role,ExMessage&msg)
 //{
@@ -31,3 +25,10 @@ const IMAGE* Atlas::get_image(int index)const
 //	}
 //	return;
 //}
+
+const IMAGE* Atlas::get_image(int index)const
+{
+	return arr[index];
+}
+
+
