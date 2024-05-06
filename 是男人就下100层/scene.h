@@ -7,6 +7,18 @@
 #include"graph.h"
 #include"sys.h"
 
+#define MAINX 256
+#define MAINY 256
+#define MAINW 660
+#define MAINH 1024
+#define  BTW 128
+#define BTH 64
+#define BTPOSX 250
+#define BTPOSY 20
+#define BTPOSGAP 20
+#define MAPNUM 5
+#define WORDSX 
+#define WORDSX 
 //(MAINW-BUTTONW)/2-------------------
 // |----------------------------------------------------------------------------|
 // |																			|
@@ -68,23 +80,12 @@
 //
 
 
-#define MAINX 256
-#define MAINY 256
-#define MAINW 660
-#define MAINH 1024
-#define  BTW 128
-#define BTH 64
-#define BTPOSX 250
-#define BTPOSY 20
-#define BTPOSGAP 20
-#define MAPNUM 5
-
 using namespace std;
 //extern int mianx, MAINY;
-class scene
+class Scene
 {
 public:
-	scene() = default;
+	Scene() = default;
 	virtual void draw_pic() = 0;
 	virtual void update_scene() = 0;
 	virtual void exit_scene() = 0;
@@ -131,7 +132,7 @@ enum StartOpt
 	choose_map,
 	exit_game,
 };
-class Start :public scene
+class Start :public Scene
 {
 public:
 
@@ -161,11 +162,17 @@ public:
 		putimage(BTPOSX, BTPOSY + BTPOSGAP * 3, exit_button->get_image(0));
 		EndBatchDraw();
 	}
+	void choose_menu()
+	{
+
+	}
+	void ChooseMap(ExMessage& msg);
 	void exit_scene()
 	{
 
 	}
 	void enter_scene();
+	void ExplainMap();
 	int process_command(ExMessage& msg);
 	void update_scene()
 	{
@@ -173,15 +180,18 @@ public:
 	}
 private:
 	Atlas* back_ground;
+	vector<string>map_explain;
+	vector<string>role_explain;
 	Button* start_button;
 	Button* role_button;
 	Button* map_button;
 	Button* exit_button;
-	int cur_back = 0;
 	vector<int>theme;
+	int cur_back = 0;
+	int cur_role = 0;
 	//Atlas* back_ground;
 };
-class Playing :public scene
+class Playing :public Scene
 {
 public:
 	Playing();
@@ -189,6 +199,7 @@ public:
 	{
 	}
 private:
+
 	//IMAGE* start;
 	//IMAGE* exit;
 	//IMAGE* role;
@@ -197,8 +208,12 @@ private:
 		//int widgetw, widgeth, menux, menuy;
 };
 
-class GameOver :public scene
-{
-public:
-
-};
+//class Map :public Scene
+//{
+//public:
+//	void draw_pic();
+//	void update_scene();
+//	void exit_scene();
+//	void enter_scene();
+//	int process_command(ExMessage& msg);
+//};
