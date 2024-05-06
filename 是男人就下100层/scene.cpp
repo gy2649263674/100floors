@@ -19,7 +19,6 @@ int Start::process_command(ExMessage& msg)
 	}
 	return null;
 }
-
 void Start::enter_scene()
 {
 	cleardevice();
@@ -27,15 +26,27 @@ void Start::enter_scene()
 	return;
 }
 
-//int Map::process_command(ExMessage&msg)
 void Start::ChooseMap(ExMessage& msg)
 {
-
-	if (msg.vkcode == VK_LEFT)
+	while (peekmessage(&msg, EX_KEY))
 	{
-		outtextxy();
-		putimage(0,0,(*back_ground)[++cur_back]);
+		if (msg.vkcode == VK_LEFT || msg.vkcode == VK_RIGHT)
+		{
+			cleardevice();
+			int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
+			cur_back = (cur_back * delt + back_ground->get_size()) % back_ground->get_size();
+			putimage(0, 0, (*back_ground)[cur_back]);
+			outtextxy(WORDX, (MAINH - 30), &map_explain[cur_back][0]);
+		}
+		else if (msg.vkcode == VK_RETURN)
+		{
+			return;
+		}
 	}
 }
 
 
+void ChooseRole(ExMessage)
+{
+
+}

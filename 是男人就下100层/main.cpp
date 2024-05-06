@@ -13,19 +13,19 @@ int main(void)
 	while (peekmessage(&msg, EX_MOUSE | EX_KEY))
 	{
 		StartOpt opt  = StartOpt (start_scene.process_command(msg));
-		if (opt == startgame);
+		if (opt == startgame)
+		{
+			start_scene.ChooseMap(msg);
+		}
+		else if (opt == choose_map)
+		{
+			return 0;
+		}
+		else if (opt == choose_role)
 		{
 
 		}
-		if (opt == choose_map)
-		{
-
-		}
-		if (opt == choose_role)
-		{
-
-		}
-		if (opt == exit_game)
+		else if (opt == exit_game)
 		{
 			return 0;
 		}

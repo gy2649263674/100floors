@@ -8,6 +8,7 @@
 #include"sys.h"
 #include<string>
 #include"role.h"
+#define PICDIR "picture"
 //class Role;
 using namespace std;
 class Atlas//图片集合类
@@ -20,7 +21,7 @@ public:
 	Atlas(const char* image_path, const char* imageName, int nums);
 	virtual void add_image(const char* rootdir, const char* filename, int w, int h, int n = 1)
 	{
-		string t = "source\\" + string(rootdir) + "\\" + string(filename);
+		string t = PICDIR+string("\\") + string(rootdir) + "\\" + string(filename);
 		for (int i = 1; i < n; i++)
 		{
 			fstream in;
@@ -42,6 +43,10 @@ public:
 	{
 		if (index < arr.size() && index)
 			return arr[index];
+	}
+	int get_size()
+	{
+		return  arr.size();
 	}
 private:
 	deque<IMAGE*>arr;

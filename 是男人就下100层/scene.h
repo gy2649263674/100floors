@@ -11,14 +11,20 @@
 #define MAINY 256
 #define MAINW 660
 #define MAINH 1024
-#define  BTW 128
+#define BTW 128
 #define BTH 64
 #define BTPOSX 250
 #define BTPOSY 20
 #define BTPOSGAP 20
 #define MAPNUM 5
-#define WORDSX 
-#define WORDSX 
+#define WORDX ((MAINW)/2)
+#define _10PER 30
+#define WORDY (MAINH-_10PER)
+
+#define ROOTDIR "picture"
+#define MAPDIR "map"
+//#define 
+//#define MAPN
 //(MAINW-BUTTONW)/2-------------------
 // |----------------------------------------------------------------------------|
 // |																			|
@@ -81,6 +87,11 @@
 
 
 using namespace std;
+class MyAnimate
+{
+public:
+
+};
 //extern int mianx, MAINY;
 class Scene
 {
@@ -104,6 +115,10 @@ public:
 	{
 
 	}
+	void draw_button()
+	{
+
+	}
 	bool in_area(ExMessage& msg)
 	{
 		if (msg.x > x && msg.x<x + w && msg.y>y && msg.y < y + h)
@@ -122,6 +137,7 @@ public:
 	}
 private:
 	int x, y, w, h;
+	string text;
 	Atlas* images;
 };
 enum StartOpt
@@ -143,11 +159,12 @@ public:
 		role_button = new Button;
 		map_button = new Button;
 		exit_button = new Button;
-		back_ground->add_image("scene\\menu", "back_ground", BTW, BTH, 1);
-		start_button->add_image("scene\\menu", "start", BTW, BTH, 1);
-		map_button->add_image("scene\\menu", "map", MAINW, MAINH, MAPNUM);
-		role_button->add_image("scene\\menu", "role", BTW, BTH, 1);
-		exit_button->add_image("scene\\menu", "exit", BTW, BTH, 1);
+		back_ground->add_image(MAPDIR, "back_ground", BTW, BTH, 1);
+		//start_button->add_image(MAPDIR, "start", BTW, BTH, 1);
+		//map_button->add_image(MAPDIR, "map", MAINW, MAINH, MAPNUM);
+		//role_button->add_image(MAPDIR, "role", BTW, BTH, 1);
+		//exit_button->add_image(MAPDIR, "exit", BTW, BTH, 1);
+		draw_pic();
 	}
 	void draw_pic()
 	{
@@ -155,21 +172,17 @@ public:
 		setfillcolor(theme[cur_back]);
 		BeginBatchDraw();
 		setbkcolor(theme[cur_back]);
-		putimage(MAINX, MAINY, back_ground->get_image(cur_back));
-		putimage(BTPOSX, BTPOSY, start_button->get_image(0));
-		putimage(BTPOSX, BTPOSY + BTPOSGAP, role_button->get_image(0));
+		//putimage(MAINX, MAINY, back_ground->get_image(cur_back));
+		//putimage(BTPOSX, BTPOSY, start_button->get_image(0));
+		//putimage(BTPOSX, BTPOSY + BTPOSGAP, role_button->get_image(0));
 		putimage(BTPOSX, BTPOSY + BTPOSGAP * 2, map_button->get_image(0));
 		putimage(BTPOSX, BTPOSY + BTPOSGAP * 3, exit_button->get_image(0));
 		EndBatchDraw();
 	}
-	void choose_menu()
-	{
-
-	}
+	void Chooserole(ExMessage &msg);
 	void ChooseMap(ExMessage& msg);
 	void exit_scene()
 	{
-
 	}
 	void enter_scene();
 	void ExplainMap();
