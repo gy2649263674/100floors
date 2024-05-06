@@ -1,17 +1,36 @@
 #include "Character.h"
 #include "board.h"
+#include "easyx.h"
+#include "Draw.h"
+#include "Timer.h"
+#include <ctime>
 extern Board board[10];
+extern int act;
+extern IMAGE character_img[10];
+extern IMAGE character_img_mask[10];
+
 void Character::character_move()
 {
+	
 	int speed = 1;
 	if (GetAsyncKeyState(VK_LEFT))
 	{
 		x -= speed;
+		Draw::flipimage(x, y, character_img_mask[act], SRCAND);
+		Draw::flipimage(x, y, character_img[act], SRCPAINT);
+		act++;
 	}
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
 		x += speed;
+		putimage(x, y, &character_img_mask[act], SRCAND);
+		putimage(x, y, &character_img[act], SRCPAINT);
+		act++;
 	}
+	/*putimage(x, y, &character_img_mask[0], SRCAND);
+	putimage(x, y, &character_img[0], SRCPAINT);*/
+	if (act > 5)
+		act = 1;
 	//判断玩家在哪一块板子上
 	for (int i = 0; i < 10; i++)
 	{
@@ -27,7 +46,7 @@ void Character::character_move()
 		else
 			ob = -1;
 	}
-	if (ob = -1)
+	if (ob = -1 )
 	{
 		y += 1;
 	}

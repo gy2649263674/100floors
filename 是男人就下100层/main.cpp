@@ -1,26 +1,52 @@
 #include <iostream>
 #include <easyx.h>
+#include <ctime>
 #include <Windows.h>
 #include "Timer.h"
 #include "board.h"
 #include "Character.h"
+#include "Draw.h"
 #define WIDTH 720
 #define LENGTH 900
 #define BOARD_GAP 150
 using namespace std;
-
+const clock_t FPS = 1000 / 60;
+int starttime = 0;
+int freamtime = 0;
 Board board[10];
-IMAGE character_img[2];
+IMAGE character_img[10];
+IMAGE character_img_mask[10];
+IMAGE character_img_r[10];
+IMAGE character_img_r_mask[10];
 IMAGE background;
 IMAGE board_img[4];
 Character role;
-
+ExMessage msg = { 0 };
+int act = 1;
+int ract = 1;
 //”Œœ∑≥ı ºªØ
 void gameInit()
 {
 	loadimage(board_img, "./picture/normal.png");
 	loadimage(board_img+1, "./picture/nails.png");
 	loadimage(character_img, "./picture/character 1/stand.png", 60, 60);
+	loadimage(character_img+1, "./picture/character 1/run1.png", 60, 60);
+	loadimage(character_img+2, "./picture/character 1/run2.png", 60, 60);
+	loadimage(character_img+3, "./picture/character 1/run3.png", 60, 60);
+	loadimage(character_img+4, "./picture/character 1/run4.png", 60, 60);
+	loadimage(character_img+5, "./picture/character 1/falling.png", 60, 60);
+	loadimage(character_img_mask, "./picture/character 1/stand_mask.png", 60, 60);
+	loadimage(character_img_mask + 1, "./picture/character 1/run1_mask.png", 60, 60);
+	loadimage(character_img_mask + 2, "./picture/character 1/run2_mask.png", 60, 60);
+	loadimage(character_img_mask + 3, "./picture/character 1/run3_mask.png", 60, 60);
+	loadimage(character_img_mask + 4, "./picture/character 1/run4_mask.png", 60, 60);
+	loadimage(character_img_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
+	for (int i = 1; i < 5; i++)
+	{
+		character_img_r[i] = Draw::flipimage()
+
+	}
+	
 	srand((unsigned int)time(NULL));
 	for (int i = 0; i < 10; i++)
 	{
@@ -32,7 +58,7 @@ void gameInit()
 		{
 			board[i].y = BOARD_GAP + board[i - 1].y;
 		}
-		board[i].x = rand() % (LENGTH-100);
+		board[i].x = rand() % (LENGTH-150);
 		//board[i].y = rand() % (WIDTH);
 		board[i].len = 100;
 		board[i].exist = true;
@@ -48,7 +74,6 @@ void gamedraw()
 {
 	for (int i = 0; i < 10; i++)
 	{
-		//solidrectangle(board[i].x, board[i].y, board[i].x + board[i].len, board[i].y + 5);
 		if (board[i].type == 0)
 		{
 			putimage(board[i].x, board[i].y, &board_img[0]);
@@ -58,18 +83,20 @@ void gamedraw()
 			putimage(board[i].x, board[i].y, &board_img[1]);
 		}
 	}
-	putimage(role.x, role.y, character_img);
+	putimage(role.x, role.y, &character_img_mask[0], SRCAND);
+	putimage(role.x, role.y, &character_img[0], SRCPAINT);
 }
 
 void board_move()
 {
+	
 	for (int i = 0; i < 10; i++)
 	{
 		board[i].y -= 1;
 		if (board[i].y < 0)
 		{
 			board[i].y = 8 * BOARD_GAP;
-			board[i].x = rand() % (LENGTH - 100);
+			board[i].x = rand() % (LENGTH - 150);
 			board[i].type = rand() % 3;
 		}
 	}
@@ -84,8 +111,9 @@ int main()
 	{
 		BeginBatchDraw();
 		cleardevice();
+		starttime = clock();
 		gamedraw();
-		if (Timer::timer(2, 1))
+		if (Timer::timer(5, 1))
 			role.character_move();
 		if(Timer::timer(5,0))
 			board_move();
