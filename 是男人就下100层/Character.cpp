@@ -8,23 +8,25 @@ extern Board board[10];
 extern int act;
 extern IMAGE character_img[10];
 extern IMAGE character_img_mask[10];
-
+extern ExMessage msg;
 void Character::character_move()
 {
 	
-	int speed = 1;
+	int speed = 5;
 	if (GetAsyncKeyState(VK_LEFT))
 	{
 		x -= speed;
-		Draw::flipimage(x, y, character_img_mask[act], SRCAND);
-		Draw::flipimage(x, y, character_img[act], SRCPAINT);
+		msg.vkcode == VK_LEFT;
+		/*Draw::flipimage(x, y, character_img_mask[act], SRCAND);
+		Draw::flipimage(x, y, character_img[act], SRCPAINT);*/
 		act++;
 	}
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
 		x += speed;
-		putimage(x, y, &character_img_mask[act], SRCAND);
-		putimage(x, y, &character_img[act], SRCPAINT);
+		msg.vkcode = VK_RIGHT;
+		/*putimage(x, y, &character_img_mask[act], SRCAND);
+		putimage(x, y, &character_img[act], SRCPAINT);*/
 		act++;
 	}
 	/*putimage(x, y, &character_img_mask[0], SRCAND);

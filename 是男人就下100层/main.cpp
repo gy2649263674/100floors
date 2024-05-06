@@ -16,8 +16,6 @@ int freamtime = 0;
 Board board[10];
 IMAGE character_img[10];
 IMAGE character_img_mask[10];
-IMAGE character_img_r[10];
-IMAGE character_img_r_mask[10];
 IMAGE background;
 IMAGE board_img[4];
 Character role;
@@ -41,12 +39,6 @@ void gameInit()
 	loadimage(character_img_mask + 3, "./picture/character 1/run3_mask.png", 60, 60);
 	loadimage(character_img_mask + 4, "./picture/character 1/run4_mask.png", 60, 60);
 	loadimage(character_img_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
-	for (int i = 1; i < 5; i++)
-	{
-		character_img_r[i] = Draw::flipimage()
-
-	}
-	
 	srand((unsigned int)time(NULL));
 	for (int i = 0; i < 10; i++)
 	{
@@ -83,8 +75,24 @@ void gamedraw()
 			putimage(board[i].x, board[i].y, &board_img[1]);
 		}
 	}
-	putimage(role.x, role.y, &character_img_mask[0], SRCAND);
-	putimage(role.x, role.y, &character_img[0], SRCPAINT);
+	if (msg.vkcode == VK_LEFT)
+	{
+		Draw::flipimage(role.x, role.y, character_img_mask[act], SRCAND);
+		Draw::flipimage(role.x, role.y, character_img[act], SRCPAINT);
+		//Timer::timer(2000, 3);
+	}
+	else if (msg.vkcode == VK_RIGHT)
+	{
+		Timer::timer(2000, 3);
+		putimage(role.x, role.y, &character_img_mask[act], SRCAND);
+		putimage(role.x, role.y, &character_img[act], SRCPAINT);
+	}
+	else
+	{
+		putimage(role.x, role.y, &character_img_mask[0], SRCAND);
+		putimage(role.x, role.y, &character_img[0], SRCPAINT);
+	}
+
 }
 
 void board_move()
@@ -111,9 +119,8 @@ int main()
 	{
 		BeginBatchDraw();
 		cleardevice();
-		starttime = clock();
 		gamedraw();
-		if (Timer::timer(5, 1))
+		if (Timer::timer(10, 1))
 			role.character_move();
 		if(Timer::timer(5,0))
 			board_move();
