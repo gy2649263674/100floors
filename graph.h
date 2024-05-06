@@ -20,10 +20,15 @@ public:
 	Atlas(const char* image_path, const char* imageName, int nums);
 	Atlas(const char* scene_name)
 	{
+
 		//string path = "source\\"+*scene_name+"";
 	}
+	virtual void draw_image(int posx,int posy,int index)
+	{
+		putimage(posx, posy, arr[index]);
+	}
 	//const scene_path
-	void add_image(const char* rootdir, const char* filename, int n)
+	virtual void add_image(const char* rootdir, const char* filename, int w,int h,int n = 1)
 	{
 		string t = "source\\" + string(rootdir) + "\\" + string(filename);
 		for (int i = 1; i < n; i++)
@@ -39,11 +44,13 @@ public:
 				perror(" ");
 				return;
 			}
-			loadimage(temp,&path[0], 100, 100);
+			loadimage(temp,&path[0],w,h);
 			arr.push_back(temp);
 		}
 		return;
 	}
+private:
+	deque<IMAGE*>arr;
 	/*Atlas(const Role& role)
 	{
 		*this = Atlas(role.get_role_name(), role.get_image_num());
@@ -54,8 +61,6 @@ public:
 	}*/
 	//private:
 		//std::vector<IMAGE*>arr;
-	deque<IMAGE*>arr;
-
 };
 
 class Animation

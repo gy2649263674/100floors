@@ -68,18 +68,19 @@
 //
 
 
-
+#define MAINX 256
+#define MAINY 256
 #define MAINW 660
 #define MAINH 1024
-#define BUTTONW 128
-#define BUTTONH 64
+#define  BTW 128
+#define BTH 64
 #define BTPOSX 250
 #define BTPOSY 20
 #define BTPOSGAP 20
 #define MAPNUM 5
 
 using namespace std;
-extern int winx, winy;
+//extern int mianx, MAINY;
 class scene
 {
 public:
@@ -88,10 +89,10 @@ public:
 	virtual void update_scene() = 0;
 	virtual void exit_scene() = 0;
 	virtual void enter_scene() = 0;
-	virtual void process_command(ExMessage &msg) = 0;
+	virtual int process_command(ExMessage& msg) = 0;
 
 };
-class Button
+class Button :public Atlas
 {
 public:
 	Button()
@@ -102,44 +103,58 @@ public:
 	{
 
 	}
-	bool in_area(ExMessage&msg)
+	bool in_area(ExMessage& msg)
 	{
-		return msg.x > x && msg.x<x + w && msg.y>y && msg.y < y + h;
+		if (msg.x > x && msg.x<x + w && msg.y>y && msg.y < y + h)
+		{
+			react();
+			return true;
+		}
+		else
+		{
+			return  false;
+		}
 	}
-	bool react()
+	void react()
 	{
 
 	}
 private:
 	int x, y, w, h;
-	Atlas* a;
+	Atlas* images;
 };
-
-
+enum StartOpt
+{
+	null = -1,
+	choose_role,
+	startgame,
+	choose_map,
+	exit_game,
+};
 class Start :public scene
 {
 public:
+
 	Start()
 	{
-		//initgraph(WINW, WINH);
 		back_ground = new Atlas;
-		start_button = new Atlas;
-		role_button = new Atlas;
-		map_button = new Atlas;
-		exit_button = new Atlas;
-		back_ground->add_image("scene\\menu", "back_ground", MAPNUM);
-		start_button->add_image("scene\\menu", "start", 2);
-		map_button->add_image("scene\\menu", "map", MAPNUM);
-		role_button->add_image("scene\\menu", "role", 2);
-		exit_button->add_image("scene\\menu", "exit", 2);
+		start_button = new Button;
+		role_button = new Button;
+		map_button = new Button;
+		exit_button = new Button;
+		back_ground->add_image("scene\\menu", "back_ground", BTW, BTH, 1);
+		start_button->add_image("scene\\menu", "start", BTW, BTH, 1);
+		map_button->add_image("scene\\menu", "map", MAINW, MAINH, MAPNUM);
+		role_button->add_image("scene\\menu", "role", BTW, BTH, 1);
+		exit_button->add_image("scene\\menu", "exit", BTW, BTH, 1);
 	}
 	void draw_pic()
 	{
 		cleardevice();
-		setfillcolor(0xDEA1A3);
+		setfillcolor(theme[cur_back]);
 		BeginBatchDraw();
-		setorigin(winx, winy);
-		initgraph(MAINW, MAINH);
+		setbkcolor(theme[cur_back]);
+		putimage(MAINX, MAINY, back_ground->get_image(cur_back));
 		putimage(BTPOSX, BTPOSY, start_button->get_image(0));
 		putimage(BTPOSX, BTPOSY + BTPOSGAP, role_button->get_image(0));
 		putimage(BTPOSX, BTPOSY + BTPOSGAP * 2, map_button->get_image(0));
@@ -150,23 +165,21 @@ public:
 	{
 
 	}
-	void enter_scene()
-	{
-
-	}
-	void process_command(ExMessage &msg)
-	{
-	}
+	void enter_scene();
+	int process_command(ExMessage& msg);
 	void update_scene()
 	{
 
 	}
 private:
 	Atlas* back_ground;
-	Atlas* start_button;
-	Atlas* role_button;
-	Atlas* map_button;
-	Atlas* exit_button;
+	Button* start_button;
+	Button* role_button;
+	Button* map_button;
+	Button* exit_button;
+	int cur_back = 0;
+	vector<int>theme;
+	//Atlas* back_ground;
 };
 class Playing :public scene
 {
