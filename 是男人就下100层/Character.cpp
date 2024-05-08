@@ -13,7 +13,7 @@ void Character::character_move()
 {
 	
 	int speed = 8;
-	if (GetAsyncKeyState(VK_LEFT))
+	if (GetAsyncKeyState(VK_LEFT)&&x>0)
 	{
 		x -= speed;
 		msg.vkcode == VK_LEFT;
@@ -21,7 +21,7 @@ void Character::character_move()
 		Draw::flipimage(x, y, character_img[act], SRCPAINT);*/
 		act++;
 	}
-	if (GetAsyncKeyState(VK_RIGHT))
+	if (GetAsyncKeyState(VK_RIGHT)&&x<900)
 	{
 		x += speed;
 		msg.vkcode = VK_RIGHT;
@@ -54,4 +54,11 @@ void Character::character_move()
 	{
 		y += 5;
 	}
+	if (y == 0)
+	{
+		health--;
+		Timer::timer(2000, 5);
+	}
+	if (y > 720)
+		health = 0;
 }

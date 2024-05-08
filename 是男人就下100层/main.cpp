@@ -131,7 +131,6 @@ int main()
 	//创建图形窗口
 	initgraph(LENGTH, WIDTH);
 	gameInit();
-	Anime::anime_fake(1);
 	while (1)
 	{
 		BeginBatchDraw();
