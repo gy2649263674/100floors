@@ -10,3 +10,10 @@ bool Timer::timer(clock_t ms,int num)
 	}
 	return false;
 }
+
+bool::Timer:: Delay(int time)
+{
+	clock_t now = clock();
+	while (clock() - now < time);
+	return true;
+}

@@ -1,4 +1,3 @@
-
 #pragma once
 #include <Windows.h>
 class Character
@@ -10,6 +9,5 @@ public:
 	int ob;
 	int health;
 	void character_move();
-
 };
 

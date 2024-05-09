@@ -1,4 +1,3 @@
-
 #pragma once
 class Board
 {
@@ -9,3 +8,4 @@ public:
 	int type;
 	bool exist;
 };
+

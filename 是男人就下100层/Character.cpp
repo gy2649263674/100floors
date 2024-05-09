@@ -3,8 +3,9 @@
 #include "easyx.h"
 #include "Draw.h"
 #include "Timer.h"
+#include "Anime.h"
 #include <ctime>
-extern Board board[10];
+extern Board board[150];
 extern int act;
 extern IMAGE character_img[10];
 extern IMAGE character_img_mask[10];
@@ -34,7 +35,7 @@ void Character::character_move()
 	if (act > 20)
 		act = 1;
 	//判断玩家在哪一块板子上
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 150; i++)
 	{
 		int x2 = this->x + h / 2;
 		int y2 = this->y + h;
@@ -43,8 +44,29 @@ void Character::character_move()
 		{
 			this->y = board[i].y - h;
 			ob = i;
-			if (board->type == 1)
+			if (board[i].type == 1)
+			{
 				health--;
+				break;
+			}
+			else if (board[i].type == 2)
+			{
+				y += 3;
+				//Anime::anime_fake(i);
+				break;
+			}
+			else if (board[i].type == 3)
+			{
+				if (x > 0)
+					x -= speed/4;
+				break;
+			}
+			else if (board[i].type == 4)
+			{
+				if (x < 900)
+					x += speed/4;
+				break;
+			}
 			break;
 		}
 		else

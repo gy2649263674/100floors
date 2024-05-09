@@ -1,7 +1,8 @@
 #include "Anime.h"
 #include <ctime>
 #include "board.h"
-extern Board board[10];
+#include "Timer.h"
+extern Board board[150];
 extern IMAGE conveyor_right;
 extern IMAGE conveyor_left;
 extern IMAGE fake;
@@ -46,12 +47,14 @@ void Anime::anime_fake(int i)
 	int speed = 100;
 	int h = 217 / 6;
 	int index = 0;
-	while (1)
+	//while(round<7)
+	for(index=0;index<frame;)
 	{
 		BeginBatchDraw();
 		cleardevice();
 		putimage(board[i].x, board[i].y, 96, h, &fake, 0, index * h);
-		index = clock() / speed % frame;
+		index = clock() / speed % (frame+1);
 		EndBatchDraw();
 	}
+	putimage(board[i].x, board[i].y, 96, 217 / 6, &fake, 0, 0);
 }
