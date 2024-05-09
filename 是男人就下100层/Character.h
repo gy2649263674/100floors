@@ -1,4 +1,5 @@
-﻿#pragma once
+
+#pragma once
 #include <Windows.h>
 class Character
 {
@@ -7,7 +8,8 @@ public:
 	int y;
 	int h;
 	int ob;
+	int health;
 	void character_move();
-	//IMAGE
+
 };
 
