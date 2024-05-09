@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"graph.h"
 enum Direction
 {
 	Up,

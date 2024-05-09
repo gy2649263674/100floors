@@ -1,8 +1,15 @@
 ﻿#pragma once
+//#define MAINW 1048
+//#define LENGTH 900
+#define MAINW 900
+#define LENGTH 720
+#define MAINH 800
+#define WIDTH 720
+
+
+
 #define MAINX 256
 #define MAINY 0
-#define MAINW 1048
-#define MAINH 800
 #define BTW 50
 #define BTH 50
 #define BTPOSX 250
@@ -25,7 +32,7 @@
 #define MASK "_mask"
 
 
-
+#define BOARD_GAP 150
 #define CLICKED 0 
 #define HANGON 2
 #define UNIN 1

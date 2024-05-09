@@ -9,31 +9,9 @@ int Start::process_command(ExMessage& msg)
 		{
 			com = buttons[i]->react(msg) ? i : com;
 			enter_scene();
-			//putimage(0, 0, back_ground->get_image(0));
-			//buttons[i]->draw_button();
 			return com;
 		}
 	}
-	/*if (buttons[start_bt]->in_area(msg))
-	{
-		com = buttons[start_bt]->react(msg) ? startgame : com;
-		buttons[strtt_bt]->draw_pic();
-	}
-	else if (buttons[map_bt]->in_area(msg))
-	{
-		com = buttons[map_bt]->react(msg) ? choose_map : com;
-		draw_pic();
-	}
-	else if (buttons[role_bt]->in_area(msg))
-	{
-		com = buttons[role_bt]->react(msg) ? choose_role : com;
-		draw_pic();
-	}
-	else if (buttons[exit_bt]->in_area(msg))
-	{
-		com = buttons[exit_bt]->react(msg) ? exit_game : com;
-		draw_pic();
-	}*/
 	return com;
 }
 void Start::enter_scene()

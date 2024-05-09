@@ -4,13 +4,31 @@
     <ClInclude Include="all.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="graph.h">
-      <Filter>head</Filter>
-    </ClInclude>
     <ClInclude Include="stdc++.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="scene.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="Anime.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="board.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="Draw.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="role.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="sys.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="unit.h">
@@ -18,9 +36,30 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="jcptestmain.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="graph.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="role.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="Draw.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="board.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="Anime.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="gytest.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
   </ItemGroup>

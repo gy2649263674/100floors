@@ -1,7 +1,7 @@
-
+﻿
 #pragma once
 #include <ctime>
-//计时器
+//璁℃椂鍣?
 class Timer
 {
 public:
