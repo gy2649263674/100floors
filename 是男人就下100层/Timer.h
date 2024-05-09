@@ -1,9 +1,11 @@
+
 #pragma once
 #include <ctime>
-//¼ÆÊ±Æ÷
+//è®¡æ—¶å™¨
 class Timer
 {
 public:
 	static bool timer(clock_t ms,int num);
 };
+
 
