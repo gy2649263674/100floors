@@ -212,6 +212,8 @@ void testbutton()
 {
 	se = Start();
 	creatgame();
+	gameInit();
+	se.enter_scene();
 	setbkcolor(BLACK);
 	while (1 ^ EXIT)
 	{
@@ -248,7 +250,6 @@ void testbutton()
 
 int main(void)
 {
-	gameInit();
 	//se.enter_scene();
 	testbutton();
 	return 0;
