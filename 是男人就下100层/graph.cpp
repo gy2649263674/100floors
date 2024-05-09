@@ -25,10 +25,36 @@
 //	}
 //	return;
 //}
+//void putimage(int dstX, int dstY, int dstWidth, int dstHeight, const IMAGE* pSrcImg, int srcX, int srcY, DWORD dwRop = SRCCOPY);		// Put image to device
 
-const IMAGE* Atlas::get_image(int index)const
+//void draw_lucency(int x,int y ,IMAGE* ori,IMAGE* mask, double ratio)
+//{
+//	BeginBatchDraw();
+//	//putimage(x, y, mask, ori->getwidth() * ratio, ori->getheight() * ratio, SRCAND, ori->getwidth(), ori->getheight(),);
+//	putimage(x, y, ori, SRCPAINT);
+//	EndBatchDraw();
+//}
+
+
+void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask)
 {
-	return arr[index];
+	BeginBatchDraw();
+	putimage(x, y, mask, SRCAND);
+	putimage(x, y, ori, SRCPAINT);
+	EndBatchDraw();
+	return;
 }
-
+IMAGE* Atlas::get_image(int index, int cate)
+{
+	if (index >= 0)
+	{
+		if (cate == 0 && index < arr.size())
+			return arr[index];
+		else if (index < arr_mask.size())
+		{
+			return arr_mask[index];
+		}
+	}
+	return NULL;
+}
 

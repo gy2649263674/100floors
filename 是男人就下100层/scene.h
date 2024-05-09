@@ -4,25 +4,18 @@
 #include<iostream>
 #include<easyx.h>
 #include<graphics.h>
+#include<unordered_map>
+#include<map>
 #include"graph.h"
 #include"sys.h"
 
-#define MAINX 256
-#define MAINY 256
-#define MAINW 660
-#define MAINH 1024
-#define BTW 128
-#define BTH 64
-#define BTPOSX 250
-#define BTPOSY 20
-#define BTPOSGAP 20
-#define MAPNUM 5
-#define WORDX ((MAINW)/2)
-#define _10PER 30
-#define WORDY (MAINH-_10PER)
+extern IMAGE arrow[2];
+extern IMAGE cursor[2];
+extern IMAGE border[2];
+const static double ratio = 7.0 / 10.0;
+const static double bigger = 1.1;
 
-#define ROOTDIR "picture"
-#define MAPDIR "map"
+//extern IMAGE* arrow;
 //#define 
 //#define MAPN
 //(MAINW-BUTTONW)/2-------------------
@@ -85,13 +78,9 @@
 // -----------------------------------------------------------------------------
 //
 
-
+//inline
 using namespace std;
-class MyAnimate
-{
-public:
 
-};
 //extern int mianx, MAINY;
 class Scene
 {
@@ -104,26 +93,92 @@ public:
 	virtual int process_command(ExMessage& msg) = 0;
 
 };
-class Button :public Atlas
+class Button
 {
 public:
+
 	Button()
 	{
-
+		images = new Atlas;
 	}
-	Button(int n)
+	void setpos(int x, int y)
 	{
-
+		this->x = x;
+		this->y = y;
+		area_w = { x + gap,y,x + gap + wordsw,y + h };
+		return;
+	}
+	void init(const char* filename, const char* text_ = " ")
+	{
+		images->add_image(BTDIR, filename, BTW, BTH, 1, ".ico");
+		images->add_image(BTDIR, filename, BTW, BTH, 1, ".ico", MASK);
+		text = string(text_);
+		return;
+	}
+	void draw_button(int posx, int posy)
+	{
+		draw_lucency(posx, posy, images->get_image(0), images->get_mask_image(0));
+		return;
+	}
+	//xian & mask
+	///zai ^ ori
+	//(x+gap,y)
+	//(x+gap+wordsw,y+h);
+	void unin()
+	{
+		setbkmode(TRANSPARENT);;
+		settextcolor(BLACK);
+		settextstyle((area_w.top - area_w.bottom) * ratio, (area_w.right - area_w.left) / text.length() * ratio, "consola");;
+		//draw_words();
+	}
+	void clicked()
+	{
+		setbkmode(OPAQUE);
+		settextcolor(RED);
+		setbkcolor(DARKGRAY);
+		settextstyle((area_w.top - area_w.bottom) * ratio * bigger, (area_w.right - area_w.left) * bigger / text.length() * ratio, "consola");;
+		//draw_words();
+	}
+	void hang_on()
+	{
+		setbkmode(OPAQUE);
+		setbkcolor(DARKGRAY);
+		setfillcolor(DARKGRAY);
+		settextcolor(WHITE);
+		settextstyle((area_w.top - area_w.bottom) * ratio, (area_w.right - area_w.left) / text.length() * ratio, "consola");;
+	}
+	//1 clicked 
+	//0 no in 
+	//2 hang on 
+	void draw_words(int clicked_ = 0)
+	{
+		if (clicked_ == UNIN)
+		{
+			unin();
+		}
+		else if (clicked_ == CLICKED)
+		{
+			clicked();
+		}
+		if (clicked_ == HANGON)
+		{
+			hang_on();
+		}
+		drawtext(&text[0], &area_w, DT_CENTER | DT_BOTTOM);
+		draw_lucency(area_w.left, area_w.top - 7, border, border + 1);
+		return;
 	}
 	void draw_button()
 	{
-
+		draw_lucency(x, y, images->get_image(0), images->get_mask_image(0));
+		draw_words(UNIN);
+		return;
 	}
 	bool in_area(ExMessage& msg)
 	{
-		if (msg.x > x && msg.x<x + w && msg.y>y && msg.y < y + h)
+
+		if (msg.x > area_w.left && msg.x < area_w.right && msg.y > area_w.top && msg.y < area_w.bottom)// && msg.x>x && msg.x<x + w && msg.y>y && msg.y < y + h)
 		{
-			react();
 			return true;
 		}
 		else
@@ -131,16 +186,55 @@ public:
 			return  false;
 		}
 	}
-	void react()
-	{
 
+	int react(ExMessage& msg)
+	{
+		while (in_area(msg))
+		{
+			draw_words(HANGON);
+			draw_lucency(x +wordsw+gap*1.5, y, arrow, arrow + 1);
+			peekmessage(&msg, EX_MOUSE);
+			if (msg.lbutton)
+			{
+				draw_words(HANGON);
+				draw_lucency(msg.x - 20, msg.y - 20, cursor, cursor + 1);
+				while (msg.message != WM_LBUTTONUP)
+				{
+					peekmessage(&msg, EX_MOUSE);
+				}
+				if (in_area(msg))
+				{
+					draw_words(CLICKED);
+					return true;
+				}
+				else
+				{
+					draw_words(UNIN);
+					continue;
+				}
+			}
+		}
 	}
+	const static int w = BTW, h = BTH;
+	const static int gap = BTW * 2, wordsw = BTW * 4;
 private:
-	int x, y, w, h;
+	int x = 0, y = 0;
 	string text;
 	Atlas* images;
+	RECT area_w;
+
 };
+
+
+
+
+
+
+
+
+//IMAGE Button ::arrow = 
 enum StartOpt
+
 {
 	null = -1,
 	choose_role,
@@ -148,61 +242,78 @@ enum StartOpt
 	choose_map,
 	exit_game,
 };
+enum Btname
+{
+	start_bt = 0,
+	role_bt,
+	map_bt,
+	exit_bt,
+};
 class Start :public Scene
 {
 public:
-
 	Start()
 	{
+		buttons = vector<Button*>(4);
 		back_ground = new Atlas;
-		start_button = new Button;
-		role_button = new Button;
-		map_button = new Button;
-		exit_button = new Button;
-		back_ground->add_image(MAPDIR, "back_ground", BTW, BTH, 1);
-		//start_button->add_image(MAPDIR, "start", BTW, BTH, 1);
-		//map_button->add_image(MAPDIR, "map", MAINW, MAINH, MAPNUM);
-		//role_button->add_image(MAPDIR, "role", BTW, BTH, 1);
-		//exit_button->add_image(MAPDIR, "exit", BTW, BTH, 1);
-		draw_pic();
+		back_ground->add_image(MAPDIR, "background", MAINW, MAINH, 5, ".png");
+		init_button();
+
+	}
+	void init_button()
+	{
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			buttons[i] = new Button;
+		}
+		buttons[start_bt]->init("start", "开始游戏");
+		buttons[map_bt]->init("map", "选择地图");
+		buttons[role_bt]->init("role", "选择角色");
+		buttons[exit_bt]->init("exit", "退出游戏");
+		locate_button();
+	}
+	void locate_button()
+	{
+		const int oriposx = (MAINW - Button::w) * 1.05 / 4;;
+		int oriposy = (Button::h * 6);
+		int gap = static_cast<double>(Button::h) * (2);
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			buttons[i]->setpos(oriposx, oriposy + gap * i);
+		}
+		return;
 	}
 	void draw_pic()
 	{
-		cleardevice();
-		setfillcolor(theme[cur_back]);
+
 		BeginBatchDraw();
-		setbkcolor(theme[cur_back]);
-		//putimage(MAINX, MAINY, back_ground->get_image(cur_back));
-		//putimage(BTPOSX, BTPOSY, start_button->get_image(0));
-		//putimage(BTPOSX, BTPOSY + BTPOSGAP, role_button->get_image(0));
-		putimage(BTPOSX, BTPOSY + BTPOSGAP * 2, map_button->get_image(0));
-		putimage(BTPOSX, BTPOSY + BTPOSGAP * 3, exit_button->get_image(0));
+		cleardevice();
+		putimage(0, 0, back_ground->get_image(cur_back));
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			buttons[i]->draw_button();
+		}
 		EndBatchDraw();
 	}
-	void Chooserole(ExMessage &msg);
-	void ChooseMap(ExMessage& msg);
 	void exit_scene()
 	{
+
 	}
 	void enter_scene();
-	void ExplainMap();
 	int process_command(ExMessage& msg);
+	void ChooseMap(ExMessage& msg);
 	void update_scene()
 	{
 
 	}
 private:
+	const static int btnum = 4;
+	vector<Button*>buttons;
 	Atlas* back_ground;
 	vector<string>map_explain;
 	vector<string>role_explain;
-	Button* start_button;
-	Button* role_button;
-	Button* map_button;
-	Button* exit_button;
-	vector<int>theme;
 	int cur_back = 0;
 	int cur_role = 0;
-	//Atlas* back_ground;
 };
 class Playing :public Scene
 {
@@ -220,13 +331,3 @@ private:
 		//Atlas* menu_atlas;
 		//int widgetw, widgeth, menux, menuy;
 };
-
-//class Map :public Scene
-//{
-//public:
-//	void draw_pic();
-//	void update_scene();
-//	void exit_scene();
-//	void enter_scene();
-//	int process_command(ExMessage& msg);
-//};

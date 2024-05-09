@@ -75,22 +75,22 @@ void board_move()
 	}
 }
 
-int main1()
-{
-	//创建图形窗口
-	initgraph(LENGTH, WIDTH);
-	gameInit();
-	while (1)
-	{
-		BeginBatchDraw();
-		cleardevice();
-		gamedraw();
-		if (Timer::timer(2, 1))
-			role.character_move();
-		if(Timer::timer(5,0))
-			board_move();
-		EndBatchDraw();
-	}
-
-	system("pause");
-}
+//int main1()
+//{
+//	//创建图形窗口
+//	initgraph(LENGTH, WIDTH);
+//	gameInit();
+//	while (1)
+//	{
+//		BeginBatchDraw();
+//		cleardevice();
+//		gamedraw();
+//		if (Timer::timer(2, 1))
+//			role.character_move();
+//		if(Timer::timer(5,0))
+//			board_move();
+//		EndBatchDraw();
+//	}
+//
+//	system("pause");
+//}
