@@ -6,8 +6,7 @@
 #include<graphics.h>
 #include<unordered_map>
 #include<map>
-#include"sys.h"
-
+#include"unit.h"
 extern IMAGE arrow[2];
 extern IMAGE cursor[2];
 extern IMAGE border[2];
@@ -45,42 +44,6 @@ const static double bigger = 1.1;
 
 
 
-
-
-
-
-
-
-
-// |----------------------------------------------------------------------------|
-// |	[pause]									HP:		----------------------								|
-// |													----------------------
-//					
-// |							
-// 
-// 												
-// |																			|
-// |															|
-// |																			|
-// |																			|
-// |																			|
-// |																			|
-// |						[		map			]									|			|
-// |																				|
-// |																			|
-// |																			|
-// |																			|
-// |						[		exit		 ]									|
-// |																			|
-// |																			|
-// |																			|
-// -----------------------------------------------------------------------------
-//
-
-//inline
-
-
-
 #pragma once
 #include<iostream>
 #include<fstream>
@@ -88,7 +51,6 @@ const static double bigger = 1.1;
 #include<graphics.h>
 #include<deque>
 #include<vector>
-#include"sys.h"
 #include<string>
 #include"role.h"
 //class Role;
@@ -98,50 +60,21 @@ class Atlas//图片集合类
 {
 public:
 	IMAGE* get_image(int index, int cate = 0);
+	Atlas(int n)
+	{
+		arr = deque<IMAGE*>(n, new IMAGE);
+		arr_mask = deque<IMAGE*>(n, new IMAGE);
+	}
 	Atlas()
 	{}
-	Atlas(const char* imageName, int nums);
-	Atlas(const char* image_path, const char* imageName, int nums);
+	Atlas(const char *rootdir,const char* s, int w,int h,int n,const char *mask = "");
+
 	IMAGE* get_mask_image(int index = 0)
 	{
 		if (index >= 0)
 			return arr_mask[index];
 	}
-	virtual void add_image(const char* rootdir, const char* filename, int w, int h, int n = 1, const char* filetype = ".png", const char* mask = "")
-	{
-		string t = PICDIR + string("\\") + string(rootdir) + "\\" + string(filename) + mask;
-		//图片标号从1开始
-		for (int i = 1; i <= n; i++)
-		{
-			fstream in;
-			IMAGE* temp = new IMAGE;
-			string path = t;
-			if (n > 1)
-			{
-				path += " (" + to_string(i) + ")";
-			}
-			path += filetype;
-			in.open(path, std::ios::in);
-			if (in.is_open() == false)
-			{
-				delete temp;
-				printf("\033[31m%s没有成功导入检查路径\033[0m\n", &path[0]);
-				perror("\033[31m\n");
-				return;
-			}
-			loadimage(temp, &path[0], w, h);
-			if (mask == "")
-			{
-				arr.push_back(temp);
-			}
-			else
-			{
-
-				arr_mask.push_back(temp);
-			}
-		}
-		return;
-	}
+	void add_image(const char* rootdir, const char* filename, int w, int h, int n = 1, const char* filetype = ".png", const char* mask = "");
 	IMAGE* operator[](int index)
 	{
 		if (index < arr.size() && index >= 0)
@@ -178,6 +111,8 @@ public:
 	{
 		images = new Atlas;
 	}
+	Button(const char* filename, const char* text_ = " ");
+
 	void setpos(int x, int y)
 	{
 		this->x = x;
@@ -263,35 +198,7 @@ public:
 			return  false;
 		}
 	}
-
-	int react(ExMessage& msg)
-	{
-		while (in_area(msg))
-		{
-			draw_words(HANGON);
-			draw_lucency(x +wordsw+gap*1.5, y, arrow, arrow + 1);
-			peekmessage(&msg, EX_MOUSE);
-			if (msg.lbutton)
-			{
-				draw_words(HANGON);
-				draw_lucency(msg.x - 20, msg.y - 20, cursor, cursor + 1);
-				while (msg.message != WM_LBUTTONUP)
-				{
-					peekmessage(&msg, EX_MOUSE);
-				}
-				if (in_area(msg))
-				{
-					draw_words(CLICKED);
-					return true;
-				}
-				else
-				{
-					draw_words(UNIN);
-					continue;
-				}
-			}
-		}
-	}
+	int react(ExMessage& msg);
 	const static int w = BTW, h = BTH;
 	const static int gap = BTW * 2, wordsw = BTW * 4;
 private:
@@ -376,14 +283,14 @@ public:
 	}
 	void exit_scene()
 	{
-
+		return;
 	}
 	void enter_scene();
 	int process_command(ExMessage& msg);
 	void ChooseMap(ExMessage& msg);
 	void update_scene()
 	{
-
+		return;
 	}
 	IMAGE* get_background()
 	{
@@ -397,20 +304,4 @@ private:
 	vector<string>role_explain;
 	int cur_back = 0;
 	int cur_role = 0;
-};
-class Playing :public Scene
-{
-public:
-	Playing();
-	void draw_pic()
-	{
-	}
-private:
-
-	//IMAGE* start;
-	//IMAGE* exit;
-	//IMAGE* role;
-	//IMAGE*
-		//Atlas* menu_atlas;
-		//int widgetw, widgeth, menux, menuy;
 };

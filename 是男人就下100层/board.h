@@ -1,5 +1,5 @@
-
-#pragma once
+﻿#pragma once
+#include"scene.h"
 class Board
 {
 public:
@@ -8,4 +8,6 @@ public:
 	int len;
 	int type;
 	bool exist;
+private:
+	Atlas* images;
 };

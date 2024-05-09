@@ -1,13 +1,14 @@
 ﻿#pragma once
 //#define MAINW 1048
 //#define LENGTH 900
+#include <ctime>
+#include<iostream>
+#include<windows.h>
 #define MAINW 900
 #define LENGTH 720
+
 #define MAINH 800
 #define WIDTH 720
-
-
-
 #define MAINX 256
 #define MAINY 0
 #define BTW 50
@@ -30,9 +31,15 @@
 #define BTDIR "button"
 #define PICDIR "picture"
 #define MASK "_mask"
-
+#define ROLEH 60
+#define ROLEW 60
 
 #define BOARD_GAP 150
 #define CLICKED 0 
 #define HANGON 2
 #define UNIN 1
+#define	 LEFT -1
+#define	 RIGHT 1
+
+#define FPS 60
+#define FRAME 1000/60
