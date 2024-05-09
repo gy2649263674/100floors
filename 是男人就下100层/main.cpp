@@ -113,7 +113,7 @@ void loadresource()
 	loadimage(cursor, "picture/button/cursor.ico");
 	loadimage(cursor+1, "picture/button/cursor_mask.ico");
 }
-int main(void)
+/*int main(void)
 {
 	loadresource();
 	//testmask(arrow);
@@ -121,3 +121,4 @@ int main(void)
 	return 0;
 
 }
+*/
