@@ -119,31 +119,5 @@ int main(void)
 	//testmask(arrow);
 	testbutton();
 	return 0;
-	//SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	Start start_scene;
-	ExMessage msg;
-	while (1)
-	{
-		while (peekmessage(&msg, EX_MOUSE | EX_KEY))
-		{
-			StartOpt opt = StartOpt(start_scene.process_command(msg));
-			if (opt == startgame)
-			{
-				//start_scene.ChooseMap(msg);
-			}
-			else if (opt == choose_map)
-			{
-				return 0;
-			}
-			else if (opt == choose_role)
-			{
 
-			}
-			else if (opt == exit_game)
-			{
-				return 0;
-			}
-		}
-	}
-	return 0;
 }
