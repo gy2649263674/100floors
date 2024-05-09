@@ -2,7 +2,11 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
+<<<<<<< HEAD
       <FullPath>E:\zzs\gitstore\wordkspace\是男人就下100层\x64\Debug\NS-shaft.exe</FullPath>
+=======
+      <FullPath>E:\zzs\gitstore\gy\100floors\是男人就下100层\x64\Debug\NS-shaft.exe</FullPath>
+>>>>>>> dd08948f77a902cc58692b7c9cc35bbab4f8a640
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
