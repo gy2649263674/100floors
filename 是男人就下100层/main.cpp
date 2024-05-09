@@ -41,12 +41,10 @@ void gameInit()
 	loadimage(character_img_mask + 3, "./picture/character 1/run3_mask.png", 60, 60);
 	loadimage(character_img_mask + 4, "./picture/character 1/run4_mask.png", 60, 60);
 	loadimage(character_img_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
-	for (int i = 1; i < 5; i++)
+	/*for (int i = 1; i < 5; i++)
 	{
 		character_img_r[i] = Draw::flipimage()
-
-	}
-	
+	}*/
 	srand((unsigned int)time(NULL));
 	for (int i = 0; i < 10; i++)
 	{
