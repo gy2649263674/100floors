@@ -26,8 +26,6 @@
     <ClInclude Include="Draw.h" />
     <ClInclude Include="role.h" />
     <ClInclude Include="scene.h" />
-    <ClInclude Include="stdc++.h" />
-    <ClInclude Include="sys.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="unit.h" />
   </ItemGroup>
@@ -38,7 +36,7 @@
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="gytest.cpp" />
-    <ClCompile Include="jcptestmain.cpp" />
+    <ClCompile Include="jpctestmain.cpp" />
     <ClCompile Include="role.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -75,7 +73,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

@@ -4,9 +4,6 @@
     <ClInclude Include="all.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="stdc++.h">
-      <Filter>head</Filter>
-    </ClInclude>
     <ClInclude Include="scene.h">
       <Filter>head</Filter>
     </ClInclude>
@@ -25,9 +22,6 @@
     <ClInclude Include="role.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="sys.h">
-      <Filter>head</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>head</Filter>
     </ClInclude>
@@ -36,8 +30,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jcptestmain.cpp" />
-    <ClCompile Include="scene.cpp" />
     <ClCompile Include="graph.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
@@ -59,8 +51,14 @@
     <ClCompile Include="Anime.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
-    <ClCompile Include="gytest.cpp">
+    <ClCompile Include="scene.cpp">
       <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="gytest.cpp">
+      <Filter>测试函数</Filter>
+    </ClCompile>
+    <ClCompile Include="jpctestmain.cpp">
+      <Filter>测试函数</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +67,9 @@
     </Filter>
     <Filter Include="yuan">
       <UniqueIdentifier>{c3b452ff-e8c9-4419-adf5-e94f7c08c2f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="测试函数">
+      <UniqueIdentifier>{75973f50-8f08-48d2-b09c-2533a619e2ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

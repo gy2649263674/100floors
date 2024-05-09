@@ -3,6 +3,7 @@
 #include <easyx.h>
 #include <ctime>
 #include <Windows.h>
+#include"all.h"
 #include "Timer.h"
 #include "Anime.h"
 #include "board.h"
@@ -10,14 +11,15 @@
 #include "Draw.h"
 #include"scene.h"
 #include<system.h>
+using namespace std;
+const  int fps = 60;
+const  int frame = 1000 / 60;
+int Timer::time = 0;
 IMAGE cursor[2];
 IMAGE arrow[2];
 bool EXIT = false;
 Atlas back;
 IMAGE border[2];
-
-
-using namespace std;
 Board board[10];
 IMAGE character_img[10];
 IMAGE character_img_mask[10];
@@ -172,41 +174,41 @@ void tempgameing()
 
 
 
-void trace(IMAGE* a = NULL, IMAGE* b = NULL)
-{
-	creatgame();
-	setbkcolor(WHITE);
-	int fps = 144;
-	Button ba;
-	Atlas bk;
-	ba.init("exit", "fuck");
-	while (1)
-	{
-		while (peekmessage(&msg, EX_MOUSE | EX_KEY))
-		{
-			int st = clock();
-			fillcircle(msg.x, msg.y, 5);
-			BeginBatchDraw();
-			cleardevice();
-			putimage(msg.x, msg.y, b, SRCPAINT);
-			putimage(msg.x, msg.y, a);//,SRCAND);
-			clearrectangle(msg.x, msg.y, msg.x + a->getwidth() + 1, msg.y + a->getheight() + 1);
-			draw_lucency(msg.x, msg.y, a, b);
-			EndBatchDraw();
-			getchar();
-			if (msg.vkcode == VK_BACK)
-			{
-				return;
-			}
-			int end = clock();
-			Sleep(max(0, 1000 / fps - (end - st)));
-		}
-	}
-}
-void testmask(IMAGE a[2])
-{
-	trace(&a[0], &a[1]);
-}
+//void trace(IMAGE* a = NULL, IMAGE* b = NULL)
+//{
+//	creatgame();
+//	setbkcolor(WHITE);
+//	int fps = 144;
+//	Button ba;
+//	Atlas bk;
+//	ba.init("exit", "fuck");
+//	while (1)
+//	{
+//		while (peekmessage(&msg, EX_MOUSE | EX_KEY))
+//		{
+//			int st = clock();
+//			fillcircle(msg.x, msg.y, 5);
+//			BeginBatchDraw();
+//			cleardevice();
+//			putimage(msg.x, msg.y, b, SRCPAINT);
+//			putimage(msg.x, msg.y, a);//,SRCAND);
+//			clearrectangle(msg.x, msg.y, msg.x + a->getwidth() + 1, msg.y + a->getheight() + 1);
+//			draw_lucency(msg.x, msg.y, a, b);
+//			EndBatchDraw();
+//			getchar();
+//			if (msg.vkcode == VK_BACK)
+//			{
+//				return;
+//			}
+//			int end = clock();
+//			Sleep(max(0, 1000 / fps - (end - st)));
+//		}
+//	}
+//}
+//void testmask(IMAGE a[2])
+//{
+//	trace(&a[0], &a[1]);
+//}
 
 void testbutton()
 {
@@ -214,7 +216,15 @@ void testbutton()
 	creatgame();
 	gameInit();
 	se.enter_scene();
-	setbkcolor(BLACK);
+	//Character joker("ch", 4);
+	//while (1)
+	//{
+	//	Timer::beginkeep();
+	//	cleardevice();
+	//	joker.exhibit(LEFT);
+	//	Timer::endkeep();
+	//}
+	//setbkcolor(BLACK);
 	while (1 ^ EXIT)
 	{
 		while (peekmessage(&msg, EX_KEY | EX_MOUSE))
@@ -245,12 +255,16 @@ void testbutton()
 	}
 	return;
 }
+void testch()
+{
 
 
+}
 
 int main(void)
 {
 	//se.enter_scene();
+	//testbutton();
 	testbutton();
 	return 0;
 

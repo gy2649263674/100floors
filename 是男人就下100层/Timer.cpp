@@ -1,8 +1,9 @@
-#include "Timer.h"
+ï»¿#include "Timer.h"
+
 bool Timer::timer(clock_t ms,int num)
 {
 	static clock_t t[10] = { 0 };
-	//clock±íÊ¾³ÌÐòÔËÐÐµ½µ÷ÓÃ¸Ãº¯ÊýËù¾­¹ýµÄºÁÃëÊý
+	//clockè¡¨ç¤ºç¨‹åºè¿è¡Œåˆ°è°ƒç”¨è¯¥å‡½æ•°æ‰€ç»è¿‡çš„æ¯«ç§’æ•°
 	if (clock() - t[num] > ms)
 	{
 		t[num] = clock();
