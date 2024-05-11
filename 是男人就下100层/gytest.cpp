@@ -201,7 +201,7 @@ void board_move()
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
-			board[i].x = rand() % (LENGTH - 100);
+			board[i].x = rand() % (LENGTH - 350);
 			board[i].type = rand() % 5;
 			board[i].used = false;
 			board[i].stay = 0;
