@@ -7,6 +7,7 @@
 #include <ctime>
 extern Board board[150];
 extern int act;
+extern Board roof;
 extern IMAGE character_img[10];
 extern IMAGE character_img_mask[10];
 extern ExMessage msg;
@@ -44,9 +45,10 @@ void Character::character_move()
 		{
 			this->y = board[i].y - h;
 			ob = i;
-			if (board[i].type == 1)
+			if (board[i].type == 1&&board[i].used==false)
 			{
 				health--;
+				board[i].used = true;
 				break;
 			}
 			else if (board[i].type == 2)
@@ -74,13 +76,28 @@ void Character::character_move()
 	}
 	if (ob = -1 )
 	{
-		y += 5;
+		y += 6;
 	}
-	if (y == 0)
+	if (y <= 0&&roof.used==false)
 	{
 		health--;
-		Timer::timer(2000, 5);
+		roof.used = true;
 	}
 	if (y > 720)
+	{
 		health = 0;
+	}
+	if (y > 0)
+	{
+		roof.used = false;
+	}
+}
+
+bool Character::is_dead()
+{
+	if (health <= 0)
+	{
+		return true;
+	}
+	return false;
 }

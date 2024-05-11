@@ -12,6 +12,7 @@
 #define BOARD_GAP 50
 using namespace std;
 Board board[150];
+Board roof;
 IMAGE character_img[10];
 IMAGE character_img_mask[10];
 IMAGE character_img_l[10];
@@ -21,12 +22,17 @@ IMAGE board_img[4];
 IMAGE conveyor_right;
 IMAGE conveyor_left;
 IMAGE fake;
+IMAGE health[2];
+IMAGE roof_img;
 Character role;
 ExMessage msg = { 0 };
 int act = 1;
 //游戏初始化
 void gameInit()
 {
+	loadimage(health, "./picture/health/health1.png", 40, 40);
+	loadimage(health+1, "./picture/health/health1_mask.png", 40, 40);
+	loadimage(&roof_img, "./picture/ceiling.png");
 	loadimage(board_img, "./picture/normal.png");
 	loadimage(board_img+1, "./picture/nails.png");
 	loadimage(character_img, "./picture/character 1/stand.png", 60, 60);
@@ -74,18 +80,31 @@ void gameInit()
 		//board[i].y = rand() % (WIDTH);
 		board[i].len = 100;
 		board[i].exist = true;
-		
+		board[i].used = false;
 	}
 	role.h = 60;
 	role.x = board[0].x + board[0].len / 2 - role.h / 2;
 	role.y = board[0].y - role.h;
-	role.health = 5;
+	role.health = 3;
 	role.ob = -1;
+	roof.type = 1;
+	roof.len = LENGTH;
+	roof.used = false;
+	roof.x = 0;
+	roof.y = 0;
 }
 //游戏绘制
 //类型0为普通，1为尖刺,2为假板，3为左传送，4为右传送
 void gamedraw()
 {
+	putimage(0, 0, &roof_img);
+	putimage(400, 0, &roof_img);
+	putimage(800, 0, &roof_img);
+	for (int i = 0; i < role.health; i++)
+	{
+		putimage(600 + i * 40, 10, &health[1], SRCAND);
+		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
+	}
 	for (int i = 0; i < 150; i++)
 	{
 		if (board[i].type == 0)
@@ -126,7 +145,7 @@ void gamedraw()
 		putimage(role.x, role.y, &character_img_mask[0], SRCAND);
 		putimage(role.x, role.y, &character_img[0], SRCPAINT);
 	}
-	msg.message = 0;
+	
 }
 
 void board_move()
@@ -140,6 +159,7 @@ void board_move()
 			board[i].y = 150 * BOARD_GAP;
 			board[i].x = rand() % (LENGTH - 150);
 			board[i].type = rand() % 5;
+			board[i].used = false;
 		}
 	}
 }
@@ -157,6 +177,10 @@ int main()
 		gamedraw();
 		if (Timer::timer(20, 1))
 			role.character_move();
+		if (role.is_dead())
+		{
+			return 0;
+		}
 		if(Timer::timer(5,0))
 			board_move();
 		EndBatchDraw();

@@ -9,5 +9,6 @@ public:
 	int ob;
 	int health;
 	void character_move();
+	bool is_dead();
 };
 

@@ -7,5 +7,6 @@ public:
 	int len;
 	int type;
 	bool exist;
+	bool used;
 };
 
