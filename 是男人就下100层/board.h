@@ -8,6 +8,8 @@ public:
 	int len;
 	int type;
 	bool exist;
+	bool used;
+	int stay;
 private:
 	Atlas* images;
 };

@@ -36,6 +36,7 @@
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="gytest.cpp" />
+    <ClCompile Include="jcptestmain.cpp" />
     <ClCompile Include="jpctestmain.cpp" />
     <ClCompile Include="role.cpp" />
     <ClCompile Include="scene.cpp" />

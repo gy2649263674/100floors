@@ -5,8 +5,9 @@
 #include "Timer.h"
 #include <ctime>
 #include"unit.h"
-extern Board board[10];
+extern Board board[150];
 extern int act;
+extern Board roof;
 extern IMAGE character_img[10];
 extern IMAGE character_img_mask[10];
 extern ExMessage msg;
@@ -35,7 +36,7 @@ void Character::character_move()
 	if (act > 20)
 		act = 1;
 	//判断玩家在哪一块板子上
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 150; i++)
 	{
 		int x2 = this->x + h / 2;
 		int y2 = this->y + h;
@@ -44,8 +45,37 @@ void Character::character_move()
 		{
 			this->y = board[i].y - h;
 			ob = i;
-			if (board->type == 1)
+			if (board[i].type == 1 && board[i].used == false)
+			{
 				health--;
+				board[i].used = true;
+				break;
+			}
+			else if (board[i].type == 2)
+			{
+				//y += 3;
+				board[i].stay++;
+				if (board[i].stay > 10)
+				{
+					y += 3;
+					break;
+
+				}
+				//Anime::anime_fake(i);
+				//break;
+			}
+			else if (board[i].type == 3)
+			{
+				if (x > 0)
+					x -= speed / 4;
+				break;
+			}
+			else if (board[i].type == 4)
+			{
+				if (x < 900)
+					x += speed / 4;
+				break;
+			}
 			break;
 		}
 		else
@@ -53,15 +83,21 @@ void Character::character_move()
 	}
 	if (ob = -1)
 	{
-		y += 5;
+		y += 6;
 	}
-	if (y == 0)
+	if (y <= 0 && roof.used == false)
 	{
 		health--;
-		Timer::timer(2000, 5);
+		roof.used = true;
 	}
 	if (y > 720)
+	{
 		health = 0;
+	}
+	if (y > 0)
+	{
+		roof.used = false;
+	}
 }
 void filp(Atlas* src, Atlas* des)
 {
@@ -89,7 +125,14 @@ void filp(IMAGE* src, IMAGE* des)
 	//}
 	return;
 }
-
+bool Character::is_dead()
+{
+	if (health <= 0)
+	{
+		return true;
+	}
+	return false;
+}
 
 Character::Character(const char* name, int runsize)
 {

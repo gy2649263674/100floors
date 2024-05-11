@@ -60,6 +60,9 @@
     <ClCompile Include="jpctestmain.cpp">
       <Filter>测试函数</Filter>
     </ClCompile>
+    <ClCompile Include="jcptestmain.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="head">

@@ -1,7 +1,7 @@
 #include "Anime.h"
 #include <ctime>
 #include "board.h"
-extern Board board[10];
+extern Board board[150];
 extern IMAGE conveyor_right;
 extern IMAGE conveyor_left;
 extern IMAGE fake;
