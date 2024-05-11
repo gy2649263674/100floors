@@ -165,7 +165,7 @@ void board_move()
 	
 	for (int i = 0; i < 150; i++)
 	{
-		board[i].y -= 1;
+		board[i].y -= 2;
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;

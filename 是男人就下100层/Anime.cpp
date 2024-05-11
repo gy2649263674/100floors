@@ -2,7 +2,7 @@
 #include <ctime>
 #include "board.h"
 #include "Timer.h"
-extern Board board[5];
+extern Board board[150];
 extern IMAGE conveyor_right;
 extern IMAGE conveyor_left;
 extern IMAGE fake;
