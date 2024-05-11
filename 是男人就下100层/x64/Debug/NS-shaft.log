@@ -1,3 +1,120 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(是男人就下100层.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  graph.cpp
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(85,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(143,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(143,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(151,117): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(151,53): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(160,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(160,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(263,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(265,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“graph.cpp”)
+  
+  gytest.cpp
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(85,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(143,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(143,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(151,117): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(151,53): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(160,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(160,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(263,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(265,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+  role.cpp
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(85,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(143,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(143,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(151,117): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(151,53): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(160,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(160,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(263,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(265,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“role.cpp”)
+  
+  scene.cpp
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(85,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(143,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(143,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(151,117): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(151,53): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(160,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(160,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(263,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(265,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.cpp(74,27): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  正在生成代码...
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.cpp(96): warning C4715: “Button::react”: 不是所有的控件路径都返回值
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(82): warning C4715: “Atlas::operator[]”: 不是所有的控件路径都返回值
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(76): warning C4715: “Atlas::get_mask_image”: 不是所有的控件路径都返回值
   LINK : 没有找到 F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\x64\Debug\NS-shaft.exe 或上一个增量链接没有生成它；正在执行完全链接
   NS-shaft.vcxproj -> F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\x64\Debug\NS-shaft.exe
