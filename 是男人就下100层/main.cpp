@@ -11,6 +11,7 @@
 #define LENGTH 900
 #define BOARD_GAP 50
 using namespace std;
+int board_speed;
 Board board[150];
 Board roof;
 IMAGE character_img[10];
@@ -74,13 +75,23 @@ void gameInit()
 		else
 		{
 			board[i].y = BOARD_GAP + board[i - 1].y;
-			board[i].type = rand() % 5;
+			int judge = rand() % 10;
+			int btype = rand() % 5;
+			if (judge > 6 && btype != 0)
+			{
+				board[i].type = 0;
+			}
+			else
+			{
+				board[i].type = btype;
+			}
 		}
 		board[i].x = rand() % (LENGTH-100);
 		//board[i].y = rand() % (WIDTH);
 		board[i].len = 100;
 		board[i].exist = true;
 		board[i].used = false;
+		board[i].stay = 0;
 	}
 	role.h = 60;
 	role.x = board[0].x + board[0].len / 2 - role.h / 2;
@@ -92,6 +103,7 @@ void gameInit()
 	roof.used = false;
 	roof.x = 0;
 	roof.y = 0;
+	board_speed = 1;
 }
 //游戏绘制
 //类型0为普通，1为尖刺,2为假板，3为左传送，4为右传送
@@ -160,21 +172,27 @@ void board_move()
 			board[i].x = rand() % (LENGTH - 150);
 			board[i].type = rand() % 5;
 			board[i].used = false;
+			board[i].stay = 0;
 		}
 	}
 }
 
 int main()
 {
-
+	clock_t begintime = clock();
 	//创建图形窗口
 	initgraph(LENGTH, WIDTH);
 	gameInit();
 	while (1)
 	{
+		/*if ((clock() - begintime) / 1000 > 5)
+		{
+			board_speed+=1;
+			begintime = clock();
+		}*/
 		BeginBatchDraw();
 		cleardevice();
-		gamedraw();
+		
 		if (Timer::timer(20, 1))
 			role.character_move();
 		if (role.is_dead())
@@ -183,6 +201,7 @@ int main()
 		}
 		if(Timer::timer(5,0))
 			board_move();
+		gamedraw();
 		EndBatchDraw();
 	}
 	

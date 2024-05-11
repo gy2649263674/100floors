@@ -5,7 +5,7 @@
 #include "Timer.h"
 #include "Anime.h"
 #include <ctime>
-extern Board board[150];
+extern Board board[5];
 extern int act;
 extern Board roof;
 extern IMAGE character_img[10];
@@ -36,7 +36,7 @@ void Character::character_move()
 	if (act > 20)
 		act = 1;
 	//判断玩家在哪一块板子上
-	for (int i = 0; i < 150; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		int x2 = this->x + h / 2;
 		int y2 = this->y + h;
@@ -53,9 +53,16 @@ void Character::character_move()
 			}
 			else if (board[i].type == 2)
 			{
-				y += 3;
+				//y += 3;
+				board[i].stay++;
+				if (board[i].stay > 10)
+				{
+					y += 3;
+					break;
+					
+				}
 				//Anime::anime_fake(i);
-				break;
+				//break;
 			}
 			else if (board[i].type == 3)
 			{

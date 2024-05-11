@@ -8,5 +8,6 @@ public:
 	int type;
 	bool exist;
 	bool used;
+	int stay;
 };
 

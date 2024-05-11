@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\project\是男人就下100层\是男人就下100层\Draw.cpp" />
+    <ClCompile Include="..\..\..\project\是男人就下100层\是男人就下100层\main.cpp" />
+    <ClCompile Include="..\..\..\project\是男人就下100层\是男人就下100层\Timer.cpp" />
+    <ClCompile Include="Anime.cpp" />
+    <ClCompile Include="board.cpp" />
+    <ClCompile Include="Character.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Anime.h" />
+    <ClInclude Include="board.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Draw.h" />
+    <ClInclude Include="Timer.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,17 +141,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="board.cpp" />
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Timer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="board.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Timer.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
