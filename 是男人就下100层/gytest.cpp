@@ -30,9 +30,9 @@ IMAGE background;
 IMAGE board_img[4];
 IMAGE conveyor_right;
 IMAGE conveyor_left;
-IMAGE fake;
+IMAGE fake[2];
 IMAGE health[2];
-IMAGE roof_img;
+IMAGE roof_img[2];
 Character role;
 ExMessage msg = { 0 };
 int act = 1;
@@ -61,9 +61,11 @@ void gameInit()
 	loadresource();
 	loadimage(health, "./picture/health/health1.png", 40, 40);
 	loadimage(health + 1, "./picture/health/health1_mask.png", 40, 40);
-	loadimage(&roof_img, "./picture/ceiling.png");
+	loadimage(roof_img, "./picture/ceiling.png");
+	loadimage(roof_img + 1, "./picture/ceiling_mask.png");
 	loadimage(board_img, "./picture/unit/normal.png");
 	loadimage(board_img + 1, "./picture/unit/nails.png");
+	loadimage(board_img + 2, "picture/nails_mask.png");
 	loadimage(character_img, "./picture/character 1/stand.png", 60, 60);
 	loadimage(character_img + 1, "./picture/character 1/run1.png", 60, 60);
 	loadimage(character_img + 2, "./picture/character 1/run2.png", 60, 60);
@@ -88,6 +90,10 @@ void gameInit()
 	loadimage(character_img_l_mask + 3, "./picture/character 1/run3_l_mask.png", 60, 60);
 	loadimage(character_img_l_mask + 4, "./picture/character 1/run4_l_mask.png", 60, 60);
 	loadimage(character_img_l_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
+	loadimage(&conveyor_left, "./picture/conveyor_left.png");
+	loadimage(&conveyor_right, "./picture/conveyor_right.png");
+	loadimage(fake, "./picture/fake.png");
+	loadimage(fake + 1, "picture/fake_mask.png");
 	srand((unsigned int)time(NULL));
 
 	for (int i = 0; i < 150; i++)
@@ -102,7 +108,7 @@ void gameInit()
 			board[i].y = BOARD_GAP + board[i - 1].y;
 			int judge = rand() % 10;
 			int btype = rand() % 5;
-			if (judge > 6 && btype != 0)
+			if (judge > 7 && btype != 0)
 			{
 				board[i].type = 0;
 			}
@@ -111,7 +117,7 @@ void gameInit()
 				board[i].type = btype;
 			}
 		}
-		board[i].x = rand() % (LENGTH - 100);
+		board[i].x = rand() % (LENGTH - 350);
 		//board[i].y = rand() % (WIDTH);
 		board[i].len = 100;
 		board[i].exist = true;
@@ -131,9 +137,12 @@ void gameInit()
 }
 void gamedraw()
 {
-	putimage(0, 0, &roof_img);
-	putimage(400, 0, &roof_img);
-	putimage(800, 0, &roof_img);
+	putimage(0, 0, roof_img+1, SRCAND);
+	putimage(400, 0, roof_img+1,SRCAND);
+	putimage(800, 0, roof_img+1,SRCAND);
+	putimage(0, 0, roof_img,SRCPAINT);
+	putimage(400, 0, roof_img,SRCPAINT);
+	putimage(800, 0, roof_img,SRCPAINT);
 	for (int i = 0; i < role.health; i++)
 	{
 		putimage(600 + i * 40, 10, &health[1], SRCAND);
@@ -147,11 +156,13 @@ void gamedraw()
 		}
 		else if (board[i].type == 1)
 		{
-			putimage(board[i].x, board[i].y, &board_img[1]);
+			putimage(board[i].x, board[i].y, &board_img[2], SRCAND);
+			putimage(board[i].x, board[i].y, &board_img[1], SRCPAINT);
 		}
 		else if (board[i].type == 2)
 		{
-			putimage(board[i].x, board[i].y, 96, 217 / 6, &fake, 0, 0);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, fake+1, 0, 0,SRCAND);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == 3)
 		{
@@ -190,7 +201,7 @@ void board_move()
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
-			board[i].x = rand() % (LENGTH - 150);
+			board[i].x = rand() % (LENGTH - 100);
 			board[i].type = rand() % 5;
 			board[i].used = false;
 			board[i].stay = 0;

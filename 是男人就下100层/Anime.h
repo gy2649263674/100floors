@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#if 0
+#pragma once
 #include <ctime>
 #include <easyx.h>
 #include"scene.h"
@@ -13,4 +14,4 @@ public:
 	static void anime_conveyor_left(int i);
 	static void ppt(Atlas* image,int dir,int transparent = false);
 };
-
+#endif

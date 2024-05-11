@@ -1,3 +1,4 @@
+#if 0
 #include "Anime.h"
 #include <ctime>
 #include "board.h"
@@ -55,3 +56,4 @@ void Anime::anime_fake(int i)
 		EndBatchDraw();
 	}
 }
+#endif

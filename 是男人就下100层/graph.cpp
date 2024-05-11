@@ -1,11 +1,13 @@
 ﻿#define CRT_SECURE_NO_WARNINGS 1
 #include"all.h"
 #include"Anime.h"
+#if 0
 void Anime::ppt(Atlas* images, int delt,int trans)
 {
 	//for(int i = 0;i<)
 	//(cur_back + 1 * delt + back_ground->get_size()) % back_ground->get_size();
 }
+#endif
 void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask)
 {
 	BeginBatchDraw();

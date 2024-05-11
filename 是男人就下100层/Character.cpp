@@ -23,7 +23,7 @@ void Character::character_move()
 		Draw::flipimage(x, y, character_img[act], SRCPAINT);*/
 		act++;
 	}
-	if (GetAsyncKeyState(VK_RIGHT) && x < 900)
+	if (GetAsyncKeyState(VK_RIGHT) && x < 750)
 	{
 		x += speed;
 		msg.vkcode = VK_RIGHT;
