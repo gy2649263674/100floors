@@ -33,6 +33,7 @@ IMAGE conveyor_left;
 IMAGE fake[2];
 IMAGE health[2];
 IMAGE roof_img[2];
+IMAGE trampoline_img[2];
 Character role;
 ExMessage msg = { 0 };
 int act = 1;
@@ -94,6 +95,8 @@ void gameInit()
 	loadimage(&conveyor_right, "./picture/conveyor_right.png");
 	loadimage(fake, "./picture/fake.png");
 	loadimage(fake + 1, "picture/fake_mask.png");
+	loadimage(trampoline_img, "./picture/trampoline.png");
+	loadimage(trampoline_img + 1, "./picture/trampoline_mask.png");
 	srand((unsigned int)time(NULL));
 
 	for (int i = 0; i < 150; i++)
@@ -107,7 +110,7 @@ void gameInit()
 		{
 			board[i].y = BOARD_GAP + board[i - 1].y;
 			int judge = rand() % 10;
-			int btype = rand() % 5;
+			int btype = rand() % 6;
 			if (judge > 7 && btype != 0)
 			{
 				board[i].type = 0;
@@ -174,6 +177,11 @@ void gamedraw()
 			putimage(board[i].x, board[i].y, 96, 16, &conveyor_right, 0, 0);
 			//Anime::anime_conveyor_right(i);
 		}
+		else if (board[i].type == 5)
+		{
+			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img + 1, 0, 0, SRCAND);
+			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img, 0, 0, SRCPAINT);
+		}
 	}
 	if (msg.vkcode == VK_LEFT)
 	{
@@ -197,12 +205,12 @@ void board_move()
 
 	for (int i = 0; i < 150; i++)
 	{
-		board[i].y -= 1;
+		board[i].y -= 2;
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
 			board[i].x = rand() % (LENGTH - 350);
-			board[i].type = rand() % 5;
+			board[i].type = rand() % 6;
 			board[i].used = false;
 			board[i].stay = 0;
 		}
@@ -216,11 +224,14 @@ void tempgameing()
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
+		Timer::beginkeep();
+
+		role.character_move();
+		board_move();
 		gamedraw();
-		if (Timer::timer(20, 1))
-			role.character_move();
-		if (Timer::timer(5, 0))
-			board_move();
+		Timer::endkeep();
+		/*if (Timer::timer(20, 1))
+		if (Timer::timer(5, 0))*/
 		EndBatchDraw();
 	}
 
@@ -320,6 +331,7 @@ void testch()
 
 int main(void)
 {
+
 	//se.enter_scene();
 	//testbutton();
 	testbutton();

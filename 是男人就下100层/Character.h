@@ -15,6 +15,7 @@ public:
 	int health;
 	int curframe = 0;
 	int dircetion;
+	int uv;
 	void character_move();
 	bool is_dead();
 	void exhibit(int dir = 0);

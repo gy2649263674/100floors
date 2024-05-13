@@ -15,21 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="board.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdc++.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sys.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="unit.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="all.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Anime.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="board.h">
@@ -38,5 +42,40 @@
     <ClInclude Include="Character.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Draw.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="role.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Anime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="board.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Draw.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="graph.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="gytest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="role.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

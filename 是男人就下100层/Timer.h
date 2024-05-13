@@ -17,7 +17,7 @@ public:
 	{
 		int endtime = clock();
 		//Sleep(FRAME - (endtime - time));
-		Sleep(100);
+		Sleep(1000/144);
 	}
 	static int time;
 };

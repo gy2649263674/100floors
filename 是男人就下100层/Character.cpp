@@ -14,7 +14,7 @@ extern ExMessage msg;
 void Character::character_move()
 {
 
-	int speed = 8;
+	int speed = 5;
 	if (GetAsyncKeyState(VK_LEFT) && x > 0)
 	{
 		x -= speed;
@@ -41,7 +41,7 @@ void Character::character_move()
 		int x2 = this->x + h / 2;
 		int y2 = this->y + h;
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
-			&& y2 >= board[i].y - 10 && y2 <= board[i].y + 10)
+			&& y2 >= board[i].y - 8 && y2 <= board[i].y + 8)
 		{
 			this->y = board[i].y - h;
 			ob = i;
@@ -76,10 +76,23 @@ void Character::character_move()
 					x += speed / 4;
 				break;
 			}
+			else if (board[i].type == 5)
+			{
+				uv = 5;
+				y -= 5;
+				Timer::beginkeep();
+				break;
+			}
 			break;
 		}
 		else
 			ob = -1;
+	}
+	if (uv > 0)
+	{
+		y -= uv;
+		uv -= 10 * (clock() - Timer::time) / 100;
+		return;
 	}
 	if (ob = -1)
 	{
