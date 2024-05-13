@@ -24,6 +24,7 @@
     <ClInclude Include="board.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Draw.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="role.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="stdc++.h" />
@@ -38,6 +39,7 @@
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="gytest.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="role.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="Timer.cpp" />

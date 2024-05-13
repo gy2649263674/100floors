@@ -18,7 +18,7 @@ void Character::character_move()
 	if (GetAsyncKeyState(VK_LEFT) && x > 0)
 	{
 		x -= speed;
-		msg.vkcode == VK_LEFT;
+		msg.vkcode = VK_LEFT;
 		/*Draw::flipimage(x, y, character_img_mask[act], SRCAND);
 		Draw::flipimage(x, y, character_img[act], SRCPAINT);*/
 		act++;
@@ -41,7 +41,7 @@ void Character::character_move()
 		int x2 = this->x + h / 2;
 		int y2 = this->y + h;
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
-			&& y2 >= board[i].y - 8 && y2 <= board[i].y + 8)
+			&& y2 >= board[i].y - 6 && y2 <= board[i].y + 6)
 		{
 			this->y = board[i].y - h;
 			ob = i;
@@ -55,9 +55,9 @@ void Character::character_move()
 			{
 				//y += 3;
 				board[i].stay++;
-				if (board[i].stay > 10)
+				if (board[i].stay >= 10)
 				{
-					y += 3;
+					y += 5;
 					break;
 
 				}
@@ -78,9 +78,8 @@ void Character::character_move()
 			}
 			else if (board[i].type == 5)
 			{
-				uv = 5;
-				y -= 5;
-				Timer::beginkeep();
+				jump = 0;
+				y -= 10;
 				break;
 			}
 			break;
@@ -88,13 +87,13 @@ void Character::character_move()
 		else
 			ob = -1;
 	}
-	if (uv > 0)
+	if (jump<10)
 	{
-		y -= uv;
-		uv -= 10 * (clock() - Timer::time) / 100;
+		y -= 10;
+		jump++;
 		return;
 	}
-	if (ob = -1)
+	if (ob == -1)
 	{
 		y += 6;
 	}

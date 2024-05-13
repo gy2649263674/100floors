@@ -10,6 +10,7 @@
 #include "Character.h"
 #include "Draw.h"
 #include"scene.h"
+#include "Item.h"
 //#include <system.h>
 using namespace std;
 const  int fps = 60;
@@ -34,6 +35,9 @@ IMAGE fake[2];
 IMAGE health[2];
 IMAGE roof_img[2];
 IMAGE trampoline_img[2];
+IMAGE cure_img[2];
+IMAGE gold_img[2];
+IMAGE defend_img[2];
 Character role;
 ExMessage msg = { 0 };
 int act = 1;
@@ -97,6 +101,12 @@ void gameInit()
 	loadimage(fake + 1, "picture/fake_mask.png");
 	loadimage(trampoline_img, "./picture/trampoline.png");
 	loadimage(trampoline_img + 1, "./picture/trampoline_mask.png");
+	loadimage(cure_img, "./picture/item/cure.png", 40, 40);
+	loadimage(cure_img+1, "./picture/item/cure_mask.png", 40, 40);
+	loadimage(gold_img, "./picture/item/gold.png", 40, 40);
+	loadimage(gold_img + 1, "./picture/item/gold_mask.png", 40, 40);
+	loadimage(defend_img, "./picture/item/defend.png", 40, 40);
+	loadimage(defend_img + 1, "./picture/item/defend_mask.png", 40, 40);
 	srand((unsigned int)time(NULL));
 
 	for (int i = 0; i < 150; i++)
@@ -138,7 +148,7 @@ void gameInit()
 	roof.x = 0;
 	roof.y = 0;
 }
-void gamedraw()
+void gamedraw(int &count)
 {
 	putimage(0, 0, roof_img+1, SRCAND);
 	putimage(400, 0, roof_img+1,SRCAND);
@@ -146,6 +156,18 @@ void gamedraw()
 	putimage(0, 0, roof_img,SRCPAINT);
 	putimage(400, 0, roof_img,SRCPAINT);
 	putimage(800, 0, roof_img,SRCPAINT);
+	if (count == 50)
+	{
+		count = 0;
+		int index;
+		int index2 = Item::creatitem(index);
+		if (board[index].have_item == false)
+		{
+			board[index].have_item = true;
+			board[index].item_type = index2;
+		}
+	}
+
 	for (int i = 0; i < role.health; i++)
 	{
 		putimage(600 + i * 40, 10, &health[1], SRCAND);
@@ -156,6 +178,24 @@ void gamedraw()
 		if (board[i].type == 0)
 		{
 			putimage(board[i].x, board[i].y, &board_img[0]);
+			if (board[i].have_item == true)
+			{
+				if (board[i].item_type == 0)
+				{
+					putimage(board[i].x + 4, board[i].y - 20, cure_img + 1, SRCAND);
+					putimage(board[i].x + 4, board[i].y - 20, cure_img, SRCPAINT);
+				}
+				else if (board[i].item_type == 1)
+				{
+					putimage(board[i].x + 4, board[i].y - 20, defend_img + 1, SRCAND);
+					putimage(board[i].x + 4, board[i].y - 20, defend_img, SRCPAINT);
+				}
+				else if (board[i].item_type == 2)
+				{
+					putimage(board[i].x + 4, board[i].y - 20, gold_img + 1, SRCAND);
+					putimage(board[i].x + 4, board[i].y - 20, gold_img, SRCPAINT);
+				}
+			}
 		}
 		else if (board[i].type == 1)
 		{
@@ -219,20 +259,20 @@ void board_move()
 
 void tempgameing()
 {
+	int count = 0;
 	while (1)
 	{
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
-		Timer::beginkeep();
-
 		role.character_move();
 		board_move();
-		gamedraw();
-		Timer::endkeep();
+		gamedraw(count);
+		Timer::endkeep(1000/144);
 		/*if (Timer::timer(20, 1))
 		if (Timer::timer(5, 0))*/
 		EndBatchDraw();
+		count++;
 	}
 
 	system("pause");
@@ -331,7 +371,7 @@ void testch()
 
 int main(void)
 {
-
+	
 	//se.enter_scene();
 	//testbutton();
 	testbutton();

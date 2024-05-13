@@ -48,6 +48,9 @@
     <ClInclude Include="role.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Anime.cpp">
@@ -75,6 +78,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

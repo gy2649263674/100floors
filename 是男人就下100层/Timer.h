@@ -13,11 +13,11 @@ public:
 	{
 		time = clock();
 	}
-	static void endkeep()
+	static void endkeep(int fps)
 	{
 		int endtime = clock();
 		//Sleep(FRAME - (endtime - time));
-		Sleep(1000/144);
+		Sleep(fps);
 	}
 	static int time;
 };
