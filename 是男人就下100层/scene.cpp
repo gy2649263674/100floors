@@ -1,10 +1,8 @@
 ﻿#include"all.h"
 
-Atlas::Atlas(const char* rootdir, const char* name, int w, int h, int n, const char* mask)
+Atlas::Atlas(const char* rootdir, const char* name, int w, int h, int n)
 {
-	add_image(rootdir, name, w, h, n, ".png");
-	if (mask != "")
-		add_image(rootdir, name, w, h, n, ".png", MASK);
+	role_add_image(rootdir, name, w, h, n, ".png");
 }
 int Start::process_command(ExMessage& msg)
 {
@@ -67,10 +65,10 @@ Button::Button(const char* filename, const char* text_)
 }
 int Button::react(ExMessage& msg)
 {
+	draw_words(HANGON);
+	draw_lucency(x + wordsw + gap * 1.5, y, arrow, arrow + 1);
 	while (in_area(msg))
 	{
-		draw_words(HANGON);
-		draw_lucency(x + wordsw + gap * 1.5, y, arrow, arrow + 1);
 		peekmessage(&msg, EX_MOUSE);
 		if (msg.lbutton)
 		{

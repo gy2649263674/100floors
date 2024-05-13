@@ -84,7 +84,8 @@ public:
 	}
 	Atlas()
 	{}
-	Atlas(const char* rootdir, const char* s, int w, int h, int n, const char* mask = "");
+	Atlas(const char* rootdir, const char* s, int w, int h, int n);
+	void role_add_image(const char* rootdir, const char* filename, int w, int h, int n, const char* filetype);
 	IMAGE* get_mask_image(int index = 0)
 	{
 		if (index >= 0)

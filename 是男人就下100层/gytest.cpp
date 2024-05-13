@@ -9,7 +9,6 @@
 #include "Character.h"
 #include "Draw.h"
 #include"scene.h"
-//#include <system.h>
 Character role;
 using namespace std;
 const  int fps = 60;
@@ -28,10 +27,6 @@ IMAGE conveyor_left;
 IMAGE fake[2];
 IMAGE health[2];
 IMAGE roof_img[2];
-<<<<<<< Updated upstream
-Character role;
-=======
->>>>>>> Stashed changes
 ExMessage msg = { 0 };
 int act = 1;
 Start se;
@@ -42,7 +37,10 @@ void creatgame()
 	HWND handle = GetHWnd();
 	MoveWindow(HWND(handle), MAINX, MAINY, MAINW, MAINH, true);
 }
+void loadboard()
+{
 
+}
 
 void loadresource()
 {
@@ -61,23 +59,13 @@ void loadresource()
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
 	loadimage(cursor + 1, "picture/button/cursor_mask.ico");
+	loadimage(health, "./picture/health/health1.png", 40, 40);
+	loadimage(health + 1, "./picture/health/health1_mask.png", 40, 40);
 }
 void gameInit()
 {
 	loadresource();
-	loadimage(health, "./picture/health/health1.png", 40, 40);
-	loadimage(health + 1, "./picture/health/health1_mask.png", 40, 40);
-	loadimage(roof_img, "./picture/ceiling.png");
-	loadimage(roof_img + 1, "./picture/ceiling_mask.png");
-	loadimage(board_img, "./picture/unit/normal.png");
-	loadimage(board_img + 1, "./picture/unit/nails.png");
-	loadimage(board_img + 2, "picture/nails_mask.png");
-	loadimage(&conveyor_left, "./picture/conveyor_left.png");
-	loadimage(&conveyor_right, "./picture/conveyor_right.png");
-	loadimage(fake, "./picture/fake.png");
-	loadimage(fake + 1, "picture/fake_mask.png");
 	srand((unsigned int)time(NULL));
-
 	for (int i = 0; i < 150; i++)
 	{
 		if (i == 0)
@@ -124,16 +112,15 @@ void draw_lucency(Character& role, int direct = RIGHT)
 	auto it = direct == RIGHT ? role.images : role.rimages;
 	draw_lucency(role.x, role.y, it->get_image(role.curframe), it->get_mask_image(role.curframe));
 	//if (role.curframe)
-		cout << "now direct:" << (direct == LEFT ? "left" : "right") << role.curframe << endl;
+		//cout << "now direct:" << (direct == LEFT ? "left" : "right") << role.curframe << endl;
 	return;
 }
 
-void gamedraw(Character& role)
+void gamedraw(int dir)
 {
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(400, 0, roof_img, roof_img + 1);
 	draw_lucency(800, 0, roof_img, roof_img + 1);
-
 	for (int i = 0; i < role.health; i++)
 	{
 		putimage(600 + i * 40, 10, &health[1], SRCAND);
@@ -166,19 +153,24 @@ void gamedraw(Character& role)
 			//Anime::anime_conveyor_right(i);
 		}
 	}
-	if (msg.vkcode == VK_LEFT)
+	if	(dir == LEFT)
 	{
 		draw_lucency(role, LEFT);
 	}
-	else if (msg.vkcode == VK_RIGHT)
+	else if(dir == RIGHT)// (msg.vkcode == VK_RIGHT)
 	{
 		draw_lucency(role, RIGHT);
 	}
-	/*else
+	else if(dir == 0)
 	{
-		role.standing();
-	}*/
-	flushmessage();
+		role.draw_standing();
+	}
+	//falling
+	else if(dir == 2)
+	{
+
+	}
+	//peekmessage(&msg, -1);
 }
 
 void board_move()
@@ -186,11 +178,7 @@ void board_move()
 
 	for (int i = 0; i < 150; i++)
 	{
-<<<<<<< Updated upstream
-		board[i].y -= 1;
-=======
 		board[i].y -= 3;
->>>>>>> Stashed changes
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
@@ -201,96 +189,33 @@ void board_move()
 		}
 	}
 }
-void insert(Character& role)
-{
-	draw_lucency(0, 0, roof_img, roof_img + 1);
-	draw_lucency(400, 0, roof_img, roof_img + 1);
-	draw_lucency(800, 0, roof_img, roof_img + 1);
-	for (int i = 0; i < role.health; i++)
-	{
-		putimage(600 + i * 40, 10, &health[1], SRCAND);
-		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
-	}
-	for (int i = 0; i < 150; i++)
-	{
-		if (board[i].type == 0)
-		{
-			draw_lucency(board[i].x, board[i].y, board_img, board_img + 1);
-		}
-		else if (board[i].type == 1)
-		{
-			putimage(board[i].x, board[i].y, &board_img[2], SRCAND);
-			putimage(board[i].x, board[i].y, &board_img[1], SRCPAINT);
-		}
-		else if (board[i].type == 2)
-		{
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0);
-		}
-		else if (board[i].type == 3)
-		{
-			putimage(board[i].x, board[i].y, 96, 16, &conveyor_left, 0, 0);
-		}
-		else if (board[i].type == 4)
-		{
-			putimage(board[i].x, board[i].y, 96, 16, &conveyor_right, 0, 0);
-		}
-	}
-	role.standing();
-	//Sleep(FRAME);
-}
-
 void tempgameing()
 {
 
 	while (1)
 	{
-		/*if (peekmessage(&msg, EX_KEY, false) == false)
-		{
-			BeginBatchDraw();
-			insert(role);
-			EndBatchDraw();
-			Timer::endkeep();
-			continue;
-		}*/
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
-<<<<<<< Updated upstream
-		gamedraw();
-		if (Timer::timer(20, 1))
-			role.character_move();
-		if (Timer::timer(5, 0))
-			board_move();
-=======
-		//board_move();
-		role.character_move();
-		gamedraw(role);
->>>>>>> Stashed changes
+		board_move();
+		;
+		gamedraw(role.character_move());
 		EndBatchDraw();
 		Timer::endkeep();
 
 	}
 }
 
-//void act()
-//{
-//	while (peekmessage(&msg, EX_KEY))
-//	{
-//		if (msg.vkcode == VK_LEFT)
-//		{
-//			role.
-//		}
-//	}
-//
-//}
+
 void testbutton()
 {
 	se = Start();
 	creatgame();
 	gameInit();
-	role = Character("ch", 4);
-	//se.enter_scene();
-	tempgameing();
+	se.enter_scene();
+	role = Character("ch", 36,9);
+	//role = Character("fox", 8,1);
+	//tempgameing();
 	while (1 ^ EXIT)
 	{
 		while (peekmessage(&msg, EX_KEY | EX_MOUSE))
@@ -300,6 +225,7 @@ void testbutton()
 			if (opt == startgame)
 			{
 				cout << "start game" << endl;
+				tempgameing();
 			}
 			else if (opt == choose_map)
 			{
@@ -316,14 +242,11 @@ void testbutton()
 				cout << "exit game" << endl;
 			}
 		}
-
 	}
 	return;
 }
-
 int main(void)
 {
-	//se.enter_scene();
 	//testbutton();
 	testbutton();
 	return 0;

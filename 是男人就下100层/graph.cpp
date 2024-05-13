@@ -1,4 +1,4 @@
-﻿#define CRT_SECURE_NO_WARNINGS 1
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include"all.h"
 #include"Anime.h"
 #if 0
@@ -28,6 +28,38 @@ IMAGE* Atlas::get_image(int index, int cate)
 	return NULL;
 }
 
+void Atlas::role_add_image(const char* rootdir, const char* filename, int w, int h, int n, const char* filetype)
+{
+	string tori = PICDIR + string("\\") + string(rootdir) + "\\" +"ori"+"\\"+string(filename);
+	string tmask = PICDIR + string("\\") + string(rootdir) + "\\" +"mask"+"\\"+string(filename);
+	for (int i = 1; i <= n; i++)
+	{
+		fstream in;
+		IMAGE* ori_temp = new IMAGE;;
+		IMAGE* mask_temp = new IMAGE;;
+		string path1 = tori;
+		string path2 = tmask;
+		if (n > 1)
+		{
+			path2 += to_string(i)+" 拷贝";
+			path1 += to_string(i)+" 拷贝";
+		}
+		path1 += filetype;
+		path2 += filetype;
+		//path1 = "E:\\zzs\\gitstore\\new\\picture\\FOX\\ori\\未标题-6.png";
+		FILE* fp = fopen(&path1[0], "rb");
+		if(fp == NULL)
+		{
+			perror("");
+			cout << path1 << endl;
+		}
+		loadimage(ori_temp, &path1[0], w, h);
+		loadimage(mask_temp, &path2[0], w, h);
+		arr.push_back(ori_temp);
+		arr_mask.push_back(mask_temp);
+	}
+	return;
+}
 void Atlas::add_image(const char* rootdir, const char* filename, int w, int h, int n, const char* filetype, const char* mask)
 {
 	string t = PICDIR + string("\\") + string(rootdir) + "\\" + string(filename) + mask;
