@@ -10,10 +10,8 @@ void Anime::ppt(Atlas* images, int delt,int trans)
 #endif
 void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask)
 {
-	BeginBatchDraw();
 	putimage(x, y, mask, SRCAND);
 	putimage(x, y, ori, SRCPAINT);
-	EndBatchDraw();
 	return;
 }
 IMAGE* Atlas::get_image(int index, int cate)
@@ -33,17 +31,20 @@ IMAGE* Atlas::get_image(int index, int cate)
 void Atlas::add_image(const char* rootdir, const char* filename, int w, int h, int n, const char* filetype, const char* mask)
 {
 	string t = PICDIR + string("\\") + string(rootdir) + "\\" + string(filename) + mask;
+	auto it = mask == "" ? &arr : &arr_mask;
 	//图片标号从1开始
 	for (int i = 1; i <= n; i++)
 	{
 		fstream in;
 		IMAGE* temp = new IMAGE;
+
 		string path = t;
 		if (n > 1)
 		{
 			path += " (" + to_string(i) + ")";
 		}
 		path += filetype;
+
 		in.open(path, std::ios::in);
 		if (in.is_open() == false)
 		{
@@ -53,15 +54,7 @@ void Atlas::add_image(const char* rootdir, const char* filename, int w, int h, i
 			return;
 		}
 		loadimage(temp, &path[0], w, h);
-		if (mask == "")
-		{
-			arr.push_back(temp);
-		}
-		else
-		{
-
-			arr_mask.push_back(temp);
-		}
+		it->push_back(temp);
 	}
 	return;
 }

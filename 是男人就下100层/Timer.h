@@ -17,7 +17,11 @@ public:
 	{
 		int endtime = clock();
 		//Sleep(FRAME - (endtime - time));
+<<<<<<< Updated upstream
 		Sleep(100);
+=======
+		Sleep(FRAME);
+>>>>>>> Stashed changes
 	}
 	static int time;
 };

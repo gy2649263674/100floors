@@ -34,8 +34,7 @@ void Start::ChooseMap(ExMessage& msg)
 	left.init("left");
 	left.init("right");
 	cleardevice();
-	putimage(0, 0, (*back_ground)[cur_back]);
-
+	putimage(0, 0, back_ground->get_image(cur_back));
 	while (1)
 	{
 		settextstyle(50, 0, "consola");
@@ -47,7 +46,7 @@ void Start::ChooseMap(ExMessage& msg)
 				cleardevice();
 				int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
 				cur_back = (cur_back + 1 * delt + back_ground->get_size()) % back_ground->get_size();
-				putimage(0, 0, (*back_ground)[cur_back]);
+				putimage(0, 0, back_ground->get_image(cur_back));
 			}
 			else if (msg.vkcode == VK_RETURN)
 			{

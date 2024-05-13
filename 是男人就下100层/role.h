@@ -10,6 +10,7 @@ class Atlas;
 class Role
 {
 public:
+
 	Role(const char* character_name, int image_num);
 	Role()
 	{}

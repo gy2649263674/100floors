@@ -41,4 +41,4 @@
 #define	 RIGHT 1
 
 #define FPS 60
-#define FRAME 1000/60
+#define FRAME 1000/45

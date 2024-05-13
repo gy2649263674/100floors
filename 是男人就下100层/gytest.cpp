@@ -6,26 +6,21 @@
 #include"all.h"
 #include "Timer.h"
 #include "Anime.h"
-#include "board.h"
 #include "Character.h"
 #include "Draw.h"
 #include"scene.h"
 //#include <system.h>
+Character role;
 using namespace std;
 const  int fps = 60;
 const  int frame = 1000 / 60;
 int Timer::time = 0;
+bool EXIT = false;
 IMAGE cursor[2];
 IMAGE arrow[2];
-bool EXIT = false;
-Atlas back;
 IMAGE border[2];
 Board roof;
 Board board[150];
-IMAGE character_img[10];
-IMAGE character_img_mask[10];
-IMAGE character_img_l[10];
-IMAGE character_img_l_mask[10];
 IMAGE background;
 IMAGE board_img[4];
 IMAGE conveyor_right;
@@ -33,11 +28,12 @@ IMAGE conveyor_left;
 IMAGE fake[2];
 IMAGE health[2];
 IMAGE roof_img[2];
+<<<<<<< Updated upstream
 Character role;
+=======
+>>>>>>> Stashed changes
 ExMessage msg = { 0 };
 int act = 1;
-
-
 Start se;
 void creatgame()
 {
@@ -46,11 +42,21 @@ void creatgame()
 	HWND handle = GetHWnd();
 	MoveWindow(HWND(handle), MAINX, MAINY, MAINW, MAINH, true);
 }
+
+
 void loadresource()
 {
-	//arrow = new (IMAGE*)[2];
+	loadimage(&conveyor_left, "./picture/conveyor_left.png");
+	loadimage(&conveyor_right, "./picture/conveyor_right.png");
+	loadimage(fake, "./picture/fake.png");
+	loadimage(fake + 1, "picture/fake_mask.png");
 	loadimage(border, "picture/button/border.png", Button::wordsw, Button::h);
 	loadimage(border + 1, "picture/button/border_mask.png", Button::wordsw, Button::h);
+	loadimage(roof_img, "./picture/ceiling.png");
+	loadimage(roof_img + 1, "./picture/ceiling_mask.png");
+	loadimage(board_img, "./picture/unit/normal.png");
+	loadimage(board_img + 1, "./picture/unit/nails.png");
+	loadimage(board_img + 2, "picture/nails_mask.png");
 	loadimage(&arrow[0], "picture/button/arrow.png");
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
@@ -66,30 +72,6 @@ void gameInit()
 	loadimage(board_img, "./picture/unit/normal.png");
 	loadimage(board_img + 1, "./picture/unit/nails.png");
 	loadimage(board_img + 2, "picture/nails_mask.png");
-	loadimage(character_img, "./picture/character 1/stand.png", 60, 60);
-	loadimage(character_img + 1, "./picture/character 1/run1.png", 60, 60);
-	loadimage(character_img + 2, "./picture/character 1/run2.png", 60, 60);
-	loadimage(character_img + 3, "./picture/character 1/run3.png", 60, 60);
-	loadimage(character_img + 4, "./picture/character 1/run4.png", 60, 60);
-	loadimage(character_img + 5, "./picture/character 1/falling.png", 60, 60);
-	loadimage(character_img_mask, "./picture/character 1/stand_mask.png", 60, 60);
-	loadimage(character_img_mask + 1, "./picture/character 1/run1_mask.png", 60, 60);
-	loadimage(character_img_mask + 2, "./picture/character 1/run2_mask.png", 60, 60);
-	loadimage(character_img_mask + 3, "./picture/character 1/run3_mask.png", 60, 60);
-	loadimage(character_img_mask + 4, "./picture/character 1/run4_mask.png", 60, 60);
-	loadimage(character_img_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
-	loadimage(character_img_l, "./picture/character 1/stand.png", 60, 60);
-	loadimage(character_img_l + 1, "./picture/character 1/run1_l.png", 60, 60);
-	loadimage(character_img_l + 2, "./picture/character 1/run2_l.png", 60, 60);
-	loadimage(character_img_l + 3, "./picture/character 1/run3_l.png", 60, 60);
-	loadimage(character_img_l + 4, "./picture/character 1/run4_l.png", 60, 60);
-	loadimage(character_img_l + 5, "./picture/character 1/falling.png", 60, 60);
-	loadimage(character_img_l_mask, "./picture/character 1/stand_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 1, "./picture/character 1/run1_l_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 2, "./picture/character 1/run2_l_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 3, "./picture/character 1/run3_l_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 4, "./picture/character 1/run4_l_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
 	loadimage(&conveyor_left, "./picture/conveyor_left.png");
 	loadimage(&conveyor_right, "./picture/conveyor_right.png");
 	loadimage(fake, "./picture/fake.png");
@@ -118,7 +100,6 @@ void gameInit()
 			}
 		}
 		board[i].x = rand() % (LENGTH - 350);
-		//board[i].y = rand() % (WIDTH);
 		board[i].len = 100;
 		board[i].exist = true;
 		board[i].used = false;
@@ -127,6 +108,7 @@ void gameInit()
 	role.h = 60;
 	role.x = board[0].x + board[0].len / 2 - role.h / 2;
 	role.y = board[0].y - role.h;
+	role.set_sta();
 	role.health = 3;
 	role.ob = -1;
 	roof.type = 1;
@@ -135,14 +117,23 @@ void gameInit()
 	roof.x = 0;
 	roof.y = 0;
 }
-void gamedraw()
+
+
+void draw_lucency(Character& role, int direct = RIGHT)
 {
-	putimage(0, 0, roof_img+1, SRCAND);
-	putimage(400, 0, roof_img+1,SRCAND);
-	putimage(800, 0, roof_img+1,SRCAND);
-	putimage(0, 0, roof_img,SRCPAINT);
-	putimage(400, 0, roof_img,SRCPAINT);
-	putimage(800, 0, roof_img,SRCPAINT);
+	auto it = direct == RIGHT ? role.images : role.rimages;
+	draw_lucency(role.x, role.y, it->get_image(role.curframe), it->get_mask_image(role.curframe));
+	//if (role.curframe)
+		cout << "now direct:" << (direct == LEFT ? "left" : "right") << role.curframe << endl;
+	return;
+}
+
+void gamedraw(Character& role)
+{
+	draw_lucency(0, 0, roof_img, roof_img + 1);
+	draw_lucency(400, 0, roof_img, roof_img + 1);
+	draw_lucency(800, 0, roof_img, roof_img + 1);
+
 	for (int i = 0; i < role.health; i++)
 	{
 		putimage(600 + i * 40, 10, &health[1], SRCAND);
@@ -152,7 +143,7 @@ void gamedraw()
 	{
 		if (board[i].type == 0)
 		{
-			putimage(board[i].x, board[i].y, &board_img[0]);
+			draw_lucency(board[i].x, board[i].y, board_img, board_img + 1);
 		}
 		else if (board[i].type == 1)
 		{
@@ -161,8 +152,8 @@ void gamedraw()
 		}
 		else if (board[i].type == 2)
 		{
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake+1, 0, 0,SRCAND);
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0);
+			//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == 3)
 		{
@@ -177,19 +168,17 @@ void gamedraw()
 	}
 	if (msg.vkcode == VK_LEFT)
 	{
-		putimage(role.x, role.y, &character_img_l_mask[act / 4], SRCAND);
-		putimage(role.x, role.y, &character_img_l[act / 4], SRCPAINT);
+		draw_lucency(role, LEFT);
 	}
 	else if (msg.vkcode == VK_RIGHT)
 	{
-		putimage(role.x, role.y, &character_img_mask[act / 4], SRCAND);
-		putimage(role.x, role.y, &character_img[act / 4], SRCPAINT);
+		draw_lucency(role, RIGHT);
 	}
-	else
+	/*else
 	{
-		putimage(role.x, role.y, &character_img_mask[0], SRCAND);
-		putimage(role.x, role.y, &character_img[0], SRCPAINT);
-	}
+		role.standing();
+	}*/
+	flushmessage();
 }
 
 void board_move()
@@ -197,7 +186,11 @@ void board_move()
 
 	for (int i = 0; i < 150; i++)
 	{
+<<<<<<< Updated upstream
 		board[i].y -= 1;
+=======
+		board[i].y -= 3;
+>>>>>>> Stashed changes
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
@@ -208,80 +201,96 @@ void board_move()
 		}
 	}
 }
+void insert(Character& role)
+{
+	draw_lucency(0, 0, roof_img, roof_img + 1);
+	draw_lucency(400, 0, roof_img, roof_img + 1);
+	draw_lucency(800, 0, roof_img, roof_img + 1);
+	for (int i = 0; i < role.health; i++)
+	{
+		putimage(600 + i * 40, 10, &health[1], SRCAND);
+		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
+	}
+	for (int i = 0; i < 150; i++)
+	{
+		if (board[i].type == 0)
+		{
+			draw_lucency(board[i].x, board[i].y, board_img, board_img + 1);
+		}
+		else if (board[i].type == 1)
+		{
+			putimage(board[i].x, board[i].y, &board_img[2], SRCAND);
+			putimage(board[i].x, board[i].y, &board_img[1], SRCPAINT);
+		}
+		else if (board[i].type == 2)
+		{
+			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0);
+		}
+		else if (board[i].type == 3)
+		{
+			putimage(board[i].x, board[i].y, 96, 16, &conveyor_left, 0, 0);
+		}
+		else if (board[i].type == 4)
+		{
+			putimage(board[i].x, board[i].y, 96, 16, &conveyor_right, 0, 0);
+		}
+	}
+	role.standing();
+	//Sleep(FRAME);
+}
 
 void tempgameing()
 {
+
 	while (1)
 	{
+		/*if (peekmessage(&msg, EX_KEY, false) == false)
+		{
+			BeginBatchDraw();
+			insert(role);
+			EndBatchDraw();
+			Timer::endkeep();
+			continue;
+		}*/
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
+<<<<<<< Updated upstream
 		gamedraw();
 		if (Timer::timer(20, 1))
 			role.character_move();
 		if (Timer::timer(5, 0))
 			board_move();
+=======
+		//board_move();
+		role.character_move();
+		gamedraw(role);
+>>>>>>> Stashed changes
 		EndBatchDraw();
-	}
+		Timer::endkeep();
 
-	system("pause");
+	}
 }
 
-
-
-
-
-//void trace(IMAGE* a = NULL, IMAGE* b = NULL)
+//void act()
 //{
-//	creatgame();
-//	setbkcolor(WHITE);
-//	int fps = 144;
-//	Button ba;
-//	Atlas bk;
-//	ba.init("exit", "fuck");
-//	while (1)
+//	while (peekmessage(&msg, EX_KEY))
 //	{
-//		while (peekmessage(&msg, EX_MOUSE | EX_KEY))
+//		if (msg.vkcode == VK_LEFT)
 //		{
-//			int st = clock();
-//			fillcircle(msg.x, msg.y, 5);
-//			BeginBatchDraw();
-//			cleardevice();
-//			putimage(msg.x, msg.y, b, SRCPAINT);
-//			putimage(msg.x, msg.y, a);//,SRCAND);
-//			clearrectangle(msg.x, msg.y, msg.x + a->getwidth() + 1, msg.y + a->getheight() + 1);
-//			draw_lucency(msg.x, msg.y, a, b);
-//			EndBatchDraw();
-//			getchar();
-//			if (msg.vkcode == VK_BACK)
-//			{
-//				return;
-//			}
-//			int end = clock();
-//			Sleep(max(0, 1000 / fps - (end - st)));
+//			role.
 //		}
 //	}
+//
 //}
-//void testmask(IMAGE a[2])
-//{
-//	trace(&a[0], &a[1]);
-//}
-
 void testbutton()
 {
 	se = Start();
 	creatgame();
 	gameInit();
-	se.enter_scene();
-	//Character joker("ch", 4);
-	//while (1)
-	//{
-	//	Timer::beginkeep();
-	//	cleardevice();
-	//	joker.exhibit(LEFT);
-	//	Timer::endkeep();
-	//}
-	//setbkcolor(BLACK);
+	role = Character("ch", 4);
+	//se.enter_scene();
+	tempgameing();
 	while (1 ^ EXIT)
 	{
 		while (peekmessage(&msg, EX_KEY | EX_MOUSE))
@@ -291,7 +300,6 @@ void testbutton()
 			if (opt == startgame)
 			{
 				cout << "start game" << endl;
-				tempgameing();
 			}
 			else if (opt == choose_map)
 			{
@@ -311,11 +319,6 @@ void testbutton()
 
 	}
 	return;
-}
-void testch()
-{
-
-
 }
 
 int main(void)

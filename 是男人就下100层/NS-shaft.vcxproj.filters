@@ -4,13 +4,7 @@
     <ClInclude Include="all.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>head</Filter>
-    </ClInclude>
     <ClInclude Include="Anime.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="board.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
@@ -28,6 +22,9 @@
     <ClInclude Include="unit.h">
       <Filter>head</Filter>
     </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>head</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graph.cpp">
@@ -36,16 +33,10 @@
     <ClCompile Include="Timer.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
-    <ClCompile Include="role.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
     <ClCompile Include="Draw.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
-    <ClCompile Include="board.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
     <ClCompile Include="Anime.cpp">
@@ -61,6 +52,9 @@
       <Filter>测试函数</Filter>
     </ClCompile>
     <ClCompile Include="jcptestmain.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="rub.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
   </ItemGroup>
