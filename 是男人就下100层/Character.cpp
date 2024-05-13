@@ -45,9 +45,38 @@ void Character::character_move()
 		{
 			this->y = board[i].y - h;
 			ob = i;
+			if (board[i].type == 0 && board[i].have_item == true)
+			{
+				if (board[i].item_type == 0)
+				{
+					health = 3;
+					board[i].have_item = false;
+				}
+				else if (board[i].item_type == 1)
+				{
+					if(have_armo==false)
+					{
+						board[i].have_item = false;
+						have_armo = true;
+					}
+				}
+				
+				else if (board[i].item_type == 2)
+				{
+					board[i].have_item = false;
+				}
+
+			}
 			if (board[i].type == 1 && board[i].used == false)
 			{
-				health--;
+				if (have_armo == true)
+				{
+					have_armo = false;
+				}
+				else
+				{
+					health--;
+				}
 				board[i].used = true;
 				break;
 			}
@@ -99,7 +128,14 @@ void Character::character_move()
 	}
 	if (y <= 0 && roof.used == false)
 	{
-		health--;
+		if (have_armo == true)
+		{
+			have_armo = false;
+		}
+		else 
+		{
+			health--;
+		}
 		roof.used = true;
 	}
 	if (y > 720)

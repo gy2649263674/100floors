@@ -38,6 +38,7 @@ IMAGE trampoline_img[2];
 IMAGE cure_img[2];
 IMAGE gold_img[2];
 IMAGE defend_img[2];
+IMAGE armo_img[2];
 Character role;
 ExMessage msg = { 0 };
 int act = 1;
@@ -107,6 +108,8 @@ void gameInit()
 	loadimage(gold_img + 1, "./picture/item/gold_mask.png", 40, 40);
 	loadimage(defend_img, "./picture/item/defend.png", 40, 40);
 	loadimage(defend_img + 1, "./picture/item/defend_mask.png", 40, 40);
+	loadimage(armo_img, "./picture/item/defend.png", 40, 40);
+	loadimage(armo_img + 1, "./picture/item/defend_mask.png", 40, 40);
 	srand((unsigned int)time(NULL));
 
 	for (int i = 0; i < 150; i++)
@@ -138,6 +141,8 @@ void gameInit()
 		board[i].stay = 0;
 	}
 	role.h = 60;
+	role.have_armo = false;
+	role.jump = 100;
 	role.x = board[0].x + board[0].len / 2 - role.h / 2;
 	role.y = board[0].y - role.h;
 	role.health = 3;
@@ -156,7 +161,7 @@ void gamedraw(int &count)
 	putimage(0, 0, roof_img,SRCPAINT);
 	putimage(400, 0, roof_img,SRCPAINT);
 	putimage(800, 0, roof_img,SRCPAINT);
-	if (count == 50)
+	if (count == 5)
 	{
 		count = 0;
 		int index;
@@ -167,13 +172,18 @@ void gamedraw(int &count)
 			board[index].item_type = index2;
 		}
 	}
-
-	for (int i = 0; i < role.health; i++)
+	int i = 0;
+	for (i = 0; i < role.health; i++)
 	{
 		putimage(600 + i * 40, 10, &health[1], SRCAND);
 		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
 	}
-	for (int i = 0; i < 150; i++)
+	if (role.have_armo == true)
+	{
+		putimage(600 + i * 40, 10, &armo_img[1], SRCAND);
+		putimage(600 + i * 40, 10, &armo_img[0], SRCPAINT);
+	}
+	for (i = 0; i < 150; i++)
 	{
 		if (board[i].type == 0)
 		{

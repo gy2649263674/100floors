@@ -16,6 +16,7 @@ public:
 	int curframe = 0;
 	int dircetion;
 	int jump;
+	bool have_armo;
 	void character_move();
 	bool is_dead();
 	void exhibit(int dir = 0);
