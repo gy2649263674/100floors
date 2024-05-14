@@ -54,6 +54,20 @@ const static double bigger = 1.1;
 #include<string>
 #include"role.h"
 //class Role;
+
+struct Pic
+{
+	Pic()
+	{}
+	Pic(IMAGE* ori, IMAGE* mask)
+	{
+		ori = (ori);
+		mask = (mask);
+		return;
+	}
+	IMAGE* ori;
+	IMAGE* mask;
+};
 void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask);
 using namespace std;
 class Atlas//图片集合类
@@ -62,23 +76,31 @@ public:
 	IMAGE* get_image(int index, int cate = 0);
 	Atlas(int n)
 	{
-		arr = deque<IMAGE*>(n, new IMAGE);
-		arr_mask = deque<IMAGE*>(n, new IMAGE);
+		for (int i = 0; i < n; i++)
+		{
+			arr.push_back(new IMAGE);
+			arr_mask.push_back(new IMAGE);
+		}
 	}
 	Atlas()
 	{}
-	Atlas(const char *rootdir,const char* s, int w,int h,int n,const char *mask = "");
-
+	Atlas(const char* rootdir, const char* s, int w, int h, int n);
+	void role_add_image(const char* rootdir, const char* filename, int w, int h, int n, const char* filetype);
 	IMAGE* get_mask_image(int index = 0)
 	{
 		if (index >= 0)
 			return arr_mask[index];
 	}
 	void add_image(const char* rootdir, const char* filename, int w, int h, int n = 1, const char* filetype = ".png", const char* mask = "");
-	IMAGE* operator[](int index)
+	Pic operator [](int index)
 	{
 		if (index < arr.size() && index >= 0)
-			return arr[index];
+			return Pic(arr[index], arr_mask[index]);
+	}
+	Pic get_pic(int index)
+	{
+		if (index < arr.size() && index >= 0)
+			return Pic(arr[index], arr_mask[index]);
 	}
 	int get_size()
 	{
@@ -103,6 +125,9 @@ public:
 	virtual int process_command(ExMessage& msg) = 0;
 
 };
+
+
+
 class Button
 {
 public:
@@ -209,13 +234,6 @@ private:
 
 };
 
-
-
-
-
-
-
-
 //IMAGE Button ::arrow = 
 enum StartOpt
 
@@ -305,3 +323,31 @@ private:
 	int cur_back = 0;
 	int cur_role = 0;
 };
+class Board
+{
+public:
+	void init()
+	{
+		img = new Atlas;
+		//img->add_image()
+	}
+	int x;
+	int y;
+	int len;
+	int type;
+	bool exist;
+	bool used;
+	int stay;
+private:
+	Atlas* img;
+};
+
+
+
+
+
+
+
+
+
+

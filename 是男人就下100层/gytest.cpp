@@ -6,27 +6,20 @@
 #include"all.h"
 #include "Timer.h"
 #include "Anime.h"
-#include "board.h"
 #include "Character.h"
 #include "Draw.h"
 #include"scene.h"
-#include "Item.h"
-//#include <system.h>
+Character role;
 using namespace std;
 const  int fps = 60;
 const  int frame = 1000 / 60;
 int Timer::time = 0;
+bool EXIT = false;
 IMAGE cursor[2];
 IMAGE arrow[2];
-bool EXIT = false;
-Atlas back;
 IMAGE border[2];
 Board roof;
 Board board[150];
-IMAGE character_img[10];
-IMAGE character_img_mask[10];
-IMAGE character_img_l[10];
-IMAGE character_img_l_mask[10];
 IMAGE background;
 IMAGE board_img[4];
 IMAGE conveyor_right;
@@ -34,16 +27,8 @@ IMAGE conveyor_left;
 IMAGE fake[2];
 IMAGE health[2];
 IMAGE roof_img[2];
-IMAGE trampoline_img[2];
-IMAGE cure_img[2];
-IMAGE gold_img[2];
-IMAGE defend_img[2];
-IMAGE armo_img[2];
-Character role;
 ExMessage msg = { 0 };
 int act = 1;
-
-
 Start se;
 void creatgame()
 {
@@ -52,66 +37,35 @@ void creatgame()
 	HWND handle = GetHWnd();
 	MoveWindow(HWND(handle), MAINX, MAINY, MAINW, MAINH, true);
 }
+void loadboard()
+{
+
+}
+
 void loadresource()
 {
-	//arrow = new (IMAGE*)[2];
+	loadimage(&conveyor_left, "./picture/conveyor_left.png");
+	loadimage(&conveyor_right, "./picture/conveyor_right.png");
+	loadimage(fake, "./picture/fake.png");
+	loadimage(fake + 1, "picture/fake_mask.png");
 	loadimage(border, "picture/button/border.png", Button::wordsw, Button::h);
 	loadimage(border + 1, "picture/button/border_mask.png", Button::wordsw, Button::h);
-	loadimage(&arrow[0], "picture/button/arrow.png");
-	loadimage(&arrow[1], "picture/button/arrow_mask.png");
-	loadimage(cursor, "picture/button/cursor.ico");
-	loadimage(cursor + 1, "picture/button/cursor_mask.ico");
-}
-void gameInit()
-{
-	loadresource();
-	loadimage(health, "./picture/health/health1.png", 40, 40);
-	loadimage(health + 1, "./picture/health/health1_mask.png", 40, 40);
 	loadimage(roof_img, "./picture/ceiling.png");
 	loadimage(roof_img + 1, "./picture/ceiling_mask.png");
 	loadimage(board_img, "./picture/unit/normal.png");
 	loadimage(board_img + 1, "./picture/unit/nails.png");
 	loadimage(board_img + 2, "picture/nails_mask.png");
-	loadimage(character_img, "./picture/character 1/stand.png", 60, 60);
-	loadimage(character_img + 1, "./picture/character 1/run1.png", 60, 60);
-	loadimage(character_img + 2, "./picture/character 1/run2.png", 60, 60);
-	loadimage(character_img + 3, "./picture/character 1/run3.png", 60, 60);
-	loadimage(character_img + 4, "./picture/character 1/run4.png", 60, 60);
-	loadimage(character_img + 5, "./picture/character 1/falling.png", 60, 60);
-	loadimage(character_img_mask, "./picture/character 1/stand_mask.png", 60, 60);
-	loadimage(character_img_mask + 1, "./picture/character 1/run1_mask.png", 60, 60);
-	loadimage(character_img_mask + 2, "./picture/character 1/run2_mask.png", 60, 60);
-	loadimage(character_img_mask + 3, "./picture/character 1/run3_mask.png", 60, 60);
-	loadimage(character_img_mask + 4, "./picture/character 1/run4_mask.png", 60, 60);
-	loadimage(character_img_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
-	loadimage(character_img_l, "./picture/character 1/stand.png", 60, 60);
-	loadimage(character_img_l + 1, "./picture/character 1/run1_l.png", 60, 60);
-	loadimage(character_img_l + 2, "./picture/character 1/run2_l.png", 60, 60);
-	loadimage(character_img_l + 3, "./picture/character 1/run3_l.png", 60, 60);
-	loadimage(character_img_l + 4, "./picture/character 1/run4_l.png", 60, 60);
-	loadimage(character_img_l + 5, "./picture/character 1/falling.png", 60, 60);
-	loadimage(character_img_l_mask, "./picture/character 1/stand_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 1, "./picture/character 1/run1_l_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 2, "./picture/character 1/run2_l_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 3, "./picture/character 1/run3_l_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 4, "./picture/character 1/run4_l_mask.png", 60, 60);
-	loadimage(character_img_l_mask + 5, "./picture/character 1/falling_mask.png", 60, 60);
-	loadimage(&conveyor_left, "./picture/conveyor_left.png");
-	loadimage(&conveyor_right, "./picture/conveyor_right.png");
-	loadimage(fake, "./picture/fake.png");
-	loadimage(fake + 1, "picture/fake_mask.png");
-	loadimage(trampoline_img, "./picture/trampoline.png");
-	loadimage(trampoline_img + 1, "./picture/trampoline_mask.png");
-	loadimage(cure_img, "./picture/item/cure.png", 40, 40);
-	loadimage(cure_img+1, "./picture/item/cure_mask.png", 40, 40);
-	loadimage(gold_img, "./picture/item/gold.png", 40, 40);
-	loadimage(gold_img + 1, "./picture/item/gold_mask.png", 40, 40);
-	loadimage(defend_img, "./picture/item/defend.png", 40, 40);
-	loadimage(defend_img + 1, "./picture/item/defend_mask.png", 40, 40);
-	loadimage(armo_img, "./picture/item/defend.png", 40, 40);
-	loadimage(armo_img + 1, "./picture/item/defend_mask.png", 40, 40);
+	loadimage(&arrow[0], "picture/button/arrow.png");
+	loadimage(&arrow[1], "picture/button/arrow_mask.png");
+	loadimage(cursor, "picture/button/cursor.ico");
+	loadimage(cursor + 1, "picture/button/cursor_mask.ico");
+	loadimage(health, "./picture/health/health1.png", 40, 40);
+	loadimage(health + 1, "./picture/health/health1_mask.png", 40, 40);
+}
+void gameInit()
+{
+	loadresource();
 	srand((unsigned int)time(NULL));
-
 	for (int i = 0; i < 150; i++)
 	{
 		if (i == 0)
@@ -123,7 +77,7 @@ void gameInit()
 		{
 			board[i].y = BOARD_GAP + board[i - 1].y;
 			int judge = rand() % 10;
-			int btype = rand() % 6;
+			int btype = rand() % 5;
 			if (judge > 7 && btype != 0)
 			{
 				board[i].type = 0;
@@ -134,17 +88,15 @@ void gameInit()
 			}
 		}
 		board[i].x = rand() % (LENGTH - 350);
-		//board[i].y = rand() % (WIDTH);
 		board[i].len = 100;
 		board[i].exist = true;
 		board[i].used = false;
 		board[i].stay = 0;
 	}
 	role.h = 60;
-	role.have_armo = false;
-	role.jump = 100;
 	role.x = board[0].x + board[0].len / 2 - role.h / 2;
 	role.y = board[0].y - role.h;
+	role.set_sta();
 	role.health = 3;
 	role.ob = -1;
 	roof.type = 1;
@@ -153,59 +105,32 @@ void gameInit()
 	roof.x = 0;
 	roof.y = 0;
 }
-void gamedraw(int &count)
+
+
+void draw_lucency(Character& role, int direct = RIGHT)
 {
-	putimage(0, 0, roof_img+1, SRCAND);
-	putimage(400, 0, roof_img+1,SRCAND);
-	putimage(800, 0, roof_img+1,SRCAND);
-	putimage(0, 0, roof_img,SRCPAINT);
-	putimage(400, 0, roof_img,SRCPAINT);
-	putimage(800, 0, roof_img,SRCPAINT);
-	if (count == 5)
-	{
-		count = 0;
-		int index;
-		int index2 = Item::creatitem(index);
-		if (board[index].have_item == false)
-		{
-			board[index].have_item = true;
-			board[index].item_type = index2;
-		}
-	}
-	int i = 0;
-	for (i = 0; i < role.health; i++)
+	auto it = direct == RIGHT ? role.images : role.rimages;
+	draw_lucency(role.x, role.y, it->get_image(role.curframe), it->get_mask_image(role.curframe));
+	//if (role.curframe)
+		//cout << "now direct:" << (direct == LEFT ? "left" : "right") << role.curframe << endl;
+	return;
+}
+
+void gamedraw(int dir)
+{
+	draw_lucency(0, 0, roof_img, roof_img + 1);
+	draw_lucency(400, 0, roof_img, roof_img + 1);
+	draw_lucency(800, 0, roof_img, roof_img + 1);
+	for (int i = 0; i < role.health; i++)
 	{
 		putimage(600 + i * 40, 10, &health[1], SRCAND);
 		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
 	}
-	if (role.have_armo == true)
-	{
-		putimage(600 + i * 40, 10, &armo_img[1], SRCAND);
-		putimage(600 + i * 40, 10, &armo_img[0], SRCPAINT);
-	}
-	for (i = 0; i < 150; i++)
+	for (int i = 0; i < 150; i++)
 	{
 		if (board[i].type == 0)
 		{
-			putimage(board[i].x, board[i].y, &board_img[0]);
-			if (board[i].have_item == true)
-			{
-				if (board[i].item_type == 0)
-				{
-					putimage(board[i].x + 4, board[i].y - 20, cure_img + 1, SRCAND);
-					putimage(board[i].x + 4, board[i].y - 20, cure_img, SRCPAINT);
-				}
-				else if (board[i].item_type == 1)
-				{
-					putimage(board[i].x + 4, board[i].y - 20, defend_img + 1, SRCAND);
-					putimage(board[i].x + 4, board[i].y - 20, defend_img, SRCPAINT);
-				}
-				else if (board[i].item_type == 2)
-				{
-					putimage(board[i].x + 4, board[i].y - 20, gold_img + 1, SRCAND);
-					putimage(board[i].x + 4, board[i].y - 20, gold_img, SRCPAINT);
-				}
-			}
+			draw_lucency(board[i].x, board[i].y, board_img, board_img + 1);
 		}
 		else if (board[i].type == 1)
 		{
@@ -214,8 +139,8 @@ void gamedraw(int &count)
 		}
 		else if (board[i].type == 2)
 		{
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake+1, 0, 0,SRCAND);
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0);
+			//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == 3)
 		{
@@ -227,27 +152,25 @@ void gamedraw(int &count)
 			putimage(board[i].x, board[i].y, 96, 16, &conveyor_right, 0, 0);
 			//Anime::anime_conveyor_right(i);
 		}
-		else if (board[i].type == 5)
-		{
-			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img + 1, 0, 0, SRCAND);
-			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img, 0, 0, SRCPAINT);
-		}
 	}
-	if (msg.vkcode == VK_LEFT)
+	if	(dir == LEFT)
 	{
-		putimage(role.x, role.y, &character_img_l_mask[act / 4], SRCAND);
-		putimage(role.x, role.y, &character_img_l[act / 4], SRCPAINT);
+		draw_lucency(role, LEFT);
 	}
-	else if (msg.vkcode == VK_RIGHT)
+	else if(dir == RIGHT)// (msg.vkcode == VK_RIGHT)
 	{
-		putimage(role.x, role.y, &character_img_mask[act / 4], SRCAND);
-		putimage(role.x, role.y, &character_img[act / 4], SRCPAINT);
+		draw_lucency(role, RIGHT);
 	}
-	else
+	else if(dir == 0)
 	{
-		putimage(role.x, role.y, &character_img_mask[0], SRCAND);
-		putimage(role.x, role.y, &character_img[0], SRCPAINT);
+		role.draw_standing();
 	}
+	//falling
+	else if(dir == 2)
+	{
+
+	}
+	//peekmessage(&msg, -1);
 }
 
 void board_move()
@@ -255,78 +178,34 @@ void board_move()
 
 	for (int i = 0; i < 150; i++)
 	{
-		board[i].y -= 2;
+		board[i].y -= 3;
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
 			board[i].x = rand() % (LENGTH - 350);
-			board[i].type = rand() % 6;
+			board[i].type = rand() % 5;
 			board[i].used = false;
 			board[i].stay = 0;
 		}
 	}
 }
-
 void tempgameing()
 {
-	int count = 0;
+
 	while (1)
 	{
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
-		role.character_move();
 		board_move();
-		gamedraw(count);
-		Timer::endkeep(1000/144);
-		/*if (Timer::timer(20, 1))
-		if (Timer::timer(5, 0))*/
+		;
+		gamedraw(role.character_move());
 		EndBatchDraw();
-		count++;
-	}
+		Timer::endkeep();
 
-	system("pause");
+	}
 }
 
-
-
-
-
-//void trace(IMAGE* a = NULL, IMAGE* b = NULL)
-//{
-//	creatgame();
-//	setbkcolor(WHITE);
-//	int fps = 144;
-//	Button ba;
-//	Atlas bk;
-//	ba.init("exit", "fuck");
-//	while (1)
-//	{
-//		while (peekmessage(&msg, EX_MOUSE | EX_KEY))
-//		{
-//			int st = clock();
-//			fillcircle(msg.x, msg.y, 5);
-//			BeginBatchDraw();
-//			cleardevice();
-//			putimage(msg.x, msg.y, b, SRCPAINT);
-//			putimage(msg.x, msg.y, a);//,SRCAND);
-//			clearrectangle(msg.x, msg.y, msg.x + a->getwidth() + 1, msg.y + a->getheight() + 1);
-//			draw_lucency(msg.x, msg.y, a, b);
-//			EndBatchDraw();
-//			getchar();
-//			if (msg.vkcode == VK_BACK)
-//			{
-//				return;
-//			}
-//			int end = clock();
-//			Sleep(max(0, 1000 / fps - (end - st)));
-//		}
-//	}
-//}
-//void testmask(IMAGE a[2])
-//{
-//	trace(&a[0], &a[1]);
-//}
 
 void testbutton()
 {
@@ -334,15 +213,9 @@ void testbutton()
 	creatgame();
 	gameInit();
 	se.enter_scene();
-	//Character joker("ch", 4);
-	//while (1)
-	//{
-	//	Timer::beginkeep();
-	//	cleardevice();
-	//	joker.exhibit(LEFT);
-	//	Timer::endkeep();
-	//}
-	//setbkcolor(BLACK);
+	role = Character("ch", 36,9);
+	//role = Character("fox", 8,1);
+	//tempgameing();
 	while (1 ^ EXIT)
 	{
 		while (peekmessage(&msg, EX_KEY | EX_MOUSE))
@@ -369,20 +242,11 @@ void testbutton()
 				cout << "exit game" << endl;
 			}
 		}
-
 	}
 	return;
 }
-void testch()
-{
-
-
-}
-
 int main(void)
 {
-	
-	//se.enter_scene();
 	//testbutton();
 	testbutton();
 	return 0;

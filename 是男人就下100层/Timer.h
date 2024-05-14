@@ -4,7 +4,6 @@
 #include<iostream>
 #include<windows.h>
 #include"unit.h"
-//璁℃椂鍣?
 class Timer
 {
 public:
@@ -13,11 +12,11 @@ public:
 	{
 		time = clock();
 	}
-	static void endkeep(int fps)
+	static void endkeep()
 	{
 		int endtime = clock();
 		//Sleep(FRAME - (endtime - time));
-		Sleep(fps);
+		Sleep(FRAME);
 	}
 	static int time;
 };
