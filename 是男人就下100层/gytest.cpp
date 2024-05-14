@@ -200,12 +200,10 @@ void gamedraw(int& count, int dir)
 		else if (board[i].type == 3)
 		{
 			putimage(board[i].x, board[i].y, 96, 16, &conveyor_left, 0, 0);
-			//Anime::anime_conveyor_left(i);
 		}
 		else if (board[i].type == 4)
 		{
 			putimage(board[i].x, board[i].y, 96, 16, &conveyor_right, 0, 0);
-			//Anime::anime_conveyor_right(i);
 		}
 		else if (board[i].type == 5)
 		{
@@ -230,7 +228,6 @@ void gamedraw(int& count, int dir)
 	{
 
 	}
-	//peekmessage(&msg, -1);
 }
 
 void board_move()
@@ -254,6 +251,7 @@ void tempgameing()
 
 	int count = 0;
 	settextcolor(WHITE);
+	settextstyle(50, 15, "consola");;
 	setfillcolor(BLACK);
 	while (1)
 	{
@@ -268,7 +266,6 @@ void tempgameing()
 
 	}
 }
-
 
 void testbutton()
 {
