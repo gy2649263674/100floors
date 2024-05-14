@@ -2,6 +2,8 @@
 #pragma once
 #include <Windows.h>
 #include"scene.h"
+#include"board.h"
+
 #define PICGAP 2
 #define STOPGAP 8
 extern Board board[150];

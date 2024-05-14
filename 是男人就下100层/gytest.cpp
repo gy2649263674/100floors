@@ -3,6 +3,7 @@
 #include <easyx.h>
 #include <ctime>
 #include <Windows.h>
+#include"board.h"
 #include"all.h"
 #include "Timer.h"
 #include "Anime.h"
@@ -125,7 +126,7 @@ void gameInit()
 }
 
 
-void draw_lucency(Character& role, int direct = RIGHTint &count)
+void draw_lucency(Character& role, int direct = RIGHT)
 {
 	auto it = direct == RIGHT ? role.images : role.rimages;
 	draw_lucency(role.x, role.y, it->get_image(role.curframe), it->get_mask_image(role.curframe));
@@ -134,7 +135,7 @@ void draw_lucency(Character& role, int direct = RIGHTint &count)
 	return;
 }
 
-void gamedraw(int dir)
+void gamedraw(int &count,int dir)
 {
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(400, 0, roof_img, roof_img + 1);
@@ -260,7 +261,7 @@ void tempgameing()
 		;
 		gamedraw(role.character_move());
 		EndBatchDraw();
-		Timer::endkeep();
+		Timer::endkeep(FRAME);
 
 	}
 }

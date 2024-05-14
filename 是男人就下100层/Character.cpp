@@ -144,7 +144,7 @@ int Character::character_move()
 		jump++;
 		return;
 	}
-	if (ob === -1)
+	if (ob == -1)
 	{
 		y += G+=0.3;
 	}
@@ -227,7 +227,7 @@ void Character::exhibit(int direct)
 		cleardevice();
 		draw_lucency(x, y, temp->get_image(i), temp->get_mask_image(i));
 		EndBatchDraw();
-		Timer::endkeep();
+		Timer::endkeep(FRAME);
 	}
 	curframe = ((++curframe) %= runsize) == 0 ? 1 : curframe;
 }

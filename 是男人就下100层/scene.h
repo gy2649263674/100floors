@@ -52,8 +52,6 @@ const static double bigger = 1.1;
 #include<deque>
 #include<vector>
 #include<string>
-#include"role.h"
-//class Role;
 
 struct Pic
 {
@@ -322,30 +320,9 @@ private:
 	vector<string>role_explain;
 	int cur_back = 0;
 	int cur_role = 0;
+
+
 };
-class Board
-{
-public:
-	void init()
-	{
-		img = new Atlas;
-		//img->add_image()
-	}
-	int x;
-	int y;
-	int len;
-	int type;
-	bool exist;
-	bool used;
-	int stay;
-private:
-	Atlas* img;
-};
-
-
-
-
-
 
 
 
