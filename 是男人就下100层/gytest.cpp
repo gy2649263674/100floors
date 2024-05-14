@@ -1,4 +1,4 @@
-﻿
+
 #include <iostream>
 #include <easyx.h>
 #include <ctime>
@@ -9,6 +9,7 @@
 #include "Character.h"
 #include "Draw.h"
 #include"scene.h"
+#include "Item.h"
 Character role;
 using namespace std;
 const  int fps = 60;
@@ -27,6 +28,11 @@ IMAGE conveyor_left;
 IMAGE fake[2];
 IMAGE health[2];
 IMAGE roof_img[2];
+IMAGE trampoline_img[2];
+IMAGE cure_img[2];
+IMAGE gold_img[2];
+IMAGE defend_img[2];
+IMAGE armo_img[2];
 ExMessage msg = { 0 };
 int act = 1;
 Start se;
@@ -65,6 +71,16 @@ void loadresource()
 void gameInit()
 {
 	loadresource();
+	loadimage(trampoline_img, "./picture/trampoline.png");
+	loadimage(trampoline_img + 1, "./picture/trampoline_mask.png");
+	loadimage(cure_img, "./picture/item/cure.png", 40, 40);
+	loadimage(cure_img+1, "./picture/item/cure_mask.png", 40, 40);
+	loadimage(gold_img, "./picture/item/gold.png", 40, 40);
+	loadimage(gold_img + 1, "./picture/item/gold_mask.png", 40, 40);
+	loadimage(defend_img, "./picture/item/defend.png", 40, 40);
+	loadimage(defend_img + 1, "./picture/item/defend_mask.png", 40, 40);
+	loadimage(armo_img, "./picture/item/defend.png", 40, 40);
+	loadimage(armo_img + 1, "./picture/item/defend_mask.png", 40, 40);
 	srand((unsigned int)time(NULL));
 	for (int i = 0; i < 150; i++)
 	{
@@ -77,7 +93,7 @@ void gameInit()
 		{
 			board[i].y = BOARD_GAP + board[i - 1].y;
 			int judge = rand() % 10;
-			int btype = rand() % 5;
+			int btype = rand() % 6;
 			if (judge > 7 && btype != 0)
 			{
 				board[i].type = 0;
@@ -94,6 +110,8 @@ void gameInit()
 		board[i].stay = 0;
 	}
 	role.h = 60;
+	role.have_armo = false;
+	role.jump = 100;
 	role.x = board[0].x + board[0].len / 2 - role.h / 2;
 	role.y = board[0].y - role.h;
 	role.set_sta();
@@ -107,7 +125,7 @@ void gameInit()
 }
 
 
-void draw_lucency(Character& role, int direct = RIGHT)
+void draw_lucency(Character& role, int direct = RIGHTint &count)
 {
 	auto it = direct == RIGHT ? role.images : role.rimages;
 	draw_lucency(role.x, role.y, it->get_image(role.curframe), it->get_mask_image(role.curframe));
@@ -121,16 +139,51 @@ void gamedraw(int dir)
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(400, 0, roof_img, roof_img + 1);
 	draw_lucency(800, 0, roof_img, roof_img + 1);
-	for (int i = 0; i < role.health; i++)
+	if (count == 5)
+	{
+		count = 0;
+		int index;
+		int index2 = Item::creatitem(index);
+		if (board[index].have_item == false)
+		{
+			board[index].have_item = true;
+			board[index].item_type = index2;
+		}
+	}
+	int i = 0;
+	for (i = 0; i < role.health; i++)
 	{
 		putimage(600 + i * 40, 10, &health[1], SRCAND);
 		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
 	}
-	for (int i = 0; i < 150; i++)
+	if (role.have_armo == true)
+	{
+		putimage(600 + i * 40, 10, &armo_img[1], SRCAND);
+		putimage(600 + i * 40, 10, &armo_img[0], SRCPAINT);
+	}
+	for (i = 0; i < 150; i++)
 	{
 		if (board[i].type == 0)
 		{
 			draw_lucency(board[i].x, board[i].y, board_img, board_img + 1);
+			if (board[i].have_item == true)
+			{
+				if (board[i].item_type == 0)
+				{
+					putimage(board[i].x + 4, board[i].y - 20, cure_img + 1, SRCAND);
+					putimage(board[i].x + 4, board[i].y - 20, cure_img, SRCPAINT);
+				}
+				else if (board[i].item_type == 1)
+				{
+					putimage(board[i].x + 4, board[i].y - 20, defend_img + 1, SRCAND);
+					putimage(board[i].x + 4, board[i].y - 20, defend_img, SRCPAINT);
+				}
+				else if (board[i].item_type == 2)
+				{
+					putimage(board[i].x + 4, board[i].y - 20, gold_img + 1, SRCAND);
+					putimage(board[i].x + 4, board[i].y - 20, gold_img, SRCPAINT);
+				}
+			}
 		}
 		else if (board[i].type == 1)
 		{
@@ -151,6 +204,11 @@ void gamedraw(int dir)
 		{
 			putimage(board[i].x, board[i].y, 96, 16, &conveyor_right, 0, 0);
 			//Anime::anime_conveyor_right(i);
+		}
+		else if (board[i].type == 5)
+		{
+			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img + 1, 0, 0, SRCAND);
+			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img, 0, 0, SRCPAINT);
 		}
 	}
 	if	(dir == LEFT)
@@ -178,12 +236,12 @@ void board_move()
 
 	for (int i = 0; i < 150; i++)
 	{
-		board[i].y -= 3;
+		board[i].y -= 2;
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
 			board[i].x = rand() % (LENGTH - 350);
-			board[i].type = rand() % 5;
+			board[i].type = rand() % 6;
 			board[i].used = false;
 			board[i].stay = 0;
 		}
@@ -192,6 +250,7 @@ void board_move()
 void tempgameing()
 {
 
+	int count = 0;
 	while (1)
 	{
 		BeginBatchDraw();
@@ -247,6 +306,7 @@ void testbutton()
 }
 int main(void)
 {
+	
 	//testbutton();
 	testbutton();
 	return 0;

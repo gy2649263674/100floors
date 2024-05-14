@@ -68,18 +68,47 @@ int Character::character_move()
 		{
 			this->y = board[i].y - h;
 			ob = i;
+			if (board[i].type == 0 && board[i].have_item == true)
+			{
+				if (board[i].item_type == 0)
+				{
+					health = 3;
+					board[i].have_item = false;
+				}
+				else if (board[i].item_type == 1)
+				{
+					if(have_armo==false)
+					{
+						board[i].have_item = false;
+						have_armo = true;
+					}
+				}
+				
+				else if (board[i].item_type == 2)
+				{
+					board[i].have_item = false;
+				}
+
+			}
 			if (board[i].type == 1 && board[i].used == false)
 			{
-				health--;
+				if (have_armo == true)
+				{
+					have_armo = false;
+				}
+				else
+				{
+					health--;
+				}
 				board[i].used = true;
 				break;
 			}
 			else if (board[i].type == 2)
 			{
 				board[i].stay++;
-				if (board[i].stay > 10)
+				if (board[i].stay >= 10)
 				{
-					y += 6;
+					y += 5;
 					break;
 
 				}
@@ -96,6 +125,12 @@ int Character::character_move()
 					x += SPEED * gap * conveyer_ratio;
 				break;
 			}
+			else if (board[i].type == 5)
+			{
+				jump = 0;
+				y -= 10;
+				break;
+			}
 			break;
 
 
@@ -103,7 +138,13 @@ int Character::character_move()
 		else
 			ob = -1;
 	}
-	if (ob == -1)
+	if (jump<10)
+	{
+		y -= 10;
+		jump++;
+		return;
+	}
+	if (ob === -1)
 	{
 		y += G+=0.3;
 	}
@@ -113,7 +154,14 @@ int Character::character_move()
 	}
 	if (y <= 0 && roof.used == false)
 	{
-		health--;
+		if (have_armo == true)
+		{
+			have_armo = false;
+		}
+		else 
+		{
+			health--;
+		}
 		roof.used = true;
 	}
 	if (y > 720)

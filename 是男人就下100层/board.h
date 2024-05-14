@@ -10,6 +10,8 @@ public:
 	bool exist;
 	bool used;
 	int stay;
+	bool have_item;
+	int item_type;
 private:
 	Atlas* images;
 };
