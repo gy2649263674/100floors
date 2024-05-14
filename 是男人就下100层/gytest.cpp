@@ -75,7 +75,7 @@ void gameInit()
 	loadimage(trampoline_img, "./picture/trampoline.png");
 	loadimage(trampoline_img + 1, "./picture/trampoline_mask.png");
 	loadimage(cure_img, "./picture/item/cure.png", 40, 40);
-	loadimage(cure_img+1, "./picture/item/cure_mask.png", 40, 40);
+	loadimage(cure_img + 1, "./picture/item/cure_mask.png", 40, 40);
 	loadimage(gold_img, "./picture/item/gold.png", 40, 40);
 	loadimage(gold_img + 1, "./picture/item/gold_mask.png", 40, 40);
 	loadimage(defend_img, "./picture/item/defend.png", 40, 40);
@@ -135,12 +135,13 @@ void draw_lucency(Character& role, int direct = RIGHT)
 	return;
 }
 
-void gamedraw(int &count,int dir)
+void gamedraw(int& count, int dir)
 {
+	++count;
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(400, 0, roof_img, roof_img + 1);
 	draw_lucency(800, 0, roof_img, roof_img + 1);
-	if (count == 5)
+	if (count >= 5)
 	{
 		count = 0;
 		int index;
@@ -166,7 +167,7 @@ void gamedraw(int &count,int dir)
 	{
 		if (board[i].type == 0)
 		{
-			draw_lucency(board[i].x, board[i].y, board_img, board_img + 1);
+			putimage(board[i].x, board[i].y, &board_img[0]);
 			if (board[i].have_item == true)
 			{
 				if (board[i].item_type == 0)
@@ -193,8 +194,8 @@ void gamedraw(int &count,int dir)
 		}
 		else if (board[i].type == 2)
 		{
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0);
-			//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, fake + 1, 0, 0, SRCAND);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == 3)
 		{
@@ -212,20 +213,20 @@ void gamedraw(int &count,int dir)
 			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img, 0, 0, SRCPAINT);
 		}
 	}
-	if	(dir == LEFT)
+	if (dir == LEFT)
 	{
 		draw_lucency(role, LEFT);
 	}
-	else if(dir == RIGHT)// (msg.vkcode == VK_RIGHT)
+	else if (dir == RIGHT)// (msg.vkcode == VK_RIGHT)
 	{
 		draw_lucency(role, RIGHT);
 	}
-	else if(dir == 0)
+	else if (dir == 0)
 	{
 		role.draw_standing();
 	}
 	//falling
-	else if(dir == 2)
+	else if (dir == 2)
 	{
 
 	}
@@ -237,7 +238,7 @@ void board_move()
 
 	for (int i = 0; i < 150; i++)
 	{
-		board[i].y -= 2;
+		board[i].y -= 3;
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
@@ -252,16 +253,18 @@ void tempgameing()
 {
 
 	int count = 0;
+	settextcolor(WHITE);
+	setfillcolor(BLACK);
 	while (1)
 	{
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
 		board_move();
-		;
-		gamedraw(role.character_move());
+		gamedraw(count, role.character_move());
+		outtextxy(0, 0, "开发者模式");
+		Timer::endkeep(1000 / 144);
 		EndBatchDraw();
-		Timer::endkeep(FRAME);
 
 	}
 }
@@ -272,10 +275,10 @@ void testbutton()
 	se = Start();
 	creatgame();
 	gameInit();
-	se.enter_scene();
-	role = Character("ch", 36,9);
+	//se.enter_scene();
+	role = Character("ch", 36, 9);
 	//role = Character("fox", 8,1);
-	//tempgameing();
+	tempgameing();
 	while (1 ^ EXIT)
 	{
 		while (peekmessage(&msg, EX_KEY | EX_MOUSE))
@@ -307,7 +310,7 @@ void testbutton()
 }
 int main(void)
 {
-	
+
 	//testbutton();
 	testbutton();
 	return 0;

@@ -14,8 +14,8 @@ extern ExMessage msg;
 const double gap = 1000.0 / FRAME;
 const int yu = 500;
 #define SPEED 150
-#define INCREASE 40
-#define FALL_INCREASE 6
+#define INCREASE 50
+#define FALL_INCREASE 0
 static double lspeed = SPEED;
 static double rspeed = SPEED;
 
@@ -44,6 +44,15 @@ int Character::character_move()
 		msg.vkcode = VK_RIGHT;
 		move();
 		pre = RIGHT;
+
+	}
+	else if (GetAsyncKeyState(VK_UP) && x < 750)
+	{
+		y -= 50;
+	}
+	else if (GetAsyncKeyState(VK_DOWN) && x < 750)
+	{
+		y += 50;
 	}
 	else
 	{
@@ -127,23 +136,28 @@ int Character::character_move()
 			}
 			else if (board[i].type == 5)
 			{
-				jump = 0;
+				jump = 10;
 				y -= 10;
 				break;
 			}
 			break;
-
-
 		}
 		else
 			ob = -1;
 	}
-	if (jump<10)
+	if (jump)
 	{
 		y -= 10;
-		jump++;
-		return;
+		jump--;
+		//return 0;
 	}
+	else
+	{
+		//if(peekmessage(&msg, -1);
+
+	//	system("pause");
+	}
+
 	if (ob == -1)
 	{
 		y += G+=0.3;

@@ -80,6 +80,8 @@ public:
 	int curframe = 0;
 	int uv;
 	int dircetion;
+	int jump = 0;
+	bool have_armo;
 	int standing_size = 0;
 	int standing_frame = 0;
 	bool is_dead();
