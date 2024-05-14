@@ -161,7 +161,7 @@ void gamedraw(int &count)
 	putimage(0, 0, roof_img,SRCPAINT);
 	putimage(400, 0, roof_img,SRCPAINT);
 	putimage(800, 0, roof_img,SRCPAINT);
-	if (count == 5)
+	if (count == 100)
 	{
 		count = 0;
 		int index;
