@@ -1,9 +1,19 @@
 ﻿#pragma once
-//#define MAINW 1048
-//#define LENGTH 900
 #include <ctime>
 #include<iostream>
 #include<windows.h>
+#include<easyx.h>
+#include<graphics.h>
+#include<deque>
+#include<iostream>
+#include <climits>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <iterator>
+#include <streambuf>
+#include <vector>
+#include<deque>
 #define MAINW 1000
 #define LENGTH 1000
 #define MAINH 750

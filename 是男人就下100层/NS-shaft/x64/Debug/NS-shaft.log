@@ -1,30 +1,14 @@
-﻿  gytest.cpp
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(105,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+﻿  Character.cpp
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Atlas.h(29,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“Character.cpp”)
   
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(166,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(166,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(174,117): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(174,53): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(183,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(183,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(279,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(281,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(91,1): warning C4715: “Atlas::get_mask_image”: 不是所有的控件路径都返回值
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Character.cpp(34,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Character.cpp(43,24): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Character.cpp(122,27): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Character.cpp(130,23): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Character.cpp(136,23): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Character.cpp(141,14): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Character.cpp(142,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Character.cpp(165,10): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\Atlas.h(25,1): warning C4715: “Atlas::get_mask_image”: 不是所有的控件路径都返回值
   NS-shaft.vcxproj -> E:\zzs\gitstore\used for update\100floors\是男人就下100层\x64\Debug\NS-shaft.exe

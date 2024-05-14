@@ -1,8 +1,23 @@
 ﻿#include"all.h"
 
-Atlas::Atlas(const char* rootdir, const char* name, int w, int h, int n)
+
+
+#include"all.h"
+#include"Atlas.h"
+
+#pragma once
+#include<iostream>
+#include<fstream>
+#include<easyx.h>
+#include<graphics.h>
+#include<deque>
+#include<vector>
+#include<string>
+
+
+Atlas::Atlas(const char* rootdir, const char* name, int n,int w ,int h )
 {
-	role_add_image(rootdir, name, w, h, n, ".png");
+	 role_add_image( rootdir,name, n,  ROLEW, ROLEH, ".png");
 }
 int Start::process_command(ExMessage& msg)
 {

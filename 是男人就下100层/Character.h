@@ -1,21 +1,21 @@
-﻿
-#pragma once
-#include <Windows.h>
-#include"scene.h"
+﻿#pragma once
 #include"board.h"
-
+#include<string>
+#include"Atlas.h"
 #define PICGAP 2
 #define STOPGAP 8
-extern Board board[150];
+class Character;
+void draw_lucency(Character& role, int direct);
+void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask);
 class Character
 {
 	friend void draw_lucency(Character& role, int direct);
 public:
 	Character()
 	{}
-	Character(const char* name, int run_pic_size, int standsize);
+	Character(const char* name, int run_pic_size, int standsize,Picset *pic);
 	int character_move();
-	void set_sta()
+	void set_sta(Board* board)
 	{
 		this->h = 60;
 		this->x = board[0].x + board[0].len / 2 - this->h / 2;
@@ -31,11 +31,6 @@ public:
 	{
 		stact = 0;
 		standing_frame = 0;
-	}
-	Pic get_pic(int dir = RIGHT)
-	{
-		auto it = dir == LEFT ? rimages : images;
-		return it->get_pic(curframe / PICGAP);
 	}
 	void draw_standing()
 	{
@@ -69,28 +64,34 @@ public:
 			curframe = standing_size - 1;
 		}
 	}
-
-	int direct;
-	int x;
-	int y;
-	int h;
-	int ob;
-	int health;
+	void change_app(Picset*img)
+	{
+		this->images = img->pic;
+		this->rimages = img->rpic;
+		this->standing_size = img->stand;;
+		this->runsize = img->run;
+	}
+	bool is_dead();
+	int exhibit(int dir, IMAGE* back = 0);
+	int direct = 0;
+	int x = 0;
+	int y = 0;
+	int h = 0;
+	int ob = 0;
+	int health = 0 ;
 	int stact = 0;
 	int curframe = 0;
-	int uv;
-	int dircetion;
+	int uv = 0;
+	int dircetion = 0;
 	int jump = 0;
 	bool have_armo;
 	int standing_size = 0;
+	int runsize = 0;
 	int standing_frame = 0;
-	bool is_dead();
-	void exhibit(int dir = LEFT);
+
 	int act = 0;
 private:
-	int runsize = 0;
 	Atlas* images;
 	Atlas* rimages;
-	string name;
+	std::string name;
 };
-

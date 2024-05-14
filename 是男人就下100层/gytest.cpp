@@ -37,6 +37,8 @@ IMAGE armo_img[2];
 ExMessage msg = { 0 };
 int act = 1;
 Start se;
+void loadapp();;
+deque<Picset*>appearence;
 void creatgame()
 {
 	initgraph(MAINW, MAINH);
@@ -44,11 +46,6 @@ void creatgame()
 	HWND handle = GetHWnd();
 	MoveWindow(HWND(handle), MAINX, MAINY, MAINW, MAINH, true);
 }
-void loadboard()
-{
-
-}
-
 void loadresource()
 {
 	loadimage(&conveyor_left, "./picture/conveyor_left.png");
@@ -68,10 +65,6 @@ void loadresource()
 	loadimage(cursor + 1, "picture/button/cursor_mask.ico");
 	loadimage(health, "./picture/health/health1.png", 40, 40);
 	loadimage(health + 1, "./picture/health/health1_mask.png", 40, 40);
-}
-void gameInit()
-{
-	loadresource();
 	loadimage(trampoline_img, "./picture/trampoline.png");
 	loadimage(trampoline_img + 1, "./picture/trampoline_mask.png");
 	loadimage(cure_img, "./picture/item/cure.png", 40, 40);
@@ -82,6 +75,12 @@ void gameInit()
 	loadimage(defend_img + 1, "./picture/item/defend_mask.png", 40, 40);
 	loadimage(armo_img, "./picture/item/defend.png", 40, 40);
 	loadimage(armo_img + 1, "./picture/item/defend_mask.png", 40, 40);
+}
+void gameInit()
+{
+	loadresource();
+	loadapp();
+
 	srand((unsigned int)time(NULL));
 	for (int i = 0; i < 150; i++)
 	{
@@ -115,7 +114,7 @@ void gameInit()
 	role.jump = 100;
 	role.x = board[0].x + board[0].len / 2 - role.h / 2;
 	role.y = board[0].y - role.h;
-	role.set_sta();
+	role.set_sta(board);
 	role.health = 3;
 	role.ob = -1;
 	roof.type = 1;
@@ -130,8 +129,6 @@ void draw_lucency(Character& role, int direct = RIGHT)
 {
 	auto it = direct == RIGHT ? role.images : role.rimages;
 	draw_lucency(role.x, role.y, it->get_image(role.curframe), it->get_mask_image(role.curframe));
-	//if (role.curframe)
-		//cout << "now direct:" << (direct == LEFT ? "left" : "right") << role.curframe << endl;
 	return;
 }
 
@@ -229,13 +226,17 @@ void gamedraw(int& count, int dir)
 
 	}
 }
-
-void board_move()
+#define BOARD_A 0.004
+#define MAXV 20
+const double v0 = 3;
+double Board::V = 3;
+void board_move(bool rebegin)
 {
-
+	Board::V = min(rebegin ? v0 : (Board::V += BOARD_A),MAXV);
+	cout << "board v:" << Board::V << endl;
 	for (int i = 0; i < 150; i++)
 	{
-		board[i].y -= 3;
+		board[i].y -= Board::V;
 		if (board[i].y < 0)
 		{
 			board[i].y = 150 * BOARD_GAP;
@@ -258,27 +259,38 @@ void tempgameing()
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
-		board_move();
+		board_move(false);
 		gamedraw(count, role.character_move());
 		outtextxy(0, 0, "开发者模式");
 		Timer::endkeep(1000 / 144);
 		EndBatchDraw();
-
 	}
 }
-
+Picset fox;
+Picset ch;
+void loadapp()
+{
+	ch = *new Picset("ch", 36, 26, 10);
+	fox = *new Picset("fox", 8, 7, 1);
+	appearence.push_back(&ch);
+	appearence.push_back(&fox);
+	//	appearence.push_back(&ch);
+		//appearence.push_back(&ch);
+}
 void testbutton()
 {
 	se = Start();
 	creatgame();
 	gameInit();
-	//se.enter_scene();
-	role = Character("ch", 36, 9);
-	//role = Character("fox", 8,1);
-	tempgameing();
+	role = Character("ch", 36, 9, &fox);
+	//role.change_app(&ch);
+	//while (1)
+	//	se.change_role( &role, appearence);
+	////tempgameing();
 	while (1 ^ EXIT)
 	{
-		while (peekmessage(&msg, EX_KEY | EX_MOUSE))
+		se.enter_scene();
+		while (peekmessage(&msg, EX_KEY | EX_MOUSE) | 1)
 		{
 			StartOpt opt;
 			opt = StartOpt(se.process_command(msg));
@@ -291,10 +303,15 @@ void testbutton()
 			{
 				se.ChooseMap(msg);
 				cout << "choose map" << endl;
+				se.enter_scene();
+
 			}
 			else if (opt == choose_role)
 			{
+				se.change_role(&role, appearence);
 				cout << "choose role" << endl;
+				se.enter_scene();
+
 			}
 			else if (opt == exit_game)
 			{

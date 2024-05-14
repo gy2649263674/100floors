@@ -4,6 +4,8 @@
 #include "Timer.h"
 #include <ctime>
 #include"unit.h"
+#include"Atlas.h"
+
 extern Board board[150];
 extern int act;
 const double conveyer_ratio = 1.5;
@@ -18,7 +20,7 @@ const int yu = 500;
 #define FALL_INCREASE 0
 static double lspeed = SPEED;
 static double rspeed = SPEED;
-
+using namespace std;
 int Character::character_move()
 {
 	static double G = 6;
@@ -37,9 +39,9 @@ int Character::character_move()
 	else if (GetAsyncKeyState(VK_RIGHT) && x < 750)
 	{
 		lspeed = SPEED;
-		rspeed += INCREASE*4;
+		rspeed += INCREASE * 4;
 		x += min(rspeed, yu) * gap;
-		cout << "rspeed :" << rspeed <<" ";
+		cout << "rspeed :" << rspeed << " ";
 		cout << "lspeed :" << lspeed << endl;
 		msg.vkcode = VK_RIGHT;
 		move();
@@ -73,7 +75,7 @@ int Character::character_move()
 		int x2 = this->x + h / 2;
 		int y2 = this->y + h;
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
-			&& y2 >= board[i].y - 6 && y2 <= board[i].y + 6)
+			&& y2 >= board[i].y - Board::V*FRAME/4 && y2 <= board[i].y + Board::V*FRAME/4)
 		{
 			this->y = board[i].y - h;
 			ob = i;
@@ -86,13 +88,13 @@ int Character::character_move()
 				}
 				else if (board[i].item_type == 1)
 				{
-					if(have_armo==false)
+					if (have_armo == false)
 					{
 						board[i].have_item = false;
 						have_armo = true;
 					}
 				}
-				
+
 				else if (board[i].item_type == 2)
 				{
 					board[i].have_item = false;
@@ -117,7 +119,7 @@ int Character::character_move()
 				board[i].stay++;
 				if (board[i].stay >= 10)
 				{
-					y += 5;
+					y += Board::V * FRAME/4;
 					break;
 
 				}
@@ -125,7 +127,7 @@ int Character::character_move()
 			else if (board[i].type == 3)
 			{
 				if (x > 0)
-					x -= SPEED *gap* conveyer_ratio;
+					x -= SPEED * gap * conveyer_ratio;
 				break;
 			}
 			else if (board[i].type == 4)
@@ -136,8 +138,8 @@ int Character::character_move()
 			}
 			else if (board[i].type == 5)
 			{
-				jump = 10;
-				y -= 10;
+				jump = 10-Board::V/10;
+				y -= Board::V*FRAME/4;
 				break;
 			}
 			break;
@@ -160,7 +162,7 @@ int Character::character_move()
 
 	if (ob == -1)
 	{
-		y += G+=0.3;
+		y += G += 0.3;
 	}
 	else
 	{
@@ -172,7 +174,7 @@ int Character::character_move()
 		{
 			have_armo = false;
 		}
-		else 
+		else
 		{
 			health--;
 		}
@@ -188,6 +190,28 @@ int Character::character_move()
 	}
 	return pre;
 }
+
+void flip(Atlas* s, Atlas* d)
+{
+	for (int i = 0; i < s->get_size(); i++)
+	{
+		IMAGE* src = s->get_image(i);
+		IMAGE* des = d->get_image(i);
+		int h = src->getheight();
+		int w = src->getwidth();
+		if (des->getwidth() != w || des->getheight() != h)
+		{
+			des->Resize(w, h);
+		}
+		DWORD* des_ = GetImageBuffer(des);
+		DWORD* src_ = GetImageBuffer(src);
+		for (int x = 0; x < w; x++)
+			for (int y = 0; y < h; y++)
+				des_[y * w + w - x] = src_[y * w + x];
+	}
+	return;
+}
+
 
 void filp(IMAGE* src, IMAGE* des)
 {
@@ -212,36 +236,61 @@ bool Character::is_dead()
 	}
 	return false;
 }
-
-Character::Character(const char* name, int runsize,int standing_size)
+#include<graphics.h>
+#include<easyx.h>
+Character::Character(const char* name, int n, int standing_size, Picset* img)
 {
-	images = new Atlas(name, "未标题-", ROLEW, ROLEH, runsize);
-	rimages = new Atlas(runsize);
-	this->runsize = runsize;
-	this->standing_size = standing_size;
+	//images = img.pic;//new Atlas(name, "未标题-", runsize, ROLEW, ROLEH);
+	//rimages = img.rpic;//new Atlas(runsize);
+	change_app(img);
+	this->runsize = img->run;
+	this->standing_size = img->stand;
 	this->standing_frame = 0;
-	for (int i = 0; i < images->get_size(); i++)
-	{
-		filp(images->get_image(i), rimages->get_image(i));
-		filp(images->get_mask_image(i), rimages->get_mask_image(i));
-	}
-	set_sta();
+	set_sta(board);
 	return;
 }
+void draw_lucency(Character& role, int direct);
+void draw_lucency(int x, int y, int w, int h, IMAGE* ori, IMAGE* mask);
 
-void Character::exhibit(int direct)
+int co = 0;
+int Character::exhibit(int direct,  IMAGE* back)
 {
+	ExMessage msg;
 	Atlas* temp = direct == RIGHT ? images : rimages;
-	for (int i = 0; ; i++)
+	BeginBatchDraw();
+	cleardevice();
+	putimage(0, 0, back);
+	draw_lucency(x, y, temp->get_image(0), temp->get_mask_image(0));
+	++co;
+	cout << "co" << co << endl;
+	while (1)
 	{
-		i = i % (runsize - 1);
-		i = i == 0 ? 1 : i;
-		Timer::beginkeep();
-		BeginBatchDraw();
-		cleardevice();
-		draw_lucency(x, y, temp->get_image(i), temp->get_mask_image(i));
-		EndBatchDraw();
-		Timer::endkeep(FRAME);
+		while (peekmessage(&msg, EX_KEY)|1)
+		{
+			for (int i = 0;1; i++)
+			{
+				peekmessage(&msg, EX_KEY);
+				if (msg.vkcode == VK_RETURN)
+				{
+					return 1;
+				}
+				else if (msg.vkcode == VK_LEFT || msg.vkcode == VK_RIGHT)
+				{
+					ExMessage m = {};
+					msg = m;
+					return 0;
+				}
+				static int picfp = i / PICGAP/3;
+				picfp = i / PICGAP/3;
+				i = picfp >= runsize ? 0 : ++i;
+				BeginBatchDraw();
+				cleardevice();
+				putimage(0, 0, back);
+				draw_lucency(x, y, temp->get_image(picfp), temp->get_mask_image(picfp));
+				EndBatchDraw();
+				Timer::endkeep(FRAME);
+			}
+		}
 	}
-	curframe = ((++curframe) %= runsize) == 0 ? 1 : curframe;
+	return 0;
 }

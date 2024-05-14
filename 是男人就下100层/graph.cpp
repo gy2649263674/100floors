@@ -1,6 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include"all.h"
 #include"Anime.h"
+#include"scene.h"
 #if 0
 void Anime::ppt(Atlas* images, int delt,int trans)
 {
@@ -12,6 +13,12 @@ void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask)
 {
 	putimage(x, y, mask, SRCAND);
 	putimage(x, y, ori, SRCPAINT);
+	return;
+}
+void draw_lucency(int x, int y,int w,int h, IMAGE* ori, IMAGE* mask)
+{
+	putimage(x, y,w,h ,mask,0,0, SRCAND);
+	putimage(x, y,w,h, ori,0,0, SRCPAINT);
 	return;
 }
 IMAGE* Atlas::get_image(int index, int cate)
@@ -28,7 +35,7 @@ IMAGE* Atlas::get_image(int index, int cate)
 	return NULL;
 }
 
-void Atlas::role_add_image(const char* rootdir, const char* filename, int w, int h, int n, const char* filetype)
+void Atlas::role_add_image(const char* rootdir, const char* filename, int n, int w, int h, const char* filetype)
 {
 	string tori = PICDIR + string("\\") + string(rootdir) + "\\" +"ori"+"\\"+string(filename);
 	string tmask = PICDIR + string("\\") + string(rootdir) + "\\" +"mask"+"\\"+string(filename);

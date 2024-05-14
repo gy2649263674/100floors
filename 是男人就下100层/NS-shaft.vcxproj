@@ -21,11 +21,11 @@
   <ItemGroup>
     <ClInclude Include="all.h" />
     <ClInclude Include="Anime.h" />
+    <ClInclude Include="Atlas.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="Item.h" />
-    <ClInclude Include="role.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="stdc++.h" />
     <ClInclude Include="Timer.h" />

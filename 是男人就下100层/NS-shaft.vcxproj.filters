@@ -13,9 +13,6 @@
     <ClInclude Include="Draw.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="role.h">
-      <Filter>head</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>head</Filter>
     </ClInclude>
@@ -32,6 +29,9 @@
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="stdc++.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="Atlas.h">
       <Filter>head</Filter>
     </ClInclude>
   </ItemGroup>

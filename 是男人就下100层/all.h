@@ -10,3 +10,4 @@
 #include "Character.h"
 #include "Draw.h"
 #include"scene.h"
+#include"Atlas.h"

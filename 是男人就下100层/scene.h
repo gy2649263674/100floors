@@ -6,13 +6,16 @@
 #include<graphics.h>
 #include<unordered_map>
 #include<map>
+#include<deque>
 #include"unit.h"
+#include "Character.h"
+class Character;
 extern IMAGE arrow[2];
 extern IMAGE cursor[2];
 extern IMAGE border[2];
 const static double ratio = 7.0 / 10.0;
 const static double bigger = 1.1;
-
+using namespace std;
 //extern IMAGE* arrow;
 //#define 
 //#define MAPN
@@ -52,63 +55,9 @@ const static double bigger = 1.1;
 #include<deque>
 #include<vector>
 #include<string>
+#include"Atlas.h"
 
-struct Pic
-{
-	Pic()
-	{}
-	Pic(IMAGE* ori, IMAGE* mask)
-	{
-		ori = (ori);
-		mask = (mask);
-		return;
-	}
-	IMAGE* ori;
-	IMAGE* mask;
-};
 void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask);
-using namespace std;
-class Atlas//图片集合类
-{
-public:
-	IMAGE* get_image(int index, int cate = 0);
-	Atlas(int n)
-	{
-		for (int i = 0; i < n; i++)
-		{
-			arr.push_back(new IMAGE);
-			arr_mask.push_back(new IMAGE);
-		}
-	}
-	Atlas()
-	{}
-	Atlas(const char* rootdir, const char* s, int w, int h, int n);
-	void role_add_image(const char* rootdir, const char* filename, int w, int h, int n, const char* filetype);
-	IMAGE* get_mask_image(int index = 0)
-	{
-		if (index >= 0)
-			return arr_mask[index];
-	}
-	void add_image(const char* rootdir, const char* filename, int w, int h, int n = 1, const char* filetype = ".png", const char* mask = "");
-	Pic operator [](int index)
-	{
-		if (index < arr.size() && index >= 0)
-			return Pic(arr[index], arr_mask[index]);
-	}
-	Pic get_pic(int index)
-	{
-		if (index < arr.size() && index >= 0)
-			return Pic(arr[index], arr_mask[index]);
-	}
-	int get_size()
-	{
-		return  arr.size();
-	}
-private:
-	deque<IMAGE*>arr;
-	deque<IMAGE*>arr_mask;
-};
-
 using namespace std;
 
 //extern int mianx, MAINY;
@@ -251,6 +200,8 @@ enum Btname
 	map_bt,
 	exit_bt,
 };
+
+
 class Start :public Scene
 {
 public:
@@ -312,6 +263,31 @@ public:
 	{
 		return back_ground->get_image(cur_back);
 	}
+	void change_role(Character* role, deque<Picset* >picarr)
+	{
+		ExMessage msgs;
+		int ck = 0;
+		while (1)
+			while (peekmessage(&msgs, EX_KEY))
+			{
+				cout << ++ck << " ";
+				if (msgs.vkcode == VK_RIGHT)
+				{
+					picarr.push_back(picarr.front());
+					picarr.pop_front();
+				}
+				else if (msgs.vkcode == VK_LEFT)
+				{
+					picarr.push_front(picarr.back());
+					picarr.pop_back();
+				}
+				role->change_app(picarr.front());
+				if (role->exhibit(RIGHT, back_ground->get_image(cur_back)) == 1)
+				{
+					return;
+				}
+			}
+	}
 private:
 	const static int btnum = 4;
 	vector<Button*>buttons;
@@ -328,3 +304,4 @@ private:
 
 
 
+void flip(Atlas* a, Atlas* b);
