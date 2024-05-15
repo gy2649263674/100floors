@@ -190,6 +190,7 @@ enum StartOpt
 	choose_role = 1,
 	choose_map = 2,
 	exit_game = 3,
+	change_difficult = 4
 };
 
 

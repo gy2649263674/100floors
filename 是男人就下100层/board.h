@@ -8,10 +8,10 @@ public:
 	int len; int type;
 	bool exist;
 	bool used;
-	int stay; bool have_item;
+	int stay;
+	bool have_item;
 	int item_type;
 	static double  V;
 private:
 	Atlas* images;
-
 };

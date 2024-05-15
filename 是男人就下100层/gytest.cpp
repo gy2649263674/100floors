@@ -283,10 +283,6 @@ void testbutton()
 	creatgame();
 	gameInit();
 	role = Character("ch", 36, 9, &fox);
-	//role.change_app(&ch);
-	//while (1)
-	//	se.change_role( &role, appearence);
-	////tempgameing();
 	while (1 ^ EXIT)
 	{
 		se.enter_scene();
@@ -317,6 +313,10 @@ void testbutton()
 			{
 				EXIT = true;
 				cout << "exit game" << endl;
+			}
+			else if(opt ==change_difficult )
+			{
+
 			}
 		}
 	}

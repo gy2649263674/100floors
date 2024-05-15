@@ -17,7 +17,7 @@ const double gap = 1000.0 / FRAME;
 const int yu = 500;
 #define SPEED 150
 #define INCREASE 50
-#define FALL_INCREASE 0
+#define FALL_INCREASE 0.5
 static double lspeed = SPEED;
 static double rspeed = SPEED;
 using namespace std;
@@ -138,8 +138,9 @@ int Character::character_move()
 			}
 			else if (board[i].type == 5)
 			{
-				jump = 10-Board::V/10;
-				y -= Board::V*FRAME/4;
+				jump = 30-Board::V/2;
+				//y -= 400/Board::V;
+				y -= (Board::V*FRAME/2);//*FRAME;
 				break;
 			}
 			break;
@@ -162,7 +163,7 @@ int Character::character_move()
 
 	if (ob == -1)
 	{
-		y += G += 0.3;
+		y += (G += 0.5);
 	}
 	else
 	{

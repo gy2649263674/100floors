@@ -1,8 +1,8 @@
-﻿#if 0
-#pragma once
+﻿#pragma once
 #include <ctime>
 #include <easyx.h>
 #include"scene.h"
+#if 0
 class Anime
 {
 public:
@@ -10,8 +10,14 @@ public:
 	int begintime;
 	int freamtime;
 	static void anime_conveyor_right(int i);
-	static void anime_fake(int i);
+	static void anime_fake(Board&a)
+	{
+		//draw_lucency(a.x,a.y,
+		//putimage()
+	}
 	static void anime_conveyor_left(int i);
 	static void ppt(Atlas* image,int dir,int transparent = false);
+
 };
+
 #endif
