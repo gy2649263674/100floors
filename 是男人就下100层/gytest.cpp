@@ -34,6 +34,7 @@ IMAGE cure_img[2];
 IMAGE gold_img[2];
 IMAGE defend_img[2];
 IMAGE armo_img[2];
+IMAGE wall;
 ExMessage msg = { 0 };
 int act = 1;
 Start se;
@@ -48,6 +49,7 @@ void creatgame()
 }
 void loadresource()
 {
+	loadimage(&wall, "./picture/wall.png");
 	loadimage(&conveyor_left, "./picture/conveyor_left.png");
 	loadimage(&conveyor_right, "./picture/conveyor_right.png");
 	loadimage(fake, "./picture/fake.png");
@@ -136,8 +138,12 @@ void gamedraw(int& count, int dir)
 {
 	++count;
 	draw_lucency(0, 0, roof_img, roof_img + 1);
-	draw_lucency(400, 0, roof_img, roof_img + 1);
-	draw_lucency(800, 0, roof_img, roof_img + 1);
+	draw_lucency(350, 0, roof_img, roof_img + 1);
+	//draw_lucency(800, 0, roof_img, roof_img + 1);
+	putimage(0, 0, &wall);
+	putimage(0, 380, &wall);
+	putimage(750, 0, &wall);
+	putimage(750, 380, &wall);
 	if (count >= 5)
 	{
 		count = 0;
