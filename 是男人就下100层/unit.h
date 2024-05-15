@@ -53,3 +53,10 @@
 #define BOARDH 40
 #define FPS 60
 #define FRAME 1000/60
+enum entertain
+{
+	normal,
+	jump_jump,
+	fake_world,
+	run_run,
+};

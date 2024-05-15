@@ -73,7 +73,7 @@ int Character::character_move()
 	int x2 = this->x + h / 2;
 	int y2 = this->y + h;
 	//判断玩家在哪一块板子上
-	for (int i = 0; i<150&&board[i].y<=MAINH; i++)
+	for (int i = 0; i<150; i++)
 	{
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
 			&& y2 >= board[i].y - Board::V * FRAME / 4 && y2 <= board[i].y + Board::V * FRAME / 4)

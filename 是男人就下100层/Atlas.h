@@ -28,6 +28,25 @@ public:
 	{
 		return  arr.size();
 	}
+	void push(IMAGE* img)
+	{
+		arr.push_back(img);
+
+	}
+	void left()
+	{
+		arr.push_front(arr.back());
+		arr_mask.push_front(arr.back());
+		arr_mask.pop_back();
+		arr.pop_back();
+	}
+	void right()
+	{
+		arr.push_back(arr.front());
+		arr_mask.push_back(arr.front());
+		arr_mask.pop_front();
+		arr.pop_front();
+	}
 	deque<IMAGE*>arr;
 	deque<IMAGE*>arr_mask;
 };
