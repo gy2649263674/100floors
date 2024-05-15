@@ -1,4 +1,5 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include"all.h"
 #include"Anime.h"
 #include"scene.h"

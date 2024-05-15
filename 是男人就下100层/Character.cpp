@@ -27,6 +27,8 @@ int Character::character_move()
 {
 	static double G = 6;
 	static int pre = RIGHT;
+	static double G = 6;
+	static int pre = RIGHT;
 	if (GetAsyncKeyState(VK_LEFT) && x > 0)
 	{
 		rspeed = SPEED;
@@ -34,7 +36,14 @@ int Character::character_move()
 		cout << "rspeed :" << rspeed << " ";
 		cout << "lspeed :" << lspeed << endl;
 		x -= min(lspeed, yu) * gap;
+		rspeed = SPEED;
+		lspeed += INCREASE;
+		cout << "rspeed :" << rspeed << " ";
+		cout << "lspeed :" << lspeed << endl;
+		x -= min(lspeed, yu) * gap;
 		msg.vkcode = VK_LEFT;
+		move();
+		pre = LEFT;
 		move();
 		pre = LEFT;
 	}
@@ -103,21 +112,14 @@ int Character::character_move()
 			}
 			if (board[i].type == 1 && board[i].used == false)
 			{
-				if (have_armo == true)
-				{
-					have_armo = false;
-				}
-				else
-				{
-					health--;
-				}
+				health--;
 				board[i].used = true;
 				break;
 			}
 			else if (board[i].type == faketype)
 			{
 				board[i].stay++;
-				if (board[i].stay >= 10)
+				if (board[i].stay > 10)
 				{
 					y += Board::V * FRAME / 4;
 					break;
@@ -147,6 +149,8 @@ int Character::character_move()
 				break;
 			}
 			break;
+
+
 		}
 		else
 		{

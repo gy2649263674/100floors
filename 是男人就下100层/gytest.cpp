@@ -17,6 +17,7 @@ const  int fps = 60;
 const  int frame = 1000 / 60;
 int Timer::time = 0;
 bool EXIT = false;
+bool EXIT = false;
 IMAGE cursor[2];
 IMAGE arrow[2];
 IMAGE border[2];
@@ -213,6 +214,8 @@ void gamedraw(int& count, int dir)
 		{
 			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
 			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0);
+			//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == lefttype)
 		{

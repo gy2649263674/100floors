@@ -13,6 +13,9 @@
     <ClInclude Include="Draw.h">
       <Filter>head</Filter>
     </ClInclude>
+    <ClInclude Include="role.h">
+      <Filter>head</Filter>
+    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>head</Filter>
     </ClInclude>
@@ -22,19 +25,6 @@
     <ClInclude Include="scene.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="board.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="stdc++.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="Atlas.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="Border.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graph.cpp">
@@ -61,13 +51,12 @@
     <ClCompile Include="jpctestmain.cpp">
       <Filter>测试函数</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
+    <ClCompile Include="jcptestmain.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
-    <ClCompile Include="board.cpp">
+    <ClCompile Include="rub.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
-    <ClCompile Include="Border.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="head">
