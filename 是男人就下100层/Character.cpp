@@ -38,7 +38,7 @@ int Character::character_move()
 		move();
 		pre = LEFT;
 	}
-	else if (GetAsyncKeyState(VK_RIGHT) && x < 750)
+	else if (GetAsyncKeyState(VK_RIGHT) && x < 700)
 	{
 		lspeed = SPEED;
 		rspeed += INCREASE * 4;
