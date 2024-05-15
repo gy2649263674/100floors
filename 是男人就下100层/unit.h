@@ -1,9 +1,19 @@
 ﻿#pragma once
-//#define MAINW 1048
-//#define LENGTH 900
 #include <ctime>
 #include<iostream>
 #include<windows.h>
+#include<easyx.h>
+#include<graphics.h>
+#include<deque>
+#include<iostream>
+#include <climits>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <iterator>
+#include <streambuf>
+#include <vector>
+#include<deque>
 #define MAINW 1000
 #define LENGTH 1000
 #define MAINH 750
@@ -39,6 +49,7 @@
 #define UNIN 1
 #define	 LEFT -1
 #define	 RIGHT 1
-
+#define BOARDW 40
+#define BOARDH 40
 #define FPS 60
 #define FRAME 1000/60

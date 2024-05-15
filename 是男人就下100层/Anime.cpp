@@ -1,4 +1,4 @@
-#if 0
+﻿#if 0
 #include "Anime.h"
 #include <ctime>
 #include "board.h"
@@ -22,7 +22,6 @@ void Anime::anime_conveyor_right(int i)
 		index = clock() / speed%frame;
 		EndBatchDraw();
 	}
-	
 }
 void Anime::anime_conveyor_left(int i)
 {

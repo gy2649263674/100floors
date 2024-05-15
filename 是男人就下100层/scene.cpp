@@ -1,10 +1,23 @@
 ﻿#include"all.h"
 
-Atlas::Atlas(const char* rootdir, const char* name, int w, int h, int n, const char* mask)
+
+
+#include"all.h"
+#include"Atlas.h"
+
+#pragma once
+#include<iostream>
+#include<fstream>
+#include<easyx.h>
+#include<graphics.h>
+#include<deque>
+#include<vector>
+#include<string>
+
+
+Atlas::Atlas(const char* rootdir, const char* name, int n,int w ,int h )
 {
-	add_image(rootdir, name, w, h, n, ".png");
-	if (mask != "")
-		add_image(rootdir, name, w, h, n, ".png", MASK);
+	 role_add_image( rootdir,name, n,  ROLEW, ROLEH, ".png");
 }
 int Start::process_command(ExMessage& msg)
 {
@@ -34,8 +47,7 @@ void Start::ChooseMap(ExMessage& msg)
 	left.init("left");
 	left.init("right");
 	cleardevice();
-	putimage(0, 0, (*back_ground)[cur_back]);
-
+	putimage(0, 0, back_ground->get_image(cur_back));
 	while (1)
 	{
 		settextstyle(50, 0, "consola");
@@ -47,7 +59,7 @@ void Start::ChooseMap(ExMessage& msg)
 				cleardevice();
 				int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
 				cur_back = (cur_back + 1 * delt + back_ground->get_size()) % back_ground->get_size();
-				putimage(0, 0, (*back_ground)[cur_back]);
+				putimage(0, 0, back_ground->get_image(cur_back));
 			}
 			else if (msg.vkcode == VK_RETURN)
 			{
@@ -68,10 +80,10 @@ Button::Button(const char* filename, const char* text_)
 }
 int Button::react(ExMessage& msg)
 {
+	draw_words(HANGON);
+	draw_lucency(x + wordsw + gap * 1.5, y, arrow, arrow + 1);
 	while (in_area(msg))
 	{
-		draw_words(HANGON);
-		draw_lucency(x + wordsw + gap * 1.5, y, arrow, arrow + 1);
 		peekmessage(&msg, EX_MOUSE);
 		if (msg.lbutton)
 		{
