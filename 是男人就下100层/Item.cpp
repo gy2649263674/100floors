@@ -1,38 +1,29 @@
-#include "Item.h"
+ï»¿#include "Item.h"
 #include "Timer.h"
 #include "Character.h"
-extern Board board[150];
+extern deque<Board>  board;
 extern Character role;
 extern IMAGE cure_img[2];
 extern IMAGE gold_img[2];
 extern IMAGE defend_img[2];
 
-//typeÎª0£¨Ñª°ü£©£¬1£¨»¤¼×£©£¬2£¨ÊÕ²Ø£¨¼Ó·ÖÓÃµÄ£©£©
+//typeä¸º0ï¼ˆè¡€åŒ…ï¼‰ï¼Œ1ï¼ˆæŠ¤ç”²ï¼‰ï¼Œ2ï¼ˆæ”¶è—ï¼ˆåŠ åˆ†ç”¨çš„ï¼‰ï¼‰
 int Item::creatitem(int &index)
 {
 	index = rand() % 150;
 	int index2 = rand() % 3;
 	if(index2==0)
 	{
-		/*putimage(board[index].x + 4, board[index].y - 10, cure_img + 1, SRCAND);
-		putimage(board[index].x + 4, board[index].y - 10, cure_img, SRCPAINT);*/
 		return 0;
-		//draw_lucency(board[index].x + 3, board[index].y, cure_img, cure_img + 1);
 	}
 	else if (index2 == 1)
 	{
-		/*putimage(board[index].x + 4, board[index].y - 10, defend_img + 1, SRCAND);
-		putimage(board[index].x + 4, board[index].y - 10, defend_img, SRCPAINT);*/
 		return 1;
-		//draw_lucency(board[index].x + 3, board[index].y, defend_img, defend_img + 1);
 
 	}
 	else if (index2 == 2)
 	{
-		/*putimage(board[index].x + 4, board[index].y - 10, gold_img + 1, SRCAND);
-		putimage(board[index].x + 4, board[index].y - 10, gold_img, SRCPAINT);*/
 		return 2;
-		//draw_lucency(board[index].x + 3, board[index].y, gold_img, gold_img + 1);
 
 	}
 	

@@ -1,17 +1,28 @@
 ﻿#pragma once 
 #include"Atlas.h"
+enum Boardtype
+{
+	normaltype = 0,
+	nailtype,
+	righttype,
+	lefttype,
+	faketype,
+	trampolinetype,
+};
 class Board
 {
 public:
-	int x; 
+	Board()
+	{}
+	int x;
 	int y;
-	int len; int type;
-	bool exist;
-	bool used;
-	int stay;
-	bool have_item;
-	int item_type;
+	int len = 100;
+	int type = normaltype;
+	bool exist = true;
+	bool used = false;
+	int stay = 0;
+	bool have_item = false;
+	int item_type = 0;
 	static double  V;
 private:
-	Atlas* images;
 };

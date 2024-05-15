@@ -49,6 +49,7 @@
 #define UNIN 1
 #define	 LEFT -1
 #define	 RIGHT 1
-
+#define BOARDW 40
+#define BOARDH 40
 #define FPS 60
 #define FRAME 1000/60

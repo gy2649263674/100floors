@@ -11,7 +11,7 @@
 #include "Draw.h"
 #include"scene.h"
 #include "Item.h"
-Character role;
+#include<deque>
 using namespace std;
 const  int fps = 60;
 const  int frame = 1000 / 60;
@@ -21,15 +21,10 @@ IMAGE cursor[2];
 IMAGE arrow[2];
 IMAGE border[2];
 Board roof;
-Board board[150];
+deque<Board>board(150);
 IMAGE background;
-IMAGE board_img[4];
-IMAGE conveyor_right;
-IMAGE conveyor_left;
-IMAGE fake[2];
 IMAGE health[2];
 IMAGE roof_img[2];
-IMAGE trampoline_img[2];
 IMAGE cure_img[2];
 IMAGE gold_img[2];
 IMAGE defend_img[2];
@@ -38,7 +33,12 @@ ExMessage msg = { 0 };
 int act = 1;
 Start se;
 void loadapp();;
+Character role;
 deque<Picset*>appearence;
+map<Boardtype, map<int, IMAGE>>boardimg;
+map<Boardtype, map<int, IMAGE>>boardimg_mask;
+void draw_speed(Character& role);
+
 void creatgame()
 {
 	initgraph(MAINW, MAINH);
@@ -46,27 +46,31 @@ void creatgame()
 	HWND handle = GetHWnd();
 	MoveWindow(HWND(handle), MAINX, MAINY, MAINW, MAINH, true);
 }
+#include <direct.h>
 void loadresource()
 {
-	loadimage(&conveyor_left, "./picture/conveyor_left.png");
-	loadimage(&conveyor_right, "./picture/conveyor_right.png");
-	loadimage(fake, "./picture/fake.png");
-	loadimage(fake + 1, "picture/fake_mask.png");
-	loadimage(border, "picture/button/border.png", Button::wordsw, Button::h);
-	loadimage(border + 1, "picture/button/border_mask.png", Button::wordsw, Button::h);
-	loadimage(roof_img, "./picture/ceiling.png");
-	loadimage(roof_img + 1, "./picture/ceiling_mask.png");
-	loadimage(board_img, "./picture/unit/normal.png");
-	loadimage(board_img + 1, "./picture/unit/nails.png");
-	loadimage(board_img + 2, "picture/nails_mask.png");
+	loadimage(&boardimg[normaltype][0], "./picture/unit/normal.png");
+	loadimage(&boardimg[nailtype][0], "./picture/unit/nail.png");
+	loadimage(&boardimg_mask[nailtype][0], "./picture/unit/nail_mask.png");
+	loadimage(&boardimg[faketype][0], "./picture/unit/fake.png");
+	loadimage(&boardimg_mask[faketype][0], "picture/unit/fake_mask.png");
+	loadimage(&boardimg[lefttype][0], "./picture/unit/conveyor_left.png");
+	loadimage(&boardimg[righttype][0], "./picture/unit/conveyor_right.png");
+	for (int i = 1; i <= 6; i++)
+	{
+		string path("picture\\unit\\ori\\trampoline" + to_string(i) + ".png");
+		char s[256];
+		_getcwd(s, 100);
+		cout << s;
+		loadimage(&boardimg[trampolinetype][i], &path[0]);
+		loadimage(&boardimg_mask[trampolinetype][i], &("./picture/unit/trampoline/mask/trampoline" + to_string(i) + ".png")[0]);
+	}
 	loadimage(&arrow[0], "picture/button/arrow.png");
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
 	loadimage(cursor + 1, "picture/button/cursor_mask.ico");
 	loadimage(health, "./picture/health/health1.png", 40, 40);
 	loadimage(health + 1, "./picture/health/health1_mask.png", 40, 40);
-	loadimage(trampoline_img, "./picture/trampoline.png");
-	loadimage(trampoline_img + 1, "./picture/trampoline_mask.png");
 	loadimage(cure_img, "./picture/item/cure.png", 40, 40);
 	loadimage(cure_img + 1, "./picture/item/cure_mask.png", 40, 40);
 	loadimage(gold_img, "./picture/item/gold.png", 40, 40);
@@ -76,47 +80,63 @@ void loadresource()
 	loadimage(armo_img, "./picture/item/defend.png", 40, 40);
 	loadimage(armo_img + 1, "./picture/item/defend_mask.png", 40, 40);
 }
-void gameInit()
+enum entertain
+{
+	normal,
+	jump_jump,
+	fake_world,
+	run_run,
+};
+Boardtype wanttype(entertain mode = normal)
+{//
+	
+	//根据当前模式控制板子概率 
+	switch (mode)
+	{
+	case normal:
+		return  normaltype;
+	case jump_jump:
+		return trampolinetype;
+	case fake_world:
+		return  faketype;
+	case run_run:
+	{
+		srand(rand()*time(0));
+		return rand() % 10 > rand() % 10 ? lefttype : righttype;
+	}
+	}
+}
+#define PERCENT 7
+int setboard(entertain mode = normal)
+{
+	static int judge = 0;
+	judge = rand() % 10;
+	int btype = rand() % 6;
+	if (judge < 7 && btype!= wanttype(mode))
+	{
+		return wanttype(mode);
+	}
+	else
+	{
+		return btype;
+	}
+}
+void gameInit(entertain mode = normal)
 {
 	loadresource();
 	loadapp();
-
 	srand((unsigned int)time(NULL));
-	for (int i = 0; i < 150; i++)
+	board[0].y = rand() % (WIDTH / 3) + 100;
+	board[0].x = MAINW/ 2;
+	board[0].type = 0;
+	//srand(time(0));
+	for (int i = 1; i < 150; i++)
 	{
-		if (i == 0)
-		{
-			board[i].y = rand() % (WIDTH / 3) + 100;
-			board[i].type = 0;
-		}
-		else
-		{
-			board[i].y = BOARD_GAP + board[i - 1].y;
-			int judge = rand() % 10;
-			int btype = rand() % 6;
-			if (judge > 7 && btype != 0)
-			{
-				board[i].type = 0;
-			}
-			else
-			{
-				board[i].type = btype;
-			}
-		}
+		board[i].y = BOARD_GAP+ board[i - 1].y;
+		board[i].type = setboard(mode);
 		board[i].x = rand() % (LENGTH - 350);
-		board[i].len = 100;
-		board[i].exist = true;
-		board[i].used = false;
-		board[i].stay = 0;
 	}
-	role.h = 60;
-	role.have_armo = false;
-	role.jump = 100;
-	role.x = board[0].x + board[0].len / 2 - role.h / 2;
-	role.y = board[0].y - role.h;
-	role.set_sta(board);
-	role.health = 3;
-	role.ob = -1;
+	role.set_sta(board[0]);
 	roof.type = 1;
 	roof.len = LENGTH;
 	roof.used = false;
@@ -160,11 +180,12 @@ void gamedraw(int& count, int dir)
 		putimage(600 + i * 40, 10, &armo_img[1], SRCAND);
 		putimage(600 + i * 40, 10, &armo_img[0], SRCPAINT);
 	}
-	for (i = 0; i < 150; i++)
+	for (i = 0; i < 150&&board[i].y>=0&&board[i].y<=MAINH; i++)
 	{
+
 		if (board[i].type == 0)
 		{
-			putimage(board[i].x, board[i].y, &board_img[0]);
+			putimage(board[i].x, board[i].y, &boardimg[normaltype][0]);
 			if (board[i].have_item == true)
 			{
 				if (board[i].item_type == 0)
@@ -184,28 +205,27 @@ void gamedraw(int& count, int dir)
 				}
 			}
 		}
-		else if (board[i].type == 1)
+		else if (board[i].type == nailtype)
 		{
-			putimage(board[i].x, board[i].y, &board_img[2], SRCAND);
-			putimage(board[i].x, board[i].y, &board_img[1], SRCPAINT);
+			putimage(board[i].x, board[i].y, &boardimg_mask[nailtype][0], SRCAND);
+			putimage(board[i].x, board[i].y, &boardimg[nailtype][0], SRCPAINT);
 		}
-		else if (board[i].type == 2)
+		else if (board[i].type == faketype)
 		{
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake + 1, 0, 0, SRCAND);
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
+			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
 		}
-		else if (board[i].type == 3)
+		else if (board[i].type == lefttype)
 		{
-			putimage(board[i].x, board[i].y, 96, 16, &conveyor_left, 0, 0);
+			putimage(board[i].x, board[i].y, 96, 16, &boardimg[lefttype][0], 0, 0);
 		}
-		else if (board[i].type == 4)
+		else if (board[i].type == righttype)
 		{
-			putimage(board[i].x, board[i].y, 96, 16, &conveyor_right, 0, 0);
+			putimage(board[i].x, board[i].y, 96, 16, &boardimg[righttype][0], 0, 0);
 		}
-		else if (board[i].type == 5)
+		else if (board[i].type == trampolinetype)
 		{
-			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img + 1, 0, 0, SRCAND);
-			putimage(board[i].x, board[i].y, 97, 132 / 6, trampoline_img, 0, 0, SRCPAINT);
+			putimage(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1]);
 		}
 	}
 	if (dir == LEFT)
@@ -225,29 +245,47 @@ void gamedraw(int& count, int dir)
 	{
 
 	}
+	draw_speed(role);
 }
-#define BOARD_A 0.004
-#define MAXV 20
+#define BOARD_A 0.01
+#define MAXV 15
 const double v0 = 3;
 double Board::V = 3;
-void board_move(bool rebegin)
+#define BOARDSIZE 20
+#define BOARDBUFFER 30
+extern string getv[10];
+#define STAX 300
+void draw_speed(Character& role)
 {
-	Board::V = min(rebegin ? v0 : (Board::V += BOARD_A),MAXV);
+	settextstyle(20, 10, "consola");
+	outtextxy(MAINW- STAX, 0, &("board v:" + to_string(Board::V))[0]);
+	outtextxy(MAINW- STAX, 30, &getv[0][0]);
+	outtextxy(MAINW- STAX, 60, &getv[1][0]);
+	outtextxy(MAINW- STAX, 90, &getv[2][0]);
+}
+
+void board_move(bool rebegin, entertain mode = normal)
+{
+	Board::V = min(rebegin ? v0 : (Board::V += BOARD_A), MAXV);
 	cout << "board v:" << Board::V << endl;
+	//srand(rand());
 	for (int i = 0; i < 150; i++)
 	{
 		board[i].y -= Board::V;
 		if (board[i].y < 0)
 		{
-			board[i].y = 150 * BOARD_GAP;
-			board[i].x = rand() % (LENGTH - 350);
-			board[i].type = rand() % 6;
-			board[i].used = false;
-			board[i].stay = 0;
+			board.push_back(board.front());
+			board.pop_front();
+			board.back().y = board[board.size() - 2].y + (rand() % 50) + 30;
+			board.back().x = rand() % (LENGTH - 350);
+			board.back().type = setboard(mode);///rand() % 6;
+			board.back().used = false;
+			board.back().stay = 0;
 		}
 	}
 }
-void tempgameing()
+
+void tempgameing(entertain mode = normal)
 {
 
 	int count = 0;
@@ -259,7 +297,7 @@ void tempgameing()
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
-		board_move(false);
+		board_move(false,mode);
 		gamedraw(count, role.character_move());
 		outtextxy(0, 0, "开发者模式");
 		Timer::endkeep(1000 / 144);
@@ -274,14 +312,12 @@ void loadapp()
 	fox = *new Picset("fox", 8, 7, 1);
 	appearence.push_back(&ch);
 	appearence.push_back(&fox);
-	//	appearence.push_back(&ch);
-		//appearence.push_back(&ch);
 }
 void testbutton()
 {
 	se = Start();
 	creatgame();
-	gameInit();
+	gameInit(jump_jump);
 	role = Character("ch", 36, 9, &fox);
 	while (1 ^ EXIT)
 	{
@@ -293,7 +329,7 @@ void testbutton()
 			if (opt == startgame)
 			{
 				cout << "start game" << endl;
-				tempgameing();
+				tempgameing(jump_jump);
 			}
 			else if (opt == choose_map)
 			{
@@ -307,14 +343,13 @@ void testbutton()
 				se.change_role(&role, appearence);
 				cout << "choose role" << endl;
 				se.enter_scene();
-
 			}
 			else if (opt == exit_game)
 			{
 				EXIT = true;
 				cout << "exit game" << endl;
 			}
-			else if(opt ==change_difficult )
+			else if (opt == change_difficult)
 			{
 
 			}

@@ -15,12 +15,17 @@ public:
 	{}
 	Character(const char* name, int run_pic_size, int standsize,Picset *pic);
 	int character_move();
-	void set_sta(Board* board)
+	void set_sta(Board board)
 	{
 		this->h = 60;
-		this->x = board[0].x + board[0].len / 2 - this->h / 2;
-		this->y = board[0].y - this->h;
+		this->x = board.x + board.len / 2 - this->h / 2;
+		this->y = board.y - this->h;
 		this->health = 3;
+		this->h = 60;
+		this->have_armo = false;
+		this->jump = 100;
+		this->health = 3;
+		this->ob = -1;
 	}
 	void resetrun()
 	{

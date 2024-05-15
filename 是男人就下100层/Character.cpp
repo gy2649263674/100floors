@@ -5,19 +5,21 @@
 #include <ctime>
 #include"unit.h"
 #include"Atlas.h"
-
-extern Board board[150];
 extern int act;
+extern deque<Board>board;
 const double conveyer_ratio = 1.5;
 extern Board roof;
 extern IMAGE character_img[10];
 extern IMAGE character_img_mask[10];
 extern ExMessage msg;
 const double gap = 1000.0 / FRAME;
-const int yu = 500;
+const int yu = 600;
+enum Boardtype;
 #define SPEED 150
 #define INCREASE 50
-#define FALL_INCREASE 0.5
+#define FALL_INCREASE 0.50
+//extern pair<double,double>
+ string getv[10];
 static double lspeed = SPEED;
 static double rspeed = SPEED;
 using namespace std;
@@ -46,7 +48,6 @@ int Character::character_move()
 		msg.vkcode = VK_RIGHT;
 		move();
 		pre = RIGHT;
-
 	}
 	else if (GetAsyncKeyState(VK_UP) && x < 750)
 	{
@@ -69,17 +70,17 @@ int Character::character_move()
 		pre = 0;
 	}
 	flushmessage();
+	int x2 = this->x + h / 2;
+	int y2 = this->y + h;
 	//判断玩家在哪一块板子上
-	for (int i = 0; i < 150; i++)
+	for (int i = 0; i<150&&board[i].y<=MAINH; i++)
 	{
-		int x2 = this->x + h / 2;
-		int y2 = this->y + h;
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
-			&& y2 >= board[i].y - Board::V*FRAME/4 && y2 <= board[i].y + Board::V*FRAME/4)
+			&& y2 >= board[i].y - Board::V * FRAME / 4 && y2 <= board[i].y + Board::V * FRAME / 4)
 		{
 			this->y = board[i].y - h;
 			ob = i;
-			if (board[i].type == 0 && board[i].have_item == true)
+			if (board[i].type == normaltype && board[i].have_item == true)
 			{
 				if (board[i].item_type == 0)
 				{
@@ -94,7 +95,6 @@ int Character::character_move()
 						have_armo = true;
 					}
 				}
-
 				else if (board[i].item_type == 2)
 				{
 					board[i].have_item = false;
@@ -114,39 +114,45 @@ int Character::character_move()
 				board[i].used = true;
 				break;
 			}
-			else if (board[i].type == 2)
+			else if (board[i].type == faketype)
 			{
 				board[i].stay++;
 				if (board[i].stay >= 10)
 				{
-					y += Board::V * FRAME/4;
+					y += Board::V * FRAME / 4;
 					break;
-
 				}
 			}
-			else if (board[i].type == 3)
+			else if (board[i].type == lefttype)
 			{
 				if (x > 0)
 					x -= SPEED * gap * conveyer_ratio;
 				break;
 			}
-			else if (board[i].type == 4)
+			else if (board[i].type == righttype)
 			{
 				if (x < 900)
 					x += SPEED * gap * conveyer_ratio;
 				break;
 			}
-			else if (board[i].type == 5)
+			else if (board[i].type == trampolinetype)
 			{
-				jump = 30-Board::V/2;
-				//y -= 400/Board::V;
-				y -= (Board::V*FRAME/2);//*FRAME;
+				board[i].stay++;
+				if (board[i].stay == 5 && board[i].type == trampolinetype)
+				{
+					jump = 30 - Board::V / 2;
+					//y -= 400/Board::V;
+					y -= (Board::V * FRAME / 2);//*FRAME;
+				}
 				break;
 			}
 			break;
 		}
 		else
+		{
 			ob = -1;
+			board[i].stay = max(0, --board[i].stay);
+		}
 	}
 	if (jump)
 	{
@@ -154,13 +160,6 @@ int Character::character_move()
 		jump--;
 		//return 0;
 	}
-	else
-	{
-		//if(peekmessage(&msg, -1);
-
-	//	system("pause");
-	}
-
 	if (ob == -1)
 	{
 		y += (G += 0.5);
@@ -189,9 +188,14 @@ int Character::character_move()
 	{
 		roof.used = false;
 	}
+	static double prevy = y;
+	getv[0] = "left:" + to_string(lspeed == SPEED ? 0 : lspeed / 10) + "  right:" + to_string(rspeed == SPEED ? 0 : rspeed / 10);
+	getv[1] = "falling:" + to_string(abs((y - prevy)) * 20000 / FRAME);//(abs(G- FALL_INCREASE)<1e-6?0: FALL_INCREASE*FRAME);
+	getv[2] = "(" + to_string(x) +","+ to_string(y) + ")";
+		prevy = y;
 	return pre;
-}
 
+}
 void flip(Atlas* s, Atlas* d)
 {
 	for (int i = 0; i < s->get_size(); i++)
@@ -247,14 +251,14 @@ Character::Character(const char* name, int n, int standing_size, Picset* img)
 	this->runsize = img->run;
 	this->standing_size = img->stand;
 	this->standing_frame = 0;
-	set_sta(board);
+	set_sta(board[0]);
 	return;
 }
 void draw_lucency(Character& role, int direct);
 void draw_lucency(int x, int y, int w, int h, IMAGE* ori, IMAGE* mask);
 
 int co = 0;
-int Character::exhibit(int direct,  IMAGE* back)
+int Character::exhibit(int direct, IMAGE* back)
 {
 	ExMessage msg;
 	Atlas* temp = direct == RIGHT ? images : rimages;
@@ -266,9 +270,9 @@ int Character::exhibit(int direct,  IMAGE* back)
 	cout << "co" << co << endl;
 	while (1)
 	{
-		while (peekmessage(&msg, EX_KEY)|1)
+		while (peekmessage(&msg, EX_KEY) | 1)
 		{
-			for (int i = 0;1; i++)
+			for (int i = 0; 1; i++)
 			{
 				peekmessage(&msg, EX_KEY);
 				if (msg.vkcode == VK_RETURN)
@@ -281,8 +285,8 @@ int Character::exhibit(int direct,  IMAGE* back)
 					msg = m;
 					return 0;
 				}
-				static int picfp = i / PICGAP/3;
-				picfp = i / PICGAP/3;
+				static int picfp = i / PICGAP / 3;
+				picfp = i / PICGAP / 3;
 				i = picfp >= runsize ? 0 : ++i;
 				BeginBatchDraw();
 				cleardevice();
