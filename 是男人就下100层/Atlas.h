@@ -58,9 +58,9 @@ struct Picset
 	Atlas* rpic = 0;
 	Picset()
 	{}
-	Picset(const char* rootdir, int n, int run, int stand)
+	Picset(const char* rootdir, int n,int run, int stand, int w = ROLEW, int h = ROLEH, const char* filename = "")
 	{
-		pic = new Atlas(rootdir, "未标题-", n);
+		pic = new Atlas(rootdir, filename, n,w,h);
 		rpic = new Atlas(n);
 		flip(pic, rpic);
 		this->run = run;

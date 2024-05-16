@@ -27,8 +27,6 @@ int Character::character_move()
 {
 	static double G = 6;
 	static int pre = RIGHT;
-	static double G = 6;
-	static int pre = RIGHT;
 	if (GetAsyncKeyState(VK_LEFT) && x > 0)
 	{
 		rspeed = SPEED;
@@ -50,7 +48,7 @@ int Character::character_move()
 	else if (GetAsyncKeyState(VK_RIGHT) && x < 700)
 	{
 		lspeed = SPEED;
-		rspeed += INCREASE * 4;
+		rspeed += INCREASE ;
 		x += min(rspeed, yu) * gap;
 		cout << "rspeed :" << rspeed << " ";
 		cout << "lspeed :" << lspeed << endl;
@@ -85,7 +83,7 @@ int Character::character_move()
 	for (int i = 0; i<150; i++)
 	{
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
-			&& y2 >= board[i].y - Board::V * FRAME / 4 && y2 <= board[i].y + Board::V * FRAME / 4)
+			&&y2 >= board[i].y - Board::V * FRAME / 4&& y2 <= board[i].y + Board::V * FRAME / 4)
 		{
 			this->y = board[i].y - h;
 			ob = i;
@@ -291,7 +289,7 @@ int Character::exhibit(int direct, IMAGE* back)
 				}
 				static int picfp = i / PICGAP / 3;
 				picfp = i / PICGAP / 3;
-				i = picfp >= runsize ? 0 : ++i;
+				i = picfp >= runsize+standing_size ? 0 : ++i;
 				BeginBatchDraw();
 				cleardevice();
 				putimage(0, 0, back);

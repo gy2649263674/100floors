@@ -17,7 +17,6 @@ const  int fps = 60;
 const  int frame = 1000 / 60;
 int Timer::time = 0;
 bool EXIT = false;
-bool EXIT = false;
 IMAGE cursor[2];
 IMAGE arrow[2];
 IMAGE border[2];
@@ -67,6 +66,8 @@ void loadresource()
 		loadimage(&boardimg[trampolinetype][i], &path[0]);
 		loadimage(&boardimg_mask[trampolinetype][i], &("./picture/unit/trampoline/mask/trampoline" + to_string(i) + ".png")[0]);
 	}
+
+
 	loadimage(&arrow[0], "picture/button/arrow.png");
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
@@ -214,7 +215,6 @@ void gamedraw(int& count, int dir)
 		{
 			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
 			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
-			putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0);
 			//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == lefttype)
@@ -310,19 +310,22 @@ void tempgameing(entertain mode = normal)
 }
 Picset fox;
 Picset ch;
+Picset kun;
 void loadapp()
 {
 	ch = *new Picset("ch", 36, 26, 10);
 	fox = *new Picset("fox", 8, 7, 1);
+	kun = *new Picset("kun", 25, 3, 21, 40,60);
 	appearence.push_back(&ch);
 	appearence.push_back(&fox);
+	appearence.push_back(&kun);
 }
 void testbutton()
 {
 	se = Start();
 	creatgame();
 	gameInit(jump_jump);
-	role = Character("ch", 36, 9, &fox);
+	role = Character("kun",3, 21, &kun);
 	while (1 ^ EXIT)
 	{
 		se.enter_scene();

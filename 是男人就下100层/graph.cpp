@@ -51,12 +51,11 @@ void Atlas::role_add_image(const char* rootdir, const char* filename, int n, int
 		string path2 = tmask;
 		if (n > 1)
 		{
-			path2 += to_string(i) + " 拷贝";
-			path1 += to_string(i) + " 拷贝";
+			path2 += to_string(i);
+			path1 += to_string(i);
 		}
 		path1 += filetype;
 		path2 += filetype;
-		//path1 = "E:\\zzs\\gitstore\\new\\picture\\FOX\\ori\\未标题-6.png";
 		FILE* fp = fopen(&path1[0], "rb");
 		if (fp == NULL)
 		{
