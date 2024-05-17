@@ -1,4 +1,7 @@
 ﻿
+#include <Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
 #include <iostream>
 #include <easyx.h>
 #include <ctime>

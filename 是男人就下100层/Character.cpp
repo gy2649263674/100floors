@@ -140,6 +140,11 @@ int Character::character_move()
 					board[i].play++;
 					//break;
 				}
+				if (board[i].play == 4)
+				{
+					PlaySound("./sound/")
+				}
+					
 				board[i].play++;
 			}
 			else if (board[i].type == lefttype)
