@@ -38,8 +38,40 @@ Character role;
 deque<Picset*>appearence;
 map<Boardtype, map<int, IMAGE>>boardimg;
 map<Boardtype, map<int, IMAGE>>boardimg_mask;
-void draw_speed(Character& role);
+enum {
+	goback,
+	restart,
+	suspend,
+}Overallbt;
+class Moniter
+{
+public:
+	void init()
+	{
+		overall[goback].init("goback", "返回主菜单");
+		overall[restart].init("restart", "游戏可以重开，人生不能重来");
+		overall[suspend].init("suspend", "暂停游戏");
+	}
+	void gameing_return_back(ExMessage &msg)
+	{
+		if (overall[goback].in_area(msg))
+		{
+			overall[goback].react(msg);
+		}
+	}
+	void died_restart()
+	{
 
+	}
+	void gaming_suspend()
+	{
+		
+	}
+private:
+	Button overall[3];
+
+};
+void draw_speed(Character& role);
 void creatgame()
 {
 	initgraph(MAINW, MAINH);
@@ -66,8 +98,6 @@ void loadresource()
 		loadimage(&boardimg[trampolinetype][i], &path[0]);
 		loadimage(&boardimg_mask[trampolinetype][i], &("./picture/unit/trampoline/mask/trampoline" + to_string(i) + ".png")[0]);
 	}
-
-
 	loadimage(&arrow[0], "picture/button/arrow.png");
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
@@ -118,10 +148,12 @@ int setboard(entertain mode = normal)
 		return btype;
 	}
 }
+
 void gameInit(entertain mode = normal)
 {
 	loadresource();
 	loadapp();
+
 	srand((unsigned int)time(NULL));
 	board[0].y = rand() % (WIDTH / 3) + 100;
 	board[0].x = MAINW/ 2;
@@ -246,10 +278,6 @@ void gamedraw(int& count, int dir)
 		role.draw_standing();
 	}
 	//falling
-	else if (dir == 2)
-	{
-
-	}
 	draw_speed(role);
 }
 #define BOARD_A 0.001
@@ -323,9 +351,15 @@ void loadapp()
 void testbutton()
 {
 	se = Start();
-	creatgame();
 	gameInit(jump_jump);
-	role = Character("kun",3, 21, &kun);
+	role = Character("kun", 3, 21, &kun);
+	creatgame();
+
+	//while (1)
+	//{
+	//	se.setmode(msg);
+	//	se.ChooseMap(msg);
+	//}
 	while (1 ^ EXIT)
 	{
 		se.enter_scene();
@@ -357,7 +391,8 @@ void testbutton()
 			}
 			else if (opt == choosemode_bt)
 			{
-
+				gameInit(se.setmode(msg));
+				cout << "set mode";
 			}
 			
 		}
