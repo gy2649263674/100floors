@@ -105,9 +105,10 @@ int Character::character_move()
 				}
 				if (board[i].have_item == true)
 				{
-					if (board[i].item_type == 0)
+					if (board[i].item_type == 0&& health<3)
 					{
 						health = 3;
+						PlaySound("./sound/wav/cure.wav", NULL, SND_FILENAME | SND_ASYNC);
 						board[i].have_item = false;
 					}
 					else if (board[i].item_type == 1)
@@ -115,6 +116,7 @@ int Character::character_move()
 						if (have_armo == false)
 						{
 							board[i].have_item = false;
+							PlaySound("./sound/wav/armo.wav", NULL, SND_FILENAME | SND_ASYNC);
 							have_armo = true;
 						}
 					}
@@ -220,6 +222,7 @@ int Character::character_move()
 		{
 			ob = -1;
 			board[i].stay = max(0, --board[i].stay);
+			board[i].play = 0;
 		}
 	}
 	if (jump)
