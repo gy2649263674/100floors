@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"board.h"
 #include<string>
 #include"Atlas.h"
@@ -9,6 +9,7 @@ void draw_lucency(Character& role, int direct);
 void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask);
 class Character
 {
+	friend void draw_lucency(Character& role, int direct);
 	friend void draw_lucency(Character& role, int direct);
 public:
 	Character()

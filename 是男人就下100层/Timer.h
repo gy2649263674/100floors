@@ -12,7 +12,7 @@ public:
 	{
 		time = clock();
 	}
-	static void endkeep(int fps)
+	static void endkeep(int  t )
 	{
 		int endtime = clock();
 		//Sleep(FRAME - (endtime - time));

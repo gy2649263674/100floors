@@ -28,6 +28,25 @@ public:
 	{
 		return  arr.size();
 	}
+	void push(IMAGE* img)
+	{
+		arr.push_back(img);
+
+	}
+	void left()
+	{
+		arr.push_front(arr.back());
+		arr_mask.push_front(arr.back());
+		arr_mask.pop_back();
+		arr.pop_back();
+	}
+	void right()
+	{
+		arr.push_back(arr.front());
+		arr_mask.push_back(arr.front());
+		arr_mask.pop_front();
+		arr.pop_front();
+	}
 	deque<IMAGE*>arr;
 	deque<IMAGE*>arr_mask;
 };
@@ -39,9 +58,9 @@ struct Picset
 	Atlas* rpic = 0;
 	Picset()
 	{}
-	Picset(const char* rootdir, int n, int run, int stand)
+	Picset(const char* rootdir, int n,int run, int stand, int w = ROLEW, int h = ROLEH, const char* filename = "")
 	{
-		pic = new Atlas(rootdir, "未标题-", n);
+		pic = new Atlas(rootdir, filename, n,w,h);
 		rpic = new Atlas(n);
 		flip(pic, rpic);
 		this->run = run;

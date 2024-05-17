@@ -34,14 +34,21 @@ int Character::character_move()
 		cout << "rspeed :" << rspeed << " ";
 		cout << "lspeed :" << lspeed << endl;
 		x -= min(lspeed, yu) * gap;
+		rspeed = SPEED;
+		lspeed += INCREASE;
+		cout << "rspeed :" << rspeed << " ";
+		cout << "lspeed :" << lspeed << endl;
+		x -= min(lspeed, yu) * gap;
 		msg.vkcode = VK_LEFT;
+		move();
+		pre = LEFT;
 		move();
 		pre = LEFT;
 	}
 	else if (GetAsyncKeyState(VK_RIGHT) && x < 700)
 	{
 		lspeed = SPEED;
-		rspeed += INCREASE * 4;
+		rspeed += INCREASE ;
 		x += min(rspeed, yu) * gap;
 		cout << "rspeed :" << rspeed << " ";
 		cout << "lspeed :" << lspeed << endl;
@@ -73,10 +80,10 @@ int Character::character_move()
 	int x2 = this->x + h / 2;
 	int y2 = this->y + h;
 	//判断玩家在哪一块板子上
-	for (int i = 0; i<150&&board[i].y<=MAINH; i++)
+	for (int i = 0; i<150; i++)
 	{
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
-			&& y2 >= board[i].y - Board::V * FRAME / 4 && y2 <= board[i].y + Board::V * FRAME / 4)
+			&&y2 >= board[i].y - Board::V * FRAME / 4&& y2 <= board[i].y + Board::V * FRAME / 4)
 		{
 			this->y = board[i].y - h;
 			ob = i;
@@ -103,21 +110,14 @@ int Character::character_move()
 			}
 			if (board[i].type == 1 && board[i].used == false)
 			{
-				if (have_armo == true)
-				{
-					have_armo = false;
-				}
-				else
-				{
-					health--;
-				}
+				health--;
 				board[i].used = true;
 				break;
 			}
 			else if (board[i].type == faketype)
 			{
 				board[i].stay++;
-				if (board[i].stay >= 10)
+				if (board[i].stay > 10)
 				{
 					y += Board::V * FRAME / 4;
 					break;
@@ -147,6 +147,8 @@ int Character::character_move()
 				break;
 			}
 			break;
+
+
 		}
 		else
 		{
@@ -287,7 +289,7 @@ int Character::exhibit(int direct, IMAGE* back)
 				}
 				static int picfp = i / PICGAP / 3;
 				picfp = i / PICGAP / 3;
-				i = picfp >= runsize ? 0 : ++i;
+				i = picfp >= runsize+standing_size ? 0 : ++i;
 				BeginBatchDraw();
 				cleardevice();
 				putimage(0, 0, back);

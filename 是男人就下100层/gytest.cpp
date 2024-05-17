@@ -50,18 +50,6 @@ void creatgame()
 #include <direct.h>
 void loadresource()
 {
-	loadimage(&wall, "./picture/wall.png");
-	loadimage(&conveyor_left, "./picture/conveyor_left.png");
-	loadimage(&conveyor_right, "./picture/conveyor_right.png");
-	loadimage(fake, "./picture/fake.png");
-	loadimage(fake + 1, "picture/fake_mask.png");
-	loadimage(border, "picture/button/border.png", Button::wordsw, Button::h);
-	loadimage(border + 1, "picture/button/border_mask.png", Button::wordsw, Button::h);
-	loadimage(roof_img, "./picture/ceiling.png");
-	loadimage(roof_img + 1, "./picture/ceiling_mask.png");
-	loadimage(board_img, "./picture/unit/normal.png");
-	loadimage(board_img + 1, "./picture/unit/nails.png");
-	loadimage(board_img + 2, "picture/nails_mask.png");
 	loadimage(&boardimg[normaltype][0], "./picture/unit/normal.png");
 	loadimage(&boardimg[nailtype][0], "./picture/unit/nail.png");
 	loadimage(&boardimg_mask[nailtype][0], "./picture/unit/nail_mask.png");
@@ -78,6 +66,8 @@ void loadresource()
 		loadimage(&boardimg[trampolinetype][i], &path[0]);
 		loadimage(&boardimg_mask[trampolinetype][i], &("./picture/unit/trampoline/mask/trampoline" + to_string(i) + ".png")[0]);
 	}
+
+
 	loadimage(&arrow[0], "picture/button/arrow.png");
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
@@ -93,13 +83,7 @@ void loadresource()
 	loadimage(armo_img, "./picture/item/defend.png", 40, 40);
 	loadimage(armo_img + 1, "./picture/item/defend_mask.png", 40, 40);
 }
-enum entertain
-{
-	normal,
-	jump_jump,
-	fake_world,
-	run_run,
-};
+
 Boardtype wanttype(entertain mode = normal)
 {//
 	
@@ -231,6 +215,7 @@ void gamedraw(int& count, int dir)
 		{
 			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
 			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
+			//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == lefttype)
 		{
@@ -242,7 +227,10 @@ void gamedraw(int& count, int dir)
 		}
 		else if (board[i].type == trampolinetype)
 		{
-			putimage(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1]);
+			putimage(board[i].x, board[i].y, &boardimg_mask[trampolinetype][board[i].stay + 1],SRCAND);
+			putimage(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1],SRCPAINT);
+			//
+			// draw_lucency(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1], &boardimg_mask[trampolinetype][board[i].stay + 1]);
 		}
 	}
 	if (dir == LEFT)
@@ -264,8 +252,8 @@ void gamedraw(int& count, int dir)
 	}
 	draw_speed(role);
 }
-#define BOARD_A 0.01
-#define MAXV 15
+#define BOARD_A 0.001
+#define MAXV 10
 const double v0 = 3;
 double Board::V = 3;
 #define BOARDSIZE 20
@@ -285,7 +273,6 @@ void board_move(bool rebegin, entertain mode = normal)
 {
 	Board::V = min(rebegin ? v0 : (Board::V += BOARD_A), MAXV);
 	cout << "board v:" << Board::V << endl;
-	//srand(rand());
 	for (int i = 0; i < 150; i++)
 	{
 		board[i].y -= Board::V;
@@ -323,53 +310,56 @@ void tempgameing(entertain mode = normal)
 }
 Picset fox;
 Picset ch;
+Picset kun;
 void loadapp()
 {
 	ch = *new Picset("ch", 36, 26, 10);
 	fox = *new Picset("fox", 8, 7, 1);
+	kun = *new Picset("kun", 25, 3, 21, 40,60);
 	appearence.push_back(&ch);
 	appearence.push_back(&fox);
+	appearence.push_back(&kun);
 }
 void testbutton()
 {
 	se = Start();
 	creatgame();
 	gameInit(jump_jump);
-	role = Character("ch", 36, 9, &fox);
+	role = Character("kun",3, 21, &kun);
 	while (1 ^ EXIT)
 	{
 		se.enter_scene();
 		while (peekmessage(&msg, EX_KEY | EX_MOUSE) | 1)
 		{
-			StartOpt opt;
-			opt = StartOpt(se.process_command(msg));
-			if (opt == startgame)
+			Btname opt;
+			opt = Btname(se.process_command(msg));
+			if (opt == start_bt)
 			{
 				cout << "start game" << endl;
 				tempgameing(jump_jump);
 			}
-			else if (opt == choose_map)
+			else if (opt == map_bt)
 			{
 				se.ChooseMap(msg);
 				cout << "choose map" << endl;
 				se.enter_scene();
-
 			}
-			else if (opt == choose_role)
+			else if (opt == role_bt)
 			{
 				se.change_role(&role, appearence);
 				cout << "choose role" << endl;
 				se.enter_scene();
 			}
-			else if (opt == exit_game)
+			else if (opt == exit_bt)
 			{
 				EXIT = true;
 				cout << "exit game" << endl;
 			}
-			else if (opt == change_difficult)
+			else if (opt == choosemode_bt)
 			{
 
 			}
+			
 		}
 	}
 	return;

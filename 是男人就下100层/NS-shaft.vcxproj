@@ -34,7 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Anime.cpp" />
-    <ClCompile Include="board.cpp" />
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Draw.cpp" />
@@ -42,6 +41,7 @@
     <ClCompile Include="gytest.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="jpctestmain.cpp" />
+    <ClCompile Include="rub.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>

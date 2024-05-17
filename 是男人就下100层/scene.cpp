@@ -15,9 +15,9 @@
 #include<string>
 
 
-Atlas::Atlas(const char* rootdir, const char* name, int n,int w ,int h )
+Atlas::Atlas(const char* rootdir, const char* name, int n,int w  ,int h)
 {
-	 role_add_image( rootdir,name, n,  ROLEW, ROLEH, ".png");
+	 role_add_image( rootdir,name, n,  w, h, ".png");
 }
 int Start::process_command(ExMessage& msg)
 {

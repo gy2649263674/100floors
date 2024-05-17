@@ -5,7 +5,7 @@ class Item
 public:
 	int x;
 	int y;
-	int type;
+	int type;	
 	static int creatitem(int& index);
 };
 
