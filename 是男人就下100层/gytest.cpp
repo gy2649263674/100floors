@@ -156,14 +156,13 @@ void gamedraw(int& count, int dir)
 	++count;
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(350, 0, roof_img, roof_img + 1);
-	//putimage(720, 0, border);
-	//putimage(720, 350, border);
-	//draw_lucency(800, 0, roof_img, roof_img + 1);
+	fillrectangle(750, 0, 1000, 1000);
+	setfillcolor(BLACK);
 	putimage(0, 0, &wall);
 	putimage(0, 380, &wall);
 	putimage(750, 0, &wall);
 	putimage(750, 380, &wall);
-	if (count >= 5)
+	if (count >= 150)
 	{
 		count = 0;
 		int index;
@@ -177,13 +176,13 @@ void gamedraw(int& count, int dir)
 	int i = 0;
 	for (i = 0; i < role.health; i++)
 	{
-		putimage(600 + i * 40, 10, &health[1], SRCAND);
-		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
+		putimage(780 + i * 40, 10, &health[1], SRCAND);
+		putimage(780 + i * 40, 10, &health[0], SRCPAINT);
 	}
 	if (role.have_armo == true)
 	{
-		putimage(600 + i * 40, 10, &armo_img[1], SRCAND);
-		putimage(600 + i * 40, 10, &armo_img[0], SRCPAINT);
+		putimage(780 + i * 40, 10, &armo_img[1], SRCAND);
+		putimage(780 + i * 40, 10, &armo_img[0], SRCPAINT);
 	}
 	for (i = 0; i < 150&&board[i].y>=0&&board[i].y<=MAINH; i++)
 	{
@@ -265,7 +264,8 @@ void gamedraw(int& count, int dir)
 	{
 
 	}
-	draw_speed(role);
+	//draw_speed(role);
+	role.draw_score();
 }
 #define BOARD_A 0.001
 #define MAXV 10
@@ -340,7 +340,7 @@ void testbutton()
 {
 	se = Start();
 	creatgame();
-	gameInit(run_run);
+	gameInit(normal);
 	role = Character("kun",3, 21, &kun);
 	while (1 ^ EXIT)
 	{

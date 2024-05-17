@@ -1,4 +1,6 @@
+
 #pragma once
+
 #include"board.h"
 #include<string>
 #include"Atlas.h"
@@ -77,6 +79,18 @@ public:
 		this->standing_size = img->stand;;
 		this->runsize = img->run;
 	}
+	void draw_score()
+	{
+		//char sc[20] = "";
+		settextstyle(30, 30, "Algerian");
+		settextcolor(RGB(250, 240, 0));
+		outtextxy(780, 100, "SCORE: ");
+		settextcolor(WHITE);
+		settextstyle(20, 20, "OCR A");
+		outtextxy(780, 150, &(to_string(score))[0]);
+		//outtextxy(800, 100, sc);
+	}
+
 	bool is_dead();
 	int exhibit(int dir, IMAGE* back = 0);
 	int direct = 0;
@@ -94,7 +108,7 @@ public:
 	int standing_size = 0;
 	int runsize = 0;
 	int standing_frame = 0;
-
+	int score = 0;
 	int act = 0;
 private:
 	Atlas* images;

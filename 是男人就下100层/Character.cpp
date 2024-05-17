@@ -25,6 +25,7 @@ static double rspeed = SPEED;
 using namespace std;
 int Character::character_move()
 {
+	score += 1;
 	static double G = 6;
 	static int pre = RIGHT;
 	if (GetAsyncKeyState(VK_LEFT) && x > 0)
@@ -113,12 +114,20 @@ int Character::character_move()
 				else if (board[i].item_type == 2)
 				{
 					board[i].have_item = false;
+					score += 500;
 				}
 
 			}
 			if (board[i].type == 1 && board[i].used == false)
 			{
-				health--;
+				if (have_armo == true)
+				{
+					have_armo = false;
+				}
+				else
+				{
+					health--;
+				}
 				board[i].used = true;
 				break;
 			}
