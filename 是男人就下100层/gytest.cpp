@@ -134,6 +134,7 @@ void gameInit(entertain mode = normal)
 	for (int i = 1; i < 150; i++)
 	{
 		board[i].y = BOARD_GAP+ board[i - 1].y;
+		board[i].stay = 0;
 		board[i].type = setboard(mode);
 		board[i].x = rand() % (LENGTH - 350);
 		board[i].play = 0;
