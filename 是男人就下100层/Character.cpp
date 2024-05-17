@@ -82,6 +82,14 @@ int Character::character_move()
 	//判断玩家在哪一块板子上
 	for (int i = 0; i<150; i++)
 	{
+		if (board[i].type == lefttype || board[i].type == righttype)
+		{
+			board[i].play++;
+		}
+		if (board[i].type == faketype && board[i].play >= 12)
+		{
+			board[i].play++;
+		}
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
 			&&y2 >= board[i].y - Board::V * FRAME / 4&& y2 <= board[i].y + Board::V * FRAME / 4)
 		{
@@ -120,8 +128,10 @@ int Character::character_move()
 				if (board[i].stay > 10)
 				{
 					y += Board::V * FRAME / 4;
-					break;
+					board[i].play++;
+					//break;
 				}
+				board[i].play++;
 			}
 			else if (board[i].type == lefttype)
 			{

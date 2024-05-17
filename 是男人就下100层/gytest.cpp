@@ -20,11 +20,11 @@ bool EXIT = false;
 IMAGE cursor[2];
 IMAGE arrow[2];
 IMAGE border[2];
+IMAGE roof_img[2];
 Board roof;
 deque<Board>board(150);
 IMAGE background;
 IMAGE health[2];
-IMAGE roof_img[2];
 IMAGE cure_img[2];
 IMAGE gold_img[2];
 IMAGE defend_img[2];
@@ -66,8 +66,9 @@ void loadresource()
 		loadimage(&boardimg[trampolinetype][i], &path[0]);
 		loadimage(&boardimg_mask[trampolinetype][i], &("./picture/unit/trampoline/mask/trampoline" + to_string(i) + ".png")[0]);
 	}
-
-
+	loadimage(&wall, "./picture/unit/wall.png");
+	loadimage(roof_img, "./picture/ceiling/ceiling.png");
+	loadimage(roof_img+1, "./picture/ceiling/ceiling_mask.png");
 	loadimage(&arrow[0], "picture/button/arrow.png");
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
@@ -132,6 +133,7 @@ void gameInit(entertain mode = normal)
 		board[i].y = BOARD_GAP+ board[i - 1].y;
 		board[i].type = setboard(mode);
 		board[i].x = rand() % (LENGTH - 350);
+		board[i].play = 0;
 	}
 	role.set_sta(board[0]);
 	roof.type = 1;
@@ -154,6 +156,8 @@ void gamedraw(int& count, int dir)
 	++count;
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(350, 0, roof_img, roof_img + 1);
+	//putimage(720, 0, border);
+	//putimage(720, 350, border);
 	//draw_lucency(800, 0, roof_img, roof_img + 1);
 	putimage(0, 0, &wall);
 	putimage(0, 380, &wall);
@@ -213,17 +217,28 @@ void gamedraw(int& count, int dir)
 		}
 		else if (board[i].type == faketype)
 		{
-			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
-			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
-			//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
+			if (board[i].play >18 )
+			{
+				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
+				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
+			}
+			else {
+				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, (board[i].play / 3) * 217 / 6, SRCAND);
+				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, (board[i].play / 3) * 217 / 6, SRCPAINT);
+				if (board[i].play == 12)
+				{
+					board[i].play++;
+				}
+			}
+		//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == lefttype)
 		{
-			putimage(board[i].x, board[i].y, 96, 16, &boardimg[lefttype][0], 0, 0);
+			putimage(board[i].x, board[i].y, 96, 16, &boardimg[lefttype][0], 0, (board[i].play % 16 / 4) * 16);
 		}
 		else if (board[i].type == righttype)
 		{
-			putimage(board[i].x, board[i].y, 96, 16, &boardimg[righttype][0], 0, 0);
+			putimage(board[i].x, board[i].y, 96, 16 , &boardimg[righttype][0], 0, (board[i].play % 16 / 4) * 16);
 		}
 		else if (board[i].type == trampolinetype)
 		{
@@ -285,6 +300,7 @@ void board_move(bool rebegin, entertain mode = normal)
 			board.back().type = setboard(mode);///rand() % 6;
 			board.back().used = false;
 			board.back().stay = 0;
+			board[i].play = 0;
 		}
 	}
 }
@@ -324,7 +340,7 @@ void testbutton()
 {
 	se = Start();
 	creatgame();
-	gameInit(jump_jump);
+	gameInit(run_run);
 	role = Character("kun",3, 21, &kun);
 	while (1 ^ EXIT)
 	{

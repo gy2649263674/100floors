@@ -21,6 +21,7 @@ public:
 	bool exist = true;
 	bool used = false;
 	int stay = 0;
+	int play;
 	bool have_item = false;
 	int item_type = 0;
 	static double  V;
