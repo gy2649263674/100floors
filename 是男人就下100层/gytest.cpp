@@ -313,7 +313,6 @@ void draw_speed(Character& role)
 	outtextxy(MAINW- STAX, 60, &getv[1][0]);
 	outtextxy(MAINW- STAX, 90, &getv[2][0]);
 }
-
 void board_move(bool rebegin, entertain mode = normal)
 {
 	Board::V = min(rebegin ? v0 : (Board::V += BOARD_A), MAXV);
