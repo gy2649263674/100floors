@@ -20,11 +20,11 @@ bool EXIT = false;
 IMAGE cursor[2];
 IMAGE arrow[2];
 IMAGE border[2];
+IMAGE roof_img[2];
 Board roof;
 deque<Board>board(150);
 IMAGE background;
 IMAGE health[2];
-IMAGE roof_img[2];
 IMAGE cure_img[2];
 IMAGE gold_img[2];
 IMAGE defend_img[2];
@@ -50,18 +50,6 @@ void creatgame()
 #include <direct.h>
 void loadresource()
 {
-	loadimage(&wall, "./picture/wall.png");
-	loadimage(&conveyor_left, "./picture/conveyor_left.png");
-	loadimage(&conveyor_right, "./picture/conveyor_right.png");
-	loadimage(fake, "./picture/fake.png");
-	loadimage(fake + 1, "picture/fake_mask.png");
-	loadimage(border, "picture/button/border.png", Button::wordsw, Button::h);
-	loadimage(border + 1, "picture/button/border_mask.png", Button::wordsw, Button::h);
-	loadimage(roof_img, "./picture/ceiling.png");
-	loadimage(roof_img + 1, "./picture/ceiling_mask.png");
-	loadimage(board_img, "./picture/unit/normal.png");
-	loadimage(board_img + 1, "./picture/unit/nails.png");
-	loadimage(board_img + 2, "picture/nails_mask.png");
 	loadimage(&boardimg[normaltype][0], "./picture/unit/normal.png");
 	loadimage(&boardimg[nailtype][0], "./picture/unit/nail.png");
 	loadimage(&boardimg_mask[nailtype][0], "./picture/unit/nail_mask.png");
@@ -78,6 +66,9 @@ void loadresource()
 		loadimage(&boardimg[trampolinetype][i], &path[0]);
 		loadimage(&boardimg_mask[trampolinetype][i], &("./picture/unit/trampoline/mask/trampoline" + to_string(i) + ".png")[0]);
 	}
+	loadimage(&wall, "./picture/unit/wall.png");
+	loadimage(roof_img, "./picture/ceiling/ceiling.png");
+	loadimage(roof_img+1, "./picture/ceiling/ceiling_mask.png");
 	loadimage(&arrow[0], "picture/button/arrow.png");
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
@@ -93,13 +84,7 @@ void loadresource()
 	loadimage(armo_img, "./picture/item/defend.png", 40, 40);
 	loadimage(armo_img + 1, "./picture/item/defend_mask.png", 40, 40);
 }
-enum entertain
-{
-	normal,
-	jump_jump,
-	fake_world,
-	run_run,
-};
+
 Boardtype wanttype(entertain mode = normal)
 {//
 	
@@ -148,6 +133,7 @@ void gameInit(entertain mode = normal)
 		board[i].y = BOARD_GAP+ board[i - 1].y;
 		board[i].type = setboard(mode);
 		board[i].x = rand() % (LENGTH - 350);
+		board[i].play = 0;
 	}
 	role.set_sta(board[0]);
 	roof.type = 1;
@@ -170,6 +156,8 @@ void gamedraw(int& count, int dir)
 	++count;
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(350, 0, roof_img, roof_img + 1);
+	//putimage(720, 0, border);
+	//putimage(720, 350, border);
 	//draw_lucency(800, 0, roof_img, roof_img + 1);
 	putimage(0, 0, &wall);
 	putimage(0, 380, &wall);
@@ -229,20 +217,35 @@ void gamedraw(int& count, int dir)
 		}
 		else if (board[i].type == faketype)
 		{
-			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
-			putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
+			if (board[i].play >18 )
+			{
+				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
+				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
+			}
+			else {
+				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, (board[i].play / 3) * 217 / 6, SRCAND);
+				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, (board[i].play / 3) * 217 / 6, SRCPAINT);
+				if (board[i].play == 12)
+				{
+					board[i].play++;
+				}
+			}
+		//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == lefttype)
 		{
-			putimage(board[i].x, board[i].y, 96, 16, &boardimg[lefttype][0], 0, 0);
+			putimage(board[i].x, board[i].y, 96, 16, &boardimg[lefttype][0], 0, (board[i].play % 16 / 4) * 16);
 		}
 		else if (board[i].type == righttype)
 		{
-			putimage(board[i].x, board[i].y, 96, 16, &boardimg[righttype][0], 0, 0);
+			putimage(board[i].x, board[i].y, 96, 16 , &boardimg[righttype][0], 0, (board[i].play % 16 / 4) * 16);
 		}
 		else if (board[i].type == trampolinetype)
 		{
-			putimage(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1]);
+			putimage(board[i].x, board[i].y, &boardimg_mask[trampolinetype][board[i].stay + 1],SRCAND);
+			putimage(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1],SRCPAINT);
+			//
+			// draw_lucency(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1], &boardimg_mask[trampolinetype][board[i].stay + 1]);
 		}
 	}
 	if (dir == LEFT)
@@ -264,8 +267,8 @@ void gamedraw(int& count, int dir)
 	}
 	draw_speed(role);
 }
-#define BOARD_A 0.01
-#define MAXV 15
+#define BOARD_A 0.001
+#define MAXV 10
 const double v0 = 3;
 double Board::V = 3;
 #define BOARDSIZE 20
@@ -285,7 +288,6 @@ void board_move(bool rebegin, entertain mode = normal)
 {
 	Board::V = min(rebegin ? v0 : (Board::V += BOARD_A), MAXV);
 	cout << "board v:" << Board::V << endl;
-	//srand(rand());
 	for (int i = 0; i < 150; i++)
 	{
 		board[i].y -= Board::V;
@@ -298,6 +300,7 @@ void board_move(bool rebegin, entertain mode = normal)
 			board.back().type = setboard(mode);///rand() % 6;
 			board.back().used = false;
 			board.back().stay = 0;
+			board[i].play = 0;
 		}
 	}
 }
@@ -323,53 +326,56 @@ void tempgameing(entertain mode = normal)
 }
 Picset fox;
 Picset ch;
+Picset kun;
 void loadapp()
 {
 	ch = *new Picset("ch", 36, 26, 10);
 	fox = *new Picset("fox", 8, 7, 1);
+	kun = *new Picset("kun", 25, 3, 21, 40,60);
 	appearence.push_back(&ch);
 	appearence.push_back(&fox);
+	appearence.push_back(&kun);
 }
 void testbutton()
 {
 	se = Start();
 	creatgame();
-	gameInit(jump_jump);
-	role = Character("ch", 36, 9, &fox);
+	gameInit(run_run);
+	role = Character("kun",3, 21, &kun);
 	while (1 ^ EXIT)
 	{
 		se.enter_scene();
 		while (peekmessage(&msg, EX_KEY | EX_MOUSE) | 1)
 		{
-			StartOpt opt;
-			opt = StartOpt(se.process_command(msg));
-			if (opt == startgame)
+			Btname opt;
+			opt = Btname(se.process_command(msg));
+			if (opt == start_bt)
 			{
 				cout << "start game" << endl;
 				tempgameing(jump_jump);
 			}
-			else if (opt == choose_map)
+			else if (opt == map_bt)
 			{
 				se.ChooseMap(msg);
 				cout << "choose map" << endl;
 				se.enter_scene();
-
 			}
-			else if (opt == choose_role)
+			else if (opt == role_bt)
 			{
 				se.change_role(&role, appearence);
 				cout << "choose role" << endl;
 				se.enter_scene();
 			}
-			else if (opt == exit_game)
+			else if (opt == exit_bt)
 			{
 				EXIT = true;
 				cout << "exit game" << endl;
 			}
-			else if (opt == change_difficult)
+			else if (opt == choosemode_bt)
 			{
 
 			}
+			
 		}
 	}
 	return;

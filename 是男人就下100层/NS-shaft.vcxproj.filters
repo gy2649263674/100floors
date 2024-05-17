@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClInclude Include="Border.h" />
     <ClInclude Include="all.h">
       <Filter>head</Filter>
     </ClInclude>
@@ -13,9 +14,6 @@
     <ClInclude Include="board.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="Border.h">
-      <Filter>head</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>head</Filter>
     </ClInclude>
@@ -25,10 +23,10 @@
     <ClInclude Include="Item.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="stdc++.h">
+    <ClInclude Include="scene.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
+    <ClInclude Include="stdc++.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
@@ -45,10 +43,8 @@
     <ClCompile Include="jpctestmain.cpp">
       <Filter>测试函数</Filter>
     </ClCompile>
+    <ClCompile Include="Border.cpp" />
     <ClCompile Include="Anime.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
-    <ClCompile Include="Border.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
     <ClCompile Include="board.cpp">

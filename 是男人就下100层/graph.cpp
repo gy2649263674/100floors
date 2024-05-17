@@ -1,9 +1,10 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include"all.h"
 #include"Anime.h"
 #include"scene.h"
 #if 0
-void Anime::ppt(Atlas* images, int delt,int trans)
+void Anime::ppt(Atlas* images, int delt, int trans)
 {
 	//for(int i = 0;i<)
 	//(cur_back + 1 * delt + back_ground->get_size()) % back_ground->get_size();
@@ -11,14 +12,16 @@ void Anime::ppt(Atlas* images, int delt,int trans)
 #endif
 void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask)
 {
-	putimage(x, y, mask, SRCAND);
-	putimage(x, y, ori, SRCPAINT);
+	if (mask)
+		putimage(x, y, mask, SRCAND);
+	if (ori)
+		putimage(x, y, ori, SRCPAINT);
 	return;
 }
-void draw_lucency(int x, int y,int w,int h, IMAGE* ori, IMAGE* mask)
+void draw_lucency(int x, int y, int w, int h, IMAGE* ori, IMAGE* mask)
 {
-	putimage(x, y,w,h ,mask,0,0, SRCAND);
-	putimage(x, y,w,h, ori,0,0, SRCPAINT);
+	putimage(x, y, w, h, mask, 0, 0, SRCAND);
+	putimage(x, y, w, h, ori, 0, 0, SRCPAINT);
 	return;
 }
 IMAGE* Atlas::get_image(int index, int cate)
@@ -37,8 +40,8 @@ IMAGE* Atlas::get_image(int index, int cate)
 
 void Atlas::role_add_image(const char* rootdir, const char* filename, int n, int w, int h, const char* filetype)
 {
-	string tori = PICDIR + string("\\") + string(rootdir) + "\\" +"ori"+"\\"+string(filename);
-	string tmask = PICDIR + string("\\") + string(rootdir) + "\\" +"mask"+"\\"+string(filename);
+	string tori = PICDIR + string("\\") + string(rootdir) + "\\" + "ori" + "\\" + string(filename);
+	string tmask = PICDIR + string("\\") + string(rootdir) + "\\" + "mask" + "\\" + string(filename);
 	for (int i = 1; i <= n; i++)
 	{
 		fstream in;
@@ -48,14 +51,13 @@ void Atlas::role_add_image(const char* rootdir, const char* filename, int n, int
 		string path2 = tmask;
 		if (n > 1)
 		{
-			path2 += to_string(i)+" 拷贝";
-			path1 += to_string(i)+" 拷贝";
+			path2 += to_string(i);
+			path1 += to_string(i);
 		}
 		path1 += filetype;
 		path2 += filetype;
-		//path1 = "E:\\zzs\\gitstore\\new\\picture\\FOX\\ori\\未标题-6.png";
 		FILE* fp = fopen(&path1[0], "rb");
-		if(fp == NULL)
+		if (fp == NULL)
 		{
 			perror("");
 			cout << path1 << endl;
@@ -88,6 +90,7 @@ void Atlas::add_image(const char* rootdir, const char* filename, int w, int h, i
 		if (in.is_open() == false)
 		{
 			delete temp;
+			it->push_back(0);
 			printf("\033[31m%s没有成功导入检查路径\033[0m\n", &path[0]);
 			perror("\033[31m\n");
 			return;

@@ -60,6 +60,7 @@ using namespace std;
 void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask);
 using namespace std;
 
+
 //extern int mianx, MAINY;
 class Scene
 {
@@ -72,6 +73,9 @@ public:
 	virtual int process_command(ExMessage& msg) = 0;
 
 };
+
+
+
 
 
 
@@ -183,7 +187,6 @@ private:
 
 //IMAGE Button ::arrow = 
 enum StartOpt
-
 {
 	null = -1,
 	startgame = 0,
@@ -200,23 +203,21 @@ enum Btname
 	role_bt,
 	map_bt,
 	exit_bt,
+	choosemode_bt,
 };
-
-
 class Start :public Scene
 {
 public:
 	Start()
 	{
-		buttons = vector<Button*>(4);
+		buttons = unordered_map<int, Button*>(5);
 		back_ground = new Atlas;
 		back_ground->add_image(MAPDIR, "background", MAINW, MAINH, 5, ".png");
 		init_button();
-
 	}
 	void init_button()
 	{
-		for (int i = 0; i < buttons.size(); i++)
+		for (int i = 0; i < 5; i++)
 		{
 			buttons[i] = new Button;
 		}
@@ -224,12 +225,13 @@ public:
 		buttons[map_bt]->init("map", "选择地图");
 		buttons[role_bt]->init("role", "选择角色");
 		buttons[exit_bt]->init("exit", "退出游戏");
+		buttons[choosemode_bt]->init("choose", "选择模式");
 		locate_button();
 	}
 	void locate_button()
 	{
 		const int oriposx = (MAINW - Button::w) * 1.05 / 4;;
-		int oriposy = (Button::h * 6);
+		int oriposy = (Button::h * (8 - buttons.size()));
 		int gap = static_cast<double>(Button::h) * (2);
 		for (int i = 0; i < buttons.size(); i++)
 		{
@@ -289,20 +291,39 @@ public:
 				}
 			}
 	}
+	entertain setmode()
+	{
+		if (shot == NULL)
+		{
+
+			for (int i = 0; i < 3; i++)
+			{
+				IMAGE* temp = new IMAGE;
+				shot->push(0);
+			}
+		}
+		ExMessage msg;
+		while (1)
+		{
+			while (peekmessage(&msg, EX_KEY))
+			{
+				if (msg.vkcode == LEFT)
+				{
+
+				}
+			}
+		}
+	}
 private:
 	const static int btnum = 4;
-	vector<Button*>buttons;
+	unordered_map<int, Button*>buttons;
+	Atlas* shot = 0;
 	Atlas* back_ground;
 	vector<string>map_explain;
 	vector<string>role_explain;
 	int cur_back = 0;
 	int cur_role = 0;
-
-
 };
-
-
-
 
 
 void flip(Atlas* a, Atlas* b);
