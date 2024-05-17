@@ -212,7 +212,7 @@ public:
 	{
 		buttons = unordered_map<int, Button*>(5);
 		back_ground = new Atlas;
-		back_ground->add_image(MAPDIR, "background", MAINW, MAINH, 5, ".png");
+		back_ground->add_image(MAPDIR, "background", MAINW, MAINH, 6, ".png");
 		init_button();
 	}
 	void init_button()
