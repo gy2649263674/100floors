@@ -25,6 +25,7 @@ static double rspeed = SPEED;
 using namespace std;
 int Character::character_move()
 {
+	score += 1;
 	static double G = 6;
 	static int pre = RIGHT;
 	if (GetAsyncKeyState(VK_LEFT) && x > 0)
@@ -95,8 +96,38 @@ int Character::character_move()
 		{
 			this->y = board[i].y - h;
 			ob = i;
-			if (board[i].type == normaltype && board[i].have_item == true)
+			if (board[i].type == normaltype)
 			{
+				if (board[i].stay == 0)
+				{
+					board[i].stay++;
+					PlaySound("./sound/wav/land.wav", NULL, SND_FILENAME | SND_ASYNC);
+				}
+				if (board[i].have_item == true)
+				{
+					if (board[i].item_type == 0)
+					{
+						health = 3;
+						board[i].have_item = false;
+					}
+					else if (board[i].item_type == 1)
+					{
+						if (have_armo == false)
+						{
+							board[i].have_item = false;
+							have_armo = true;
+						}
+					}
+					else if (board[i].item_type == 2)
+					{
+						board[i].have_item = false;
+						score += 500;
+					}
+				}
+			}
+			/*if (board[i].type == normaltype && board[i].have_item == true)
+			{
+				
 				if (board[i].item_type == 0)
 				{
 					health = 3;
@@ -113,12 +144,21 @@ int Character::character_move()
 				else if (board[i].item_type == 2)
 				{
 					board[i].have_item = false;
+					score += 500;
 				}
 
-			}
+			}*/
 			if (board[i].type == 1 && board[i].used == false)
 			{
-				health--;
+				if (have_armo == true)
+				{
+					have_armo = false;
+				}
+				else
+				{
+					PlaySound("./sound/wav/hurt 8bit.wav", NULL, SND_FILENAME | SND_ASYNC);
+					health--;
+				}
 				board[i].used = true;
 				break;
 			}
@@ -131,16 +171,31 @@ int Character::character_move()
 					board[i].play++;
 					//break;
 				}
+				if (board[i].play == 4)
+				{
+					PlaySound("./sound/wav/fake.wav", NULL, SND_FILENAME | SND_ASYNC);
+				}
+					
 				board[i].play++;
 			}
 			else if (board[i].type == lefttype)
 			{
+				if (board[i].stay == 0)
+				{
+					board[i].stay++;
+					PlaySound("./sound/wav/land.wav", NULL, SND_FILENAME | SND_ASYNC);
+				}
 				if (x > 0)
 					x -= SPEED * gap * conveyer_ratio;
 				break;
 			}
 			else if (board[i].type == righttype)
 			{
+				if (board[i].stay == 0)
+				{
+					board[i].stay++;
+					PlaySound("./sound/wav/land.wav", NULL, SND_FILENAME | SND_ASYNC);
+				}
 				if (x < 900)
 					x += SPEED * gap * conveyer_ratio;
 				break;
@@ -151,6 +206,7 @@ int Character::character_move()
 				if (board[i].stay == 5 && board[i].type == trampolinetype)
 				{
 					jump = 30 - Board::V / 2;
+					PlaySound("./sound/wav/springboard.wav", NULL, SND_FILENAME | SND_ASYNC);
 					//y -= 400/Board::V;
 					y -= (Board::V * FRAME / 2);//*FRAME;
 				}
@@ -188,6 +244,7 @@ int Character::character_move()
 		}
 		else
 		{
+			PlaySound("./sound/wav/hurt 8bit.wav", NULL, SND_FILENAME | SND_ASYNC);
 			health--;
 		}
 		roof.used = true;
@@ -249,6 +306,7 @@ bool Character::is_dead()
 {
 	if (health <= 0)
 	{
+		PlaySound("./sound/wav/death.wav", NULL, SND_FILENAME | SND_ASYNC);
 		return true;
 	}
 	return false;

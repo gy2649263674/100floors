@@ -3,50 +3,14 @@
 F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Atlas.h(29,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
   (编译源文件“Character.cpp”)
   
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(36,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(41,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(52,24): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(130,28): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(139,23): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(145,23): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(153,16): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(155,29): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(177,11): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
-  gytest.cpp
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Atlas.h(29,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(119,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(119,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(127,117): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(127,53): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(136,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(136,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(233,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(234,15): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(235,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
-  
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(102,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(293,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
-  正在生成代码...
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(106): warning C4715: “wanttype”: 不是所有的控件路径都返回值
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Atlas.h(25): warning C4715: “Atlas::get_mask_image”: 不是所有的控件路径都返回值
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(37,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(42,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(53,24): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(170,28): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(189,23): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(200,23): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(208,16): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(211,29): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Character.cpp(233,11): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
 F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Atlas.h(25): warning C4715: “Atlas::get_mask_image”: 不是所有的控件路径都返回值
   NS-shaft.vcxproj -> F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\x64\Debug\NS-shaft.exe
