@@ -1,25 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClInclude Include="Border.h" />
     <ClInclude Include="all.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="Anime.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="Draw.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="unit.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="Atlas.h">
@@ -28,48 +14,58 @@
     <ClInclude Include="board.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="Border.h">
+    <ClInclude Include="Character.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="Draw.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>head</Filter>
     </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>head</Filter>
+    </ClInclude>
     <ClInclude Include="stdc++.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>head</Filter>
+    </ClInclude>
+    <ClInclude Include="unit.h">
       <Filter>head</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="graph.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
-    <ClCompile Include="Draw.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
-    <ClCompile Include="Anime.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
-    <ClCompile Include="scene.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
     <ClCompile Include="gytest.cpp">
       <Filter>测试函数</Filter>
     </ClCompile>
     <ClCompile Include="jpctestmain.cpp">
       <Filter>测试函数</Filter>
     </ClCompile>
-    <ClCompile Include="rub.cpp">
+    <ClCompile Include="Border.cpp" />
+    <ClCompile Include="Anime.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
-    <ClCompile Include="Border.cpp">
+    <ClCompile Include="board.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="Draw.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="graph.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>yuan</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
   </ItemGroup>
