@@ -78,14 +78,12 @@ void Atlas::add_image(const char* rootdir, const char* filename, int w, int h, i
 	{
 		fstream in;
 		IMAGE* temp = new IMAGE;
-
 		string path = t;
 		if (n > 1)
 		{
-			path += " (" + to_string(i) + ")";
+			path +=to_string(i);
 		}
 		path += filetype;
-
 		in.open(path, std::ios::in);
 		if (in.is_open() == false)
 		{
@@ -93,6 +91,7 @@ void Atlas::add_image(const char* rootdir, const char* filename, int w, int h, i
 			it->push_back(0);
 			printf("\033[31m%s没有成功导入检查路径\033[0m\n", &path[0]);
 			perror("\033[31m\n");
+			cout << endl;
 			return;
 		}
 		loadimage(temp, &path[0], w, h);

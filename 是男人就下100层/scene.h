@@ -208,6 +208,7 @@ enum Btname
 class Start :public Scene
 {
 public:
+	entertain setmode(ExMessage&msg);
 	Start()
 	{
 		buttons = unordered_map<int, Button*>(5);
@@ -266,64 +267,37 @@ public:
 	{
 		return back_ground->get_image(cur_back);
 	}
-	void change_role(Character* role, deque<Picset* >picarr)
+	void change_role(Character* role, deque<Picset* >&picarr)
 	{
-		ExMessage msgs;
+		ExMessage msg;
 		int ck = 0;
 		while (1)
-			while (peekmessage(&msgs, EX_KEY))
+		{
+			while (peekmessage(&msg, EX_KEY))
 			{
 				cout << ++ck << " ";
-				if (msgs.vkcode == VK_RIGHT)
-				{
-					picarr.push_back(picarr.front());
-					picarr.pop_front();
-				}
-				else if (msgs.vkcode == VK_LEFT)
-				{
-					picarr.push_front(picarr.back());
-					picarr.pop_back();
-				}
-				role->change_app(picarr.front());
+				int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
+				cur_role = (cur_role + 1 * delt + picarr.size()) % picarr.size();
+				role->change_app(picarr[cur_role]);
 				if (role->exhibit(RIGHT, back_ground->get_image(cur_back)) == 1)
 				{
 					return;
 				}
 			}
-	}
-	entertain setmode()
-	{
-		if (shot == NULL)
-		{
-
-			for (int i = 0; i < 3; i++)
-			{
-				IMAGE* temp = new IMAGE;
-				shot->push(0);
-			}
-		}
-		ExMessage msg;
-		while (1)
-		{
-			while (peekmessage(&msg, EX_KEY))
-			{
-				if (msg.vkcode == LEFT)
-				{
-
-				}
-			}
 		}
 	}
+	
 private:
 	const static int btnum = 4;
 	unordered_map<int, Button*>buttons;
 	Atlas* shot = 0;
 	Atlas* back_ground;
+	deque<string>mode_explain{ "normal","jump_jump","fake world","runer" };
 	vector<string>map_explain;
 	vector<string>role_explain;
 	int cur_back = 0;
 	int cur_role = 0;
+	int cur_mode = 0;
 };
-
 
 void flip(Atlas* a, Atlas* b);

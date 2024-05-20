@@ -14,10 +14,14 @@
 #include<vector>
 #include<string>
 
-
-Atlas::Atlas(const char* rootdir, const char* name, int n,int w  ,int h)
+void run(ExMessage& msg, int& cur, Atlas* container)
 {
-	 role_add_image( rootdir,name, n,  w, h, ".png");
+	int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
+	cur = (cur + 1 * delt + static_cast<Atlas*>(container)->get_size()) % static_cast<Atlas*>(container)->get_size();
+}
+Atlas::Atlas(const char* rootdir, const char* name, int n, int w, int h)
+{
+	role_add_image(rootdir, name, n, w, h, ".png");
 }
 int Start::process_command(ExMessage& msg)
 {
@@ -42,10 +46,10 @@ void Start::enter_scene()
 
 void Start::ChooseMap(ExMessage& msg)
 {
-	Button left;
+	/*Button left;
 	Button right;
 	left.init("left");
-	left.init("right");
+	left.init("right");*/
 	cleardevice();
 	putimage(0, 0, back_ground->get_image(cur_back));
 	while (1)
@@ -56,16 +60,17 @@ void Start::ChooseMap(ExMessage& msg)
 		{
 			if ((msg.vkcode == VK_LEFT || msg.vkcode == VK_RIGHT) && msg.message == WM_KEYUP)
 			{
-				cleardevice();
-				int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
-				cur_back = (cur_back + 1 * delt + back_ground->get_size()) % back_ground->get_size();
-				putimage(0, 0, back_ground->get_image(cur_back));
+				//int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
+				/*cur_back = (cur_back + 1 * delt + back_ground->get_size()) % back_ground->get_size();*/
+				run(msg, cur_back, back_ground);
 			}
 			else if (msg.vkcode == VK_RETURN)
 			{
 				enter_scene();
 				return;
 			}
+			cleardevice();
+			putimage(0, 0, back_ground->get_image(cur_back));
 		}
 	}
 
@@ -103,6 +108,42 @@ int Button::react(ExMessage& msg)
 				draw_words(UNIN);
 				continue;
 			}
+		}
+	}
+}
+entertain Start::setmode(ExMessage& msg)
+{
+	if (shot == NULL)
+	{
+		shot = new Atlas();
+		shot->add_image("shot", "", MAINW, MAINH, 4);
+	}
+	setbkmode(OPAQUE);
+	setfillcolor(RED);
+	settextstyle(50, 20, "consola");
+	cleardevice();
+	putimage(0, 0, shot->get_image(cur_mode));
+	outtextxy(MAINW / 2, MAINH / 20, &mode_explain[cur_mode][0]);
+	while (1)
+	{
+		while (peekmessage(&msg, EX_KEY))
+		{
+			if ((msg.vkcode == VK_LEFT || msg.vkcode == VK_RIGHT) && msg.message == WM_KEYUP)
+			{
+				run(msg, cur_mode, shot);
+			}
+			else if (msg.vkcode == VK_RETURN)
+			{
+				enter_scene();
+				return entertain(cur_mode);
+			}
+			else
+			{
+				continue;
+			}
+			cleardevice();
+			putimage(0, 0, shot->get_image(cur_mode));
+			outtextxy(MAINW / 2, MAINH / 20, &mode_explain[cur_mode][0]);
 		}
 	}
 }

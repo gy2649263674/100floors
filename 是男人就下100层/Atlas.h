@@ -36,9 +36,12 @@ public:
 	void left()
 	{
 		arr.push_front(arr.back());
-		arr_mask.push_front(arr.back());
-		arr_mask.pop_back();
 		arr.pop_back();
+		if (!arr_mask.empty())
+		{
+			arr_mask.push_front(arr.back());
+			arr_mask.pop_back();
+		}
 	}
 	void right()
 	{
@@ -58,9 +61,9 @@ struct Picset
 	Atlas* rpic = 0;
 	Picset()
 	{}
-	Picset(const char* rootdir, int n,int run, int stand, int w = ROLEW, int h = ROLEH, const char* filename = "")
+	Picset(const char* rootdir, int n, int run, int stand, int w = ROLEW, int h = ROLEH, const char* filename = "")
 	{
-		pic = new Atlas(rootdir, filename, n,w,h);
+		pic = new Atlas(rootdir, filename, n, w, h);
 		rpic = new Atlas(n);
 		flip(pic, rpic);
 		this->run = run;

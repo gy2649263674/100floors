@@ -1,7 +1,4 @@
 ﻿
-#include <Windows.h>
-#include <mmsystem.h>
-#pragma comment(lib,"winmm.lib")
 #include <iostream>
 #include <easyx.h>
 #include <ctime>
@@ -41,8 +38,40 @@ Character role;
 deque<Picset*>appearence;
 map<Boardtype, map<int, IMAGE>>boardimg;
 map<Boardtype, map<int, IMAGE>>boardimg_mask;
-void draw_speed(Character& role);
+enum {
+	goback,
+	restart,
+	suspend,
+}Overallbt;
+class Moniter
+{
+public:
+	void init()
+	{
+		overall[goback].init("goback", "返回主菜单");
+		overall[restart].init("restart", "游戏可以重开，人生不能重来");
+		overall[suspend].init("suspend", "暂停游戏");
+	}
+	void gameing_return_back(ExMessage &msg)
+	{
+		if (overall[goback].in_area(msg))
+		{
+			overall[goback].react(msg);
+		}
+	}
+	void died_restart()
+	{
 
+	}
+	void gaming_suspend()
+	{
+		
+	}
+private:
+	Button overall[3];
+
+};
+void draw_speed(Character& role);
 void creatgame()
 {
 	initgraph(MAINW, MAINH);
@@ -122,10 +151,12 @@ int setboard(entertain mode = normal)
 		return btype;
 	}
 }
+
 void gameInit(entertain mode = normal)
 {
 	loadresource();
 	loadapp();
+
 	srand((unsigned int)time(NULL));
 	board[0].y = rand() % (WIDTH / 3) + 100;
 	board[0].x = MAINW/ 2;
@@ -134,7 +165,6 @@ void gameInit(entertain mode = normal)
 	for (int i = 1; i < 150; i++)
 	{
 		board[i].y = BOARD_GAP+ board[i - 1].y;
-		board[i].stay = 0;
 		board[i].type = setboard(mode);
 		board[i].x = rand() % (LENGTH - 350);
 		board[i].play = 0;
@@ -160,13 +190,14 @@ void gamedraw(int& count, int dir)
 	++count;
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(350, 0, roof_img, roof_img + 1);
-	fillrectangle(750, 0, 1000, 1000);
-	setfillcolor(BLACK);
+	//putimage(720, 0, border);
+	//putimage(720, 350, border);
+	//draw_lucency(800, 0, roof_img, roof_img + 1);
 	putimage(0, 0, &wall);
 	putimage(0, 380, &wall);
 	putimage(750, 0, &wall);
 	putimage(750, 380, &wall);
-	if (count >= 150)
+	if (count >= 5)
 	{
 		count = 0;
 		int index;
@@ -180,13 +211,13 @@ void gamedraw(int& count, int dir)
 	int i = 0;
 	for (i = 0; i < role.health; i++)
 	{
-		putimage(780 + i * 40, 10, &health[1], SRCAND);
-		putimage(780 + i * 40, 10, &health[0], SRCPAINT);
+		putimage(600 + i * 40, 10, &health[1], SRCAND);
+		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
 	}
 	if (role.have_armo == true)
 	{
-		putimage(780 + i * 40, 10, &armo_img[1], SRCAND);
-		putimage(780 + i * 40, 10, &armo_img[0], SRCPAINT);
+		putimage(600 + i * 40, 10, &armo_img[1], SRCAND);
+		putimage(600 + i * 40, 10, &armo_img[0], SRCPAINT);
 	}
 	for (i = 0; i < 150&&board[i].y>=0&&board[i].y<=MAINH; i++)
 	{
@@ -264,12 +295,7 @@ void gamedraw(int& count, int dir)
 		role.draw_standing();
 	}
 	//falling
-	else if (dir == 2)
-	{
-
-	}
-	//draw_speed(role);
-	role.draw_score();
+	draw_speed(role);
 }
 #define BOARD_A 0.001
 #define MAXV 10
@@ -287,7 +313,6 @@ void draw_speed(Character& role)
 	outtextxy(MAINW- STAX, 60, &getv[1][0]);
 	outtextxy(MAINW- STAX, 90, &getv[2][0]);
 }
-
 void board_move(bool rebegin, entertain mode = normal)
 {
 	Board::V = min(rebegin ? v0 : (Board::V += BOARD_A), MAXV);
@@ -344,7 +369,7 @@ void testbutton()
 {
 	se = Start();
 	creatgame();
-	gameInit(normal);
+	gameInit(run_run);
 	role = Character("kun",3, 21, &kun);
 	while (1 ^ EXIT)
 	{
@@ -377,7 +402,8 @@ void testbutton()
 			}
 			else if (opt == choosemode_bt)
 			{
-
+				gameInit(se.setmode(msg));
+				cout << "set mode";
 			}
 			
 		}

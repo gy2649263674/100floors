@@ -360,7 +360,7 @@ int Character::exhibit(int direct, IMAGE* back)
 				}
 				static int picfp = i / PICGAP / 3;
 				picfp = i / PICGAP / 3;
-				i = picfp >= runsize+standing_size ? 0 : ++i;
+				i = picfp >= runsize+standing_size-1 ? 0 : ++i;
 				BeginBatchDraw();
 				cleardevice();
 				putimage(0, 0, back);
