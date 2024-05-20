@@ -1,10 +1,11 @@
 ﻿
+#include <Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
 #include <iostream>
 #include <easyx.h>
 #include <ctime>
 #include <Windows.h>
-#include <mmsystem.h>
-#pragma comment(lib,"winmm.lib")
 #include"board.h"
 #include"all.h"
 #include "Timer.h"
@@ -15,6 +16,7 @@
 #include "Item.h"
 #include<deque>
 using namespace std;
+const double v0 = 4;
 const  int fps = 60;
 const  int frame = 1000 / 60;
 int Timer::time = 0;
@@ -43,8 +45,9 @@ map<Boardtype, map<int, IMAGE>>boardimg_mask;
 enum {
 	goback,
 	restart,
-	suspend,
+	continuebt,
 }Overallbt;
+void gamedraw(int dir);
 class Moniter
 {
 public:
@@ -52,27 +55,76 @@ public:
 	{
 		overall[goback].init("goback", "返回主菜单");
 		overall[restart].init("restart", "游戏可以重开，人生不能重来");
-		overall[suspend].init("suspend", "暂停游戏");
+		overall[continuebt].init("suspend", "继续");
+		overall[goback].setpos(MAINW / 2, MAINH / 2);
+		overall[continuebt].setpos(MAINW / 2, MAINH / 2 + BTH * 3);
+		overall[restart].setpos(MAINW / 2, MAINH / 2);
 	}
-	void gameing_return_back(ExMessage &msg)
+	int gaming(ExMessage msg = { 0 })
 	{
-		if (overall[goback].in_area(msg))
+		//setbkcolor(WHITE);
+		setbkmode(OPAQUE);
+		settextstyle(80, 10, "");
+		settextcolor(WHITE);
+		outtextxy(800, 0, "");
+		//setfillcolor(WHITE);
+		outtextxy(800, 500, "按空格键暂停");
+		if (GetAsyncKeyState(VK_SPACE) == 0)
 		{
-			overall[goback].react(msg);
+			return 0;
+		}
+		peekmessage(&msg, EX_KEY, true);
+		while (1)
+		{
+			BeginBatchDraw();
+			gamedraw(0);
+			settextstyle(60, 10, "");
+			outtextxy(550, MAINH - 100, "按enter键返回游戏");
+			outtextxy(550, MAINH - 200, "按esc键返回主菜单");
+			EndBatchDraw();
+			while (peekmessage(&msg, EX_MOUSE | EX_KEY) | 1)
+			{
+				if (msg.vkcode == VK_RETURN)
+				{
+					return 0;
+				}
+				else if (msg.vkcode == VK_ESCAPE)
+				{
+					return -1;
+				}
+			}
 		}
 	}
-	void died_restart()
+	int died_restart()
 	{
+		Sleep(100);
+		EndBatchDraw();
+		cleardevice();
+		putimage(0, 0, se.get_background());
+		setfillcolor(BLACK);
+		settextcolor(RED);
+		outtextxy(MAINW / 2, MAINH / 2, "骚年,游戏可以重开，人生不能重来");
+		outtextxy(MAINW / 2, MAINH / 2 + 50, "摁ESC退出");
+		outtextxy(MAINW / 2, MAINH / 2 + 100, "按ENTER重开");
+		ExMessage msg;
+		while (1)
+		{
+			peekmessage(&msg, -1);
+			if (msg.vkcode == VK_ESCAPE)//F
+			{
+				return 0;
+			}
+			else if (msg.vkcode == VK_RETURN)
+			{
+				return 1;
+			}
+		}
 
+		//outtextxy(MAINW / 2, MAINH / 2, "游戏可以重开，人生不能重来");
 	}
-	void gaming_suspend()
-	{
-		
-	}
-private:
 	Button overall[3];
-
 };
+Moniter master;
 void draw_speed(Character& role);
 void creatgame()
 {
@@ -84,6 +136,7 @@ void creatgame()
 #include <direct.h>
 void loadresource()
 {
+	loadapp();
 	loadimage(&boardimg[normaltype][0], "./picture/unit/normal.png");
 	loadimage(&boardimg[nailtype][0], "./picture/unit/nail.png");
 	loadimage(&boardimg_mask[nailtype][0], "./picture/unit/nail_mask.png");
@@ -102,11 +155,13 @@ void loadresource()
 	}
 	loadimage(&wall, "./picture/unit/wall.png");
 	loadimage(roof_img, "./picture/ceiling/ceiling.png");
-	loadimage(roof_img+1, "./picture/ceiling/ceiling_mask.png");
+	loadimage(roof_img + 1, "./picture/ceiling/ceiling_mask.png");
 	loadimage(&arrow[0], "picture/button/arrow.png");
 	loadimage(&arrow[1], "picture/button/arrow_mask.png");
 	loadimage(cursor, "picture/button/cursor.ico");
 	loadimage(cursor + 1, "picture/button/cursor_mask.ico");
+	loadimage(border + 1, "picture/button/border_mask.png", Button::wordsw, BTH);
+	loadimage(border, "picture/button/border.png", Button::wordsw, BTH);
 	loadimage(health, "./picture/health/health1.png", 40, 40);
 	loadimage(health + 1, "./picture/health/health1_mask.png", 40, 40);
 	loadimage(cure_img, "./picture/item/cure.png", 40, 40);
@@ -119,9 +174,9 @@ void loadresource()
 	loadimage(armo_img + 1, "./picture/item/defend_mask.png", 40, 40);
 }
 
-Boardtype wanttype(entertain mode = normal)
+Boardtype wanttype(const entertain mode = normal)
 {//
-	
+
 	//根据当前模式控制板子概率 
 	switch (mode)
 	{
@@ -133,18 +188,18 @@ Boardtype wanttype(entertain mode = normal)
 		return  faketype;
 	case run_run:
 	{
-		srand(rand()*time(0));
+		srand(rand() * time(0));
 		return rand() % 10 > rand() % 10 ? lefttype : righttype;
 	}
 	}
 }
 #define PERCENT 7
-int setboard(entertain mode = normal)
+int setboard(const entertain mode = normal)
 {
 	static int judge = 0;
 	judge = rand() % 10;
 	int btype = rand() % 6;
-	if (judge < 7 && btype!= wanttype(mode))
+	if (judge < 7 && btype != wanttype(mode))
 	{
 		return wanttype(mode);
 	}
@@ -154,19 +209,19 @@ int setboard(entertain mode = normal)
 	}
 }
 
-void gameInit(entertain mode = normal)
+void gameInit(const entertain mode = normal)
 {
-	loadresource();
-	loadapp();
-
+	Board::reset();
+	role.score = 0;
 	srand((unsigned int)time(NULL));
 	board[0].y = rand() % (WIDTH / 3) + 100;
-	board[0].x = MAINW/ 2;
+	board[0].x = MAINW / 2;
 	board[0].type = 0;
 	//srand(time(0));
 	for (int i = 1; i < 150; i++)
 	{
-		board[i].y = BOARD_GAP+ board[i - 1].y;
+		board[i].y = BOARD_GAP + board[i - 1].y;
+		board[i].stay = 0;
 		board[i].type = setboard(mode);
 		board[i].x = rand() % (LENGTH - 350);
 		board[i].play = 0;
@@ -177,6 +232,7 @@ void gameInit(entertain mode = normal)
 	roof.used = false;
 	roof.x = 0;
 	roof.y = 0;
+
 }
 
 
@@ -187,19 +243,19 @@ void draw_lucency(Character& role, int direct = RIGHT)
 	return;
 }
 
-void gamedraw(int& count, int dir)
+void gamedraw(int dir = 0)
 {
+	static int count = 0;
 	++count;
 	draw_lucency(0, 0, roof_img, roof_img + 1);
 	draw_lucency(350, 0, roof_img, roof_img + 1);
-	//putimage(720, 0, border);
-	//putimage(720, 350, border);
-	//draw_lucency(800, 0, roof_img, roof_img + 1);
+	fillrectangle(750, 0, 1000, 1000);
+	setfillcolor(BLACK);
 	putimage(0, 0, &wall);
 	putimage(0, 380, &wall);
 	putimage(750, 0, &wall);
 	putimage(750, 380, &wall);
-	if (count >= 5)
+	if (count >= 100)
 	{
 		count = 0;
 		int index;
@@ -213,15 +269,15 @@ void gamedraw(int& count, int dir)
 	int i = 0;
 	for (i = 0; i < role.health; i++)
 	{
-		putimage(600 + i * 40, 10, &health[1], SRCAND);
-		putimage(600 + i * 40, 10, &health[0], SRCPAINT);
+		putimage(780 + i * 40, 10, &health[1], SRCAND);
+		putimage(780 + i * 40, 10, &health[0], SRCPAINT);
 	}
 	if (role.have_armo == true)
 	{
-		putimage(600 + i * 40, 10, &armo_img[1], SRCAND);
-		putimage(600 + i * 40, 10, &armo_img[0], SRCPAINT);
+		putimage(780 + i * 40, 10, &armo_img[1], SRCAND);
+		putimage(780 + i * 40, 10, &armo_img[0], SRCPAINT);
 	}
-	for (i = 0; i < 150&&board[i].y>=0&&board[i].y<=MAINH; i++)
+	for (i = 0; i < 150 && board[i].y >= 0 && board[i].y <= MAINH; i++)
 	{
 
 		if (board[i].type == 0)
@@ -253,7 +309,7 @@ void gamedraw(int& count, int dir)
 		}
 		else if (board[i].type == faketype)
 		{
-			if (board[i].play >18 )
+			if (board[i].play > 18)
 			{
 				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg_mask[faketype][0], 0, 0, SRCAND);
 				putimage(board[i].x, board[i].y, 96, 217 / 6, &boardimg[faketype][0], 0, 0, SRCPAINT);
@@ -266,7 +322,7 @@ void gamedraw(int& count, int dir)
 					board[i].play++;
 				}
 			}
-		//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
+			//putimage(board[i].x, board[i].y, 96, 217 / 6, fake, 0, 0, SRCPAINT);
 		}
 		else if (board[i].type == lefttype)
 		{
@@ -274,14 +330,12 @@ void gamedraw(int& count, int dir)
 		}
 		else if (board[i].type == righttype)
 		{
-			putimage(board[i].x, board[i].y, 96, 16 , &boardimg[righttype][0], 0, (board[i].play % 16 / 4) * 16);
+			putimage(board[i].x, board[i].y, 96, 16, &boardimg[righttype][0], 0, (board[i].play % 16 / 4) * 16);
 		}
 		else if (board[i].type == trampolinetype)
 		{
-			putimage(board[i].x, board[i].y, &boardimg_mask[trampolinetype][board[i].stay + 1],SRCAND);
-			putimage(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1],SRCPAINT);
-			//
-			// draw_lucency(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1], &boardimg_mask[trampolinetype][board[i].stay + 1]);
+			putimage(board[i].x, board[i].y, &boardimg_mask[trampolinetype][board[i].stay + 1], SRCAND);
+			putimage(board[i].x, board[i].y, &boardimg[trampolinetype][board[i].stay + 1], SRCPAINT);
 		}
 	}
 	if (dir == LEFT)
@@ -296,12 +350,11 @@ void gamedraw(int& count, int dir)
 	{
 		role.draw_standing();
 	}
-	//falling
-	draw_speed(role);
+	//draw_speed(role);
+	role.draw_score();
 }
 #define BOARD_A 0.001
 #define MAXV 10
-const double v0 = 3;
 double Board::V = 3;
 #define BOARDSIZE 20
 #define BOARDBUFFER 30
@@ -310,10 +363,10 @@ extern string getv[10];
 void draw_speed(Character& role)
 {
 	settextstyle(20, 10, "consola");
-	outtextxy(MAINW- STAX, 0, &("board v:" + to_string(Board::V))[0]);
-	outtextxy(MAINW- STAX, 30, &getv[0][0]);
-	outtextxy(MAINW- STAX, 60, &getv[1][0]);
-	outtextxy(MAINW- STAX, 90, &getv[2][0]);
+	outtextxy(MAINW - STAX, 0, &("board v:" + to_string(Board::V))[0]);
+	outtextxy(MAINW - STAX, 30, &getv[0][0]);
+	outtextxy(MAINW - STAX, 60, &getv[1][0]);
+	outtextxy(MAINW - STAX, 90, &getv[2][0]);
 }
 void board_move(bool rebegin, entertain mode = normal)
 {
@@ -335,10 +388,9 @@ void board_move(bool rebegin, entertain mode = normal)
 		}
 	}
 }
-
-void tempgameing(entertain mode = normal)
+//1 restart
+bool tempgameing(entertain mode = normal)
 {
-
 	int count = 0;
 	settextcolor(WHITE);
 	settextstyle(50, 15, "consola");;
@@ -348,8 +400,24 @@ void tempgameing(entertain mode = normal)
 		BeginBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
-		board_move(false,mode);
-		gamedraw(count, role.character_move());
+		board_move(false, mode);
+		gamedraw(role.character_move());
+		if (master.gaming(msg) == -1)
+		{
+			EndBatchDraw();
+			return 1;
+		}
+		if (role.is_dead())
+		{
+			if (master.died_restart())
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
 		outtextxy(0, 0, "开发者模式");
 		Timer::endkeep(1000 / 144);
 		EndBatchDraw();
@@ -362,17 +430,19 @@ void loadapp()
 {
 	ch = *new Picset("ch", 36, 26, 10);
 	fox = *new Picset("fox", 8, 7, 1);
-	kun = *new Picset("kun", 25, 3, 21, 40,60);
+	kun = *new Picset("kun", 25, 3, 21, 40, 60);
 	appearence.push_back(&ch);
 	appearence.push_back(&fox);
 	appearence.push_back(&kun);
 }
-void testbutton()
+void testbutton(entertain defaultmode = normal)
 {
 	se = Start();
 	creatgame();
-	gameInit(run_run);
-	role = Character("kun",3, 21, &kun);
+	loadresource();
+	gameInit(fake_world);
+	role = Character("kun", 3, 21, &kun);
+	//tempgameing(defaultmode);
 	while (1 ^ EXIT)
 	{
 		se.enter_scene();
@@ -382,32 +452,44 @@ void testbutton()
 			opt = Btname(se.process_command(msg));
 			if (opt == start_bt)
 			{
+				gameInit(defaultmode);
 				cout << "start game" << endl;
-				tempgameing(jump_jump);
+				if (tempgameing(defaultmode))
+					break;
+				else
+				{
+					return;
+				}
 			}
 			else if (opt == map_bt)
 			{
 				se.ChooseMap(msg);
 				cout << "choose map" << endl;
-				se.enter_scene();
+				break;
+
 			}
 			else if (opt == role_bt)
 			{
 				se.change_role(&role, appearence);
 				cout << "choose role" << endl;
-				se.enter_scene();
+				break;
+
 			}
 			else if (opt == exit_bt)
 			{
 				EXIT = true;
 				cout << "exit game" << endl;
+				break;
+
 			}
 			else if (opt == choosemode_bt)
 			{
-				gameInit(se.setmode(msg));
+				defaultmode = se.setmode(msg);
+				gameInit(defaultmode);
 				cout << "set mode";
+				break;
 			}
-			
+
 		}
 	}
 	return;
@@ -415,7 +497,6 @@ void testbutton()
 int main(void)
 {
 
-	//testbutton();
 	testbutton();
 	return 0;
 
