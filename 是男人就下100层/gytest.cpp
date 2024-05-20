@@ -15,6 +15,7 @@
 #include"scene.h"
 #include "Item.h"
 #include<deque>
+bool GODMODE = false;
 using namespace std;
 const double v0 = 4;
 const  int fps = 60;
@@ -103,6 +104,7 @@ public:
 		putimage(0, 0, se.get_background());
 		setfillcolor(BLACK);
 		settextcolor(RED);
+		settextstyle(50, 10, "");
 		outtextxy(MAINW / 2, MAINH / 2, "骚年,游戏可以重开，人生不能重来");
 		outtextxy(MAINW / 2, MAINH / 2 + 50, "摁ESC退出");
 		outtextxy(MAINW / 2, MAINH / 2 + 100, "按ENTER重开");
@@ -226,7 +228,7 @@ void gameInit(const entertain mode = normal)
 		board[i].x = rand() % (LENGTH - 350);
 		board[i].play = 0;
 	}
-	role.set_sta(board[0]);
+	role.set_sta(board[4]);
 	roof.type = 1;
 	roof.len = LENGTH;
 	roof.used = false;
@@ -353,7 +355,7 @@ void gamedraw(int dir = 0)
 	//draw_speed(role);
 	role.draw_score();
 }
-#define BOARD_A 0.001
+#define BOARD_A 0.005
 #define MAXV 10
 double Board::V = 3;
 #define BOARDSIZE 20
@@ -389,7 +391,7 @@ void board_move(bool rebegin, entertain mode = normal)
 	}
 }
 //1 restart
-bool tempgameing(entertain mode = normal)
+int tempgameing(entertain mode = normal)
 {
 	int count = 0;
 	settextcolor(WHITE);
@@ -405,10 +407,14 @@ bool tempgameing(entertain mode = normal)
 		if (master.gaming(msg) == -1)
 		{
 			EndBatchDraw();
-			return 1;
+			while (peekmessage(&msg, -1))
+				(flushmessage());
+			return 2;
 		}
-		if (role.is_dead())
+		if (role.is_dead() && !GODMODE)
 		{
+			while (peekmessage(&msg, -1))
+				(flushmessage());
 			if (master.died_restart())
 			{
 				return 1;
@@ -418,7 +424,10 @@ bool tempgameing(entertain mode = normal)
 				return 0;
 			}
 		}
-		outtextxy(0, 0, "开发者模式");
+		if (GODMODE)
+		{
+			outtextxy(0, 0, "god模式");
+		}
 		Timer::endkeep(1000 / 144);
 		EndBatchDraw();
 	}
@@ -430,7 +439,7 @@ void loadapp()
 {
 	ch = *new Picset("ch", 36, 26, 10);
 	fox = *new Picset("fox", 8, 7, 1);
-	kun = *new Picset("kun", 25, 3, 21, 40, 60);
+	kun = *new Picset("kun", 25, 4, 21, 40, 60);
 	appearence.push_back(&ch);
 	appearence.push_back(&fox);
 	appearence.push_back(&kun);
@@ -441,7 +450,7 @@ void testbutton(entertain defaultmode = normal)
 	creatgame();
 	loadresource();
 	gameInit(fake_world);
-	role = Character("kun", 3, 21, &kun);
+	role = Character("kun", 4, 21, &kun);
 	//tempgameing(defaultmode);
 	while (1 ^ EXIT)
 	{
@@ -452,13 +461,31 @@ void testbutton(entertain defaultmode = normal)
 			opt = Btname(se.process_command(msg));
 			if (opt == start_bt)
 			{
-				gameInit(defaultmode);
-				cout << "start game" << endl;
-				if (tempgameing(defaultmode))
-					break;
-				else
+				while (1)
 				{
-					return;
+					gameInit(defaultmode);
+					cout << "start game" << endl;//1 restart
+					//0 exut
+					//2 mainmenu
+					while (peekmessage(&msg, EX_KEY))
+						(flushmessage());
+					int op = tempgameing(defaultmode);
+
+					if (op == 1)
+					{
+						continue;
+					}
+					else if (op == 2)
+					{
+						se.enter_scene();
+
+						break;
+					}
+					else
+					{
+						return;
+					}
+
 				}
 			}
 			else if (opt == map_bt)
@@ -489,7 +516,12 @@ void testbutton(entertain defaultmode = normal)
 				cout << "set mode";
 				break;
 			}
-
+			else if (opt == enter_bt)
+			{
+				GODMODE ^= 1;
+				se.chanegbt(enter_bt)->rename(GODMODE ? "关闭作弊" : "开启作弊");
+			}
+			
 		}
 	}
 	return;

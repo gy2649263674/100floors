@@ -177,6 +177,10 @@ public:
 			return  false;
 		}
 	}
+	void rename(const char *s)
+	{
+		text = string(s);
+	}
 	int react(ExMessage& msg);
 	const static int w = BTW, h = BTH;
 	const static int gap = BTW * 2, wordsw = BTW * 4;
@@ -207,6 +211,7 @@ enum Btname
 	map_bt,
 	choosemode_bt,
 	exit_bt,
+	enter_bt,
 };
 class Start :public Scene
 {
@@ -221,7 +226,7 @@ public:
 	}
 	void init_button()
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			buttons[i] = new Button;
 		}
@@ -230,6 +235,7 @@ public:
 		buttons[role_bt]->init("role", "选择角色");
 		buttons[exit_bt]->init("exit", "退出游戏");
 		buttons[choosemode_bt]->init("mode", "选择模式");
+		buttons[enter_bt]->init("god", "作弊模式");
 		locate_button();
 	}
 	void locate_button()
@@ -241,7 +247,8 @@ public:
 		{
 			buttons[i]->setpos(oriposx, oriposy + gap * i);
 		}
-		return;
+
+		//buttons[enter]->setpos(50, 0);
 	}
 	void draw_pic()
 	{
@@ -289,7 +296,10 @@ public:
 			}
 		}
 	}
-
+	Button* chanegbt(int index)
+	{
+		return  buttons.count(index) ? buttons[index] :NULL;
+	}
 private:
 	const static int btnum = 4;
 	unordered_map<int, Button*>buttons;

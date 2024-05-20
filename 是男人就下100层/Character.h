@@ -22,11 +22,11 @@ public:
 	{
 		this->h = 60;
 		this->x = board.x + board.len / 2 - this->h / 2;
-		this->y = board.y - this->h;
+		this->y = board.y -3*this->h;
 		this->health = 3;
 		this->h = 60;
 		this->have_armo = false;
-		this->jump = 100;
+		this->jump = 0;
 		this->health = 3;
 		this->ob = -1;
 	}
@@ -103,7 +103,7 @@ public:
 	int curframe = 0;
 	int uv = 0;
 	int dircetion = 0;
-	int jump = 0;
+	int jump = -1;
 	bool have_armo;
 	int standing_size = 0;
 	int runsize = 0;

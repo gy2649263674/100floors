@@ -143,7 +143,8 @@ entertain Start::setmode(ExMessage& msg)
 			}
 			cleardevice();
 			putimage(0, 0, shot->get_image(cur_mode));
-			outtextxy(MAINW / 2, MAINH / 20, &mode_explain[cur_mode][0]);
+			outtextxy(MAINW / 2, MAINH / 20, &(mode_explain[cur_mode])[0]);
+			outtextxy(0, 0, "按enter键选择模式");
 		}
 	}
 }

@@ -1,39 +1,37 @@
-﻿  gytest.cpp
+﻿  scene.cpp
 E:\zzs\gitstore\used for update\100floors\是男人就下100层\Atlas.h(29,19): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+  (编译源文件“scene.cpp”)
   
 E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(121,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+  (编译源文件“scene.cpp”)
   
 E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(121,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+  (编译源文件“scene.cpp”)
   
 E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(129,117): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+  (编译源文件“scene.cpp”)
   
 E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(129,53): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+  (编译源文件“scene.cpp”)
   
 E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(138,99): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+  (编译源文件“scene.cpp”)
   
 E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(138,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+  (编译源文件“scene.cpp”)
   
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(237,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(243,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
   
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(238,15): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(244,15): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
   
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(239,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(245,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
   
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(283,54): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-  (编译源文件“gytest.cpp”)
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.h(290,54): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“scene.cpp”)
   
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\gytest.cpp(191,16): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\gytest.cpp(378,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\gytest.cpp(195,1): warning C4715: “wanttype”: 不是所有的控件路径都返回值
-E:\zzs\gitstore\used for update\100floors\是男人就下100层\Atlas.h(25,1): warning C4715: “Atlas::get_mask_image”: 不是所有的控件路径都返回值
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.cpp(89,26): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+E:\zzs\gitstore\used for update\100floors\是男人就下100层\scene.cpp(113,1): warning C4715: “Button::react”: 不是所有的控件路径都返回值
   NS-shaft.vcxproj -> E:\zzs\gitstore\used for update\100floors\是男人就下100层\x64\Debug\NS-shaft.exe

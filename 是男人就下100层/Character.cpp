@@ -15,12 +15,13 @@ const int yu = 600;
 enum Boardtype;
 #define SPEED 150
 #define INCREASE 50
-#define FALL_INCREASE 0.50
+#define FALL_INCREASE 2
 //extern pair<double,double>
- string getv[10];
+string getv[10];
 static double lspeed = SPEED;
 static double rspeed = SPEED;
 using namespace std;
+extern bool GODMODE;
 int Character::character_move()
 {
 	score += 1;
@@ -45,26 +46,13 @@ int Character::character_move()
 	else if (GetAsyncKeyState(VK_RIGHT) && x < 700)
 	{
 		lspeed = SPEED;
-		rspeed += INCREASE ;
+		rspeed += INCREASE;
 		x += min(rspeed, yu) * gap;
 		cout << "rspeed :" << rspeed << " ";
 		cout << "lspeed :" << lspeed << endl;
 		msg.vkcode = VK_RIGHT;
 		move();
 		pre = RIGHT;
-	}
-	else if (GetAsyncKeyState(VK_UP) && x < 750)
-	{
-		y -= 50;
-	}
-	else if (GetAsyncKeyState(VK_DOWN) && x < 750)
-	{
-		y += 50;
-	}
-	else if (GetAsyncKeyState(VK_SPACE))
-	{
-		msg.vkcode = VK_SPACE;
-		return pre;
 	}
 	else
 	{
@@ -78,11 +66,27 @@ int Character::character_move()
 		standing(pre);
 		pre = 0;
 	}
-	flushmessage();
+	if (GODMODE)
+	{
+		if (GetAsyncKeyState(VK_UP) && x < 750)
+		{
+			y -= 50;
+		}
+		else if (GetAsyncKeyState(VK_DOWN) && x < 750)
+		{
+			y += 50;
+		}
+		else if (GetAsyncKeyState(VK_SPACE))
+		{
+			msg.vkcode = VK_SPACE;
+			//return pre;
+		}
+	}
+
 	int x2 = this->x + h / 2;
 	int y2 = this->y + h;
 	//判断玩家在哪一块板子上
-	for (int i = 0; i<150; i++)
+	for (int i = 0; i < 150; i++)
 	{
 		if (board[i].type == lefttype || board[i].type == righttype)
 		{
@@ -93,7 +97,7 @@ int Character::character_move()
 			board[i].play++;
 		}
 		if (x2 >= board[i].x && x2 <= board[i].len + board[i].x
-			&&y2 >= board[i].y - Board::V * FRAME / 4&& y2 <= board[i].y + Board::V * FRAME / 4)
+			&& y2 >= board[i].y - Board::V * FRAME / 4 && y2 <= board[i].y + Board::V * FRAME / 4)
 		{
 			this->y = board[i].y - h;
 			ob = i;
@@ -153,7 +157,7 @@ int Character::character_move()
 				{
 					PlaySound("./sound/wav/fake.wav", NULL, SND_FILENAME | SND_ASYNC);
 				}
-					
+
 				board[i].play++;
 			}
 			else if (board[i].type == lefttype)
@@ -205,7 +209,8 @@ int Character::character_move()
 	}
 	if (jump)
 	{
-		y -= 10;
+		//y -= 10;
+		y = max(0, y - 10);
 		jump--;
 		//return 0;
 	}
@@ -241,8 +246,8 @@ int Character::character_move()
 	static double prevy = y;
 	getv[0] = "left:" + to_string(lspeed == SPEED ? 0 : lspeed / 10) + "  right:" + to_string(rspeed == SPEED ? 0 : rspeed / 10);
 	getv[1] = "falling:" + to_string(abs((y - prevy)) * 20000 / FRAME);//(abs(G- FALL_INCREASE)<1e-6?0: FALL_INCREASE*FRAME);
-	getv[2] = "(" + to_string(x) +","+ to_string(y) + ")";
-		prevy = y;
+	getv[2] = "(" + to_string(x) + "," + to_string(y) + ")";
+	prevy = y;
 	return pre;
 
 }
@@ -316,7 +321,7 @@ int Character::exhibit(int direct, IMAGE* back)
 	BeginBatchDraw();
 	cleardevice();
 	putimage(0, 0, back);
-	draw_lucency(x, y, temp->get_image(0), temp->get_mask_image(0));
+	draw_lucency(MAINW / 2, MAINH / 2, temp->get_image(0), temp->get_mask_image(0));
 	++co;
 	cout << "co" << co << endl;
 	while (1)
@@ -338,11 +343,12 @@ int Character::exhibit(int direct, IMAGE* back)
 				}
 				static int picfp = i / PICGAP / 3;
 				picfp = i / PICGAP / 3;
-				i = picfp >= runsize+standing_size-1 ? 0 : ++i;
+				i = picfp >= runsize + standing_size - 1 ? 0 : ++i;
 				BeginBatchDraw();
 				cleardevice();
 				putimage(0, 0, back);
-				draw_lucency(x, y, temp->get_image(picfp), temp->get_mask_image(picfp));
+				draw_lucency(MAINW/2, MAINH/2, temp->get_image(picfp), temp->get_mask_image(picfp));
+				outtextxy(0, 0, "按enter键选择角色");
 				EndBatchDraw();
 				Timer::endkeep(FRAME);
 			}
