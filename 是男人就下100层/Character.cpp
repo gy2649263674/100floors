@@ -7,10 +7,8 @@
 #include"Atlas.h"
 extern int act;
 extern deque<Board>board;
-const double conveyer_ratio = 1.5;
+const double conveyer_ratio = 2;
 extern Board roof;
-extern IMAGE character_img[10];
-extern IMAGE character_img_mask[10];
 extern ExMessage msg;
 const double gap = 1000.0 / FRAME;
 const int yu = 600;
@@ -43,8 +41,6 @@ int Character::character_move()
 		msg.vkcode = VK_LEFT;
 		move();
 		pre = LEFT;
-		move();
-		pre = LEFT;
 	}
 	else if (GetAsyncKeyState(VK_RIGHT) && x < 700)
 	{
@@ -64,6 +60,11 @@ int Character::character_move()
 	else if (GetAsyncKeyState(VK_DOWN) && x < 750)
 	{
 		y += 50;
+	}
+	else if (GetAsyncKeyState(VK_SPACE))
+	{
+		msg.vkcode = VK_SPACE;
+		return pre;
 	}
 	else
 	{
@@ -125,29 +126,6 @@ int Character::character_move()
 					}
 				}
 			}
-			/*if (board[i].type == normaltype && board[i].have_item == true)
-			{
-				
-				if (board[i].item_type == 0)
-				{
-					health = 3;
-					board[i].have_item = false;
-				}
-				else if (board[i].item_type == 1)
-				{
-					if (have_armo == false)
-					{
-						board[i].have_item = false;
-						have_armo = true;
-					}
-				}
-				else if (board[i].item_type == 2)
-				{
-					board[i].have_item = false;
-					score += 500;
-				}
-
-			}*/
 			if (board[i].type == 1 && board[i].used == false)
 			{
 				if (have_armo == true)
@@ -186,7 +164,9 @@ int Character::character_move()
 					PlaySound("./sound/wav/land.wav", NULL, SND_FILENAME | SND_ASYNC);
 				}
 				if (x > 0)
+				{
 					x -= SPEED * gap * conveyer_ratio;
+				}
 				break;
 			}
 			else if (board[i].type == righttype)
@@ -220,6 +200,7 @@ int Character::character_move()
 		{
 			ob = -1;
 			board[i].stay = max(0, --board[i].stay);
+			board[i].play = 0;//max(0, --board[i].play);
 		}
 	}
 	if (jump)

@@ -1,5 +1,6 @@
 ﻿#pragma once 
 #include"Atlas.h"
+extern const double  v0;
 enum Boardtype
 {
 	normaltype = 0,
@@ -24,6 +25,10 @@ public:
 	int play;
 	bool have_item = false;
 	int item_type = 0;
-	static double  V;
+	static double V;
+	static void reset()
+	{
+		V = v0;
+	}
 private:
 };

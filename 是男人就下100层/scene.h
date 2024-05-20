@@ -88,7 +88,6 @@ public:
 		images = new Atlas;
 	}
 	Button(const char* filename, const char* text_ = " ");
-
 	void setpos(int x, int y)
 	{
 		this->x = x;
@@ -98,8 +97,11 @@ public:
 	}
 	void init(const char* filename, const char* text_ = " ")
 	{
-		images->add_image(BTDIR, filename, BTW, BTH, 1, ".ico");
-		images->add_image(BTDIR, filename, BTW, BTH, 1, ".ico", MASK);
+		if (images)
+		{
+			images->add_image(BTDIR, filename, BTW, BTH, 1, ".ico");
+			images->add_image(BTDIR, filename, BTW, BTH, 1, ".ico", MASK);
+		}
 		text = string(text_);
 		return;
 	}
@@ -115,7 +117,7 @@ public:
 	void unin()
 	{
 		setbkmode(TRANSPARENT);;
-		settextcolor(BLACK);
+		settextcolor(WHITE);
 		settextstyle((area_w.top - area_w.bottom) * ratio, (area_w.right - area_w.left) / text.length() * ratio, "consola");;
 		//draw_words();
 	}
@@ -132,7 +134,7 @@ public:
 		setbkmode(OPAQUE);
 		setbkcolor(DARKGRAY);
 		setfillcolor(DARKGRAY);
-		settextcolor(WHITE);
+		settextcolor(BLACK);
 		settextstyle((area_w.top - area_w.bottom) * ratio, (area_w.right - area_w.left) / text.length() * ratio, "consola");;
 	}
 	//1 clicked 
@@ -154,6 +156,7 @@ public:
 		}
 		drawtext(&text[0], &area_w, DT_CENTER | DT_BOTTOM);
 		draw_lucency(area_w.left, area_w.top - 7, border, border + 1);
+		//draw_lucency(x, y, &border[0], &border[1]);
 		return;
 	}
 	void draw_button()
@@ -180,7 +183,7 @@ public:
 private:
 	int x = 0, y = 0;
 	string text;
-	Atlas* images;
+	Atlas* images = NULL;
 	RECT area_w;
 
 };
@@ -202,13 +205,13 @@ enum Btname
 	start_bt = 0,
 	role_bt,
 	map_bt,
-	exit_bt,
 	choosemode_bt,
+	exit_bt,
 };
 class Start :public Scene
 {
 public:
-	entertain setmode(ExMessage&msg);
+	entertain setmode(ExMessage& msg);
 	Start()
 	{
 		buttons = unordered_map<int, Button*>(5);
@@ -226,7 +229,7 @@ public:
 		buttons[map_bt]->init("map", "选择地图");
 		buttons[role_bt]->init("role", "选择角色");
 		buttons[exit_bt]->init("exit", "退出游戏");
-		buttons[choosemode_bt]->init("choose", "选择模式");
+		buttons[choosemode_bt]->init("mode", "选择模式");
 		locate_button();
 	}
 	void locate_button()
@@ -267,7 +270,7 @@ public:
 	{
 		return back_ground->get_image(cur_back);
 	}
-	void change_role(Character* role, deque<Picset* >&picarr)
+	void change_role(Character* role, deque<Picset* >& picarr)
 	{
 		ExMessage msg;
 		int ck = 0;
@@ -286,7 +289,7 @@ public:
 			}
 		}
 	}
-	
+
 private:
 	const static int btnum = 4;
 	unordered_map<int, Button*>buttons;
