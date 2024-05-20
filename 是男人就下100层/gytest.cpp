@@ -3,6 +3,8 @@
 #include <easyx.h>
 #include <ctime>
 #include <Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
 #include"board.h"
 #include"all.h"
 #include "Timer.h"

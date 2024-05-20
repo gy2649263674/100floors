@@ -21,17 +21,20 @@ F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene
 F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(136,45): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
   (编译源文件“gytest.cpp”)
   
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(233,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(234,50): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
   (编译源文件“gytest.cpp”)
   
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(234,15): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(235,15): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   (编译源文件“gytest.cpp”)
   
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(235,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(236,11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
   (编译源文件“gytest.cpp”)
   
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(105,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(297,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
-F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(109): warning C4715: “wanttype”: 不是所有的控件路径都返回值
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\scene.h(280,54): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“gytest.cpp”)
+  
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(136,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(324,24): warning C4244: “-=”: 从“double”转换到“int”，可能丢失数据
+F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\gytest.cpp(140): warning C4715: “wanttype”: 不是所有的控件路径都返回值
 F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\Atlas.h(25): warning C4715: “Atlas::get_mask_image”: 不是所有的控件路径都返回值
   NS-shaft.vcxproj -> F:\git warehouse\go-down-100-floors-to-be-a-true-man\是男人就下100层\x64\Debug\NS-shaft.exe
