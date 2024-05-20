@@ -418,7 +418,7 @@ bool tempgameing(entertain mode = normal)
 				return 0;
 			}
 		}
-		outtextxy(0, 0, "开发者模式");
+		//outtextxy(0, 0, "开发者模式");
 		Timer::endkeep(1000 / 144);
 		EndBatchDraw();
 	}
