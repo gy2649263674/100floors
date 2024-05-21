@@ -16,25 +16,16 @@
     <ClInclude Include="Character.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="Draw.h">
-      <Filter>head</Filter>
-    </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="scene.h">
       <Filter>head</Filter>
     </ClInclude>
-    <ClInclude Include="stdc++.h">
-      <Filter>head</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>head</Filter>
     </ClInclude>
     <ClInclude Include="unit.h">
-      <Filter>head</Filter>
-    </ClInclude>
-    <ClInclude Include="Border.h">
       <Filter>head</Filter>
     </ClInclude>
   </ItemGroup>
@@ -51,9 +42,6 @@
     <ClCompile Include="Character.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
-    <ClCompile Include="Draw.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
     <ClCompile Include="graph.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
@@ -64,9 +52,6 @@
       <Filter>yuan</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>yuan</Filter>
-    </ClCompile>
-    <ClCompile Include="Border.cpp">
       <Filter>yuan</Filter>
     </ClCompile>
     <ClCompile Include="rub.cpp">

@@ -9,6 +9,7 @@
 #include<deque>
 #include"unit.h"
 #include "Character.h"
+#include"Anime.h"
 class Character;
 extern IMAGE arrow[2];
 extern IMAGE cursor[2];
@@ -177,7 +178,7 @@ public:
 			return  false;
 		}
 	}
-	void rename(const char *s)
+	void rename(const char* s)
 	{
 		text = string(s);
 	}
@@ -215,14 +216,33 @@ enum Btname
 };
 class Start :public Scene
 {
+	friend class Anime;
 public:
 	entertain setmode(ExMessage& msg);
 	Start()
 	{
+		//back_ground.resize(1);
 		buttons = unordered_map<int, Button*>(5);
-		back_ground = new Atlas;
-		back_ground->add_image(MAPDIR, "background", MAINW, MAINH, 5, ".png");
+		init_back();
 		init_button();
+	}
+	void init_back()
+	{
+		back_ground[0].add_image("map\\fire","fire", MAINW, MAINH, 36, ".png");
+		back_ground[1].add_image("map\\man","", MAINW, MAINH, 18, ".png");
+		//back_ground[2].add_image("map\\space","", MAINW, MAINH,200 , ".png");
+		back_ground[2].add_image("map\\escape","", MAINW, MAINH, 24, ".png");
+		back_ground[3].add_image("map\\space","", MAINW, MAINH, 6, ".png");
+		back_ground[4].add_image("map\\wind","", MAINW, MAINH, 20, ".png");
+		back_ground[5].add_image("map\\ring","", MAINW, MAINH, 48, ".png");
+		/*back_ground[1].add_image(MAPDIR, "1", MAINW, MAINH, 1);
+		back_ground[2].add_image(MAPDIR, "2", MAINW, MAINH, 1);
+		back_ground[3].add_image(MAPDIR, "3", MAINW, MAINH, 1);*/
+		//back_ground[0].add_image(MAPDIR, "\\math\\fire", MAINW, MAINH, 36, ".png");
+		//back_ground[0].add_image(MAPDIR, "\\fire\\fire", MAINW, MAINH, 36, ".png");
+		//back_ground[0].add_image(MAPDIR, "\\fire\\fire", MAINW, MAINH, 36, ".png");
+
+
 	}
 	void init_button()
 	{
@@ -252,10 +272,9 @@ public:
 	}
 	void draw_pic()
 	{
-
 		BeginBatchDraw();
 		cleardevice();
-		putimage(0, 0, back_ground->get_image(cur_back));
+		Anime::draw_back_img(this);
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			buttons[i]->draw_button();
@@ -275,7 +294,7 @@ public:
 	}
 	IMAGE* get_background()
 	{
-		return back_ground->get_image(cur_back);
+		return back_ground[cur_back].get_image(cur_back);
 	}
 	void change_role(Character* role, deque<Picset* >& picarr)
 	{
@@ -289,7 +308,7 @@ public:
 				int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
 				cur_role = (cur_role + 1 * delt + picarr.size()) % picarr.size();
 				role->change_app(picarr[cur_role]);
-				if (role->exhibit(RIGHT, back_ground->get_image(cur_back)) == 1)
+				if (role->exhibit(RIGHT, this) == 1)
 				{
 					return;
 				}
@@ -298,13 +317,17 @@ public:
 	}
 	Button* chanegbt(int index)
 	{
-		return  buttons.count(index) ? buttons[index] :NULL;
+		return  buttons.count(index) ? buttons[index] : NULL;
 	}
-private:
+
+	//private:
+protected:
 	const static int btnum = 4;
 	unordered_map<int, Button*>buttons;
 	Atlas* shot = 0;
-	Atlas* back_ground;
+	//Atlas* back_ground;
+	map<int, Atlas>back_ground;
+	map<int, int>back_frame;
 	deque<string>mode_explain{ "normal","jump_jump","fake world","runer" };
 	vector<string>map_explain;
 	vector<string>role_explain;

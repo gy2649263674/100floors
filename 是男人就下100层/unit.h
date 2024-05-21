@@ -14,6 +14,7 @@
 #include <streambuf>
 #include <vector>
 #include<deque>
+#include<functional>
 #define MAINW 1000
 #define LENGTH 1000
 #define MAINH 750

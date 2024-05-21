@@ -19,12 +19,9 @@ int Item::creatitem(int &index)
 	else if (index2 == 1)
 	{
 		return 1;
-
 	}
 	else if (index2 == 2)
 	{
 		return 2;
-
 	}
-	
 }

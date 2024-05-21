@@ -1,6 +1,5 @@
 ﻿#include "Character.h"
 #include "easyx.h"
-#include "Draw.h"
 #include "Timer.h"
 #include <ctime>
 #include"unit.h"
@@ -22,9 +21,11 @@ static double lspeed = SPEED;
 static double rspeed = SPEED;
 using namespace std;
 extern bool GODMODE;
+
 int Character::character_move()
 {
 	score += 1;
+	Rank::score += 1;
 	static double G = 6;
 	static int pre = RIGHT;
 	if (GetAsyncKeyState(VK_LEFT) && x > 0)
@@ -126,6 +127,7 @@ int Character::character_move()
 					else if (board[i].item_type == 2)
 					{
 						board[i].have_item = false;
+						Rank::score += 500;
 						score += 500;
 					}
 				}
@@ -314,13 +316,16 @@ void draw_lucency(Character& role, int direct);
 void draw_lucency(int x, int y, int w, int h, IMAGE* ori, IMAGE* mask);
 
 int co = 0;
-int Character::exhibit(int direct, IMAGE* back)
+#include<functional>
+#include"Anime.h"
+int Character::exhibit(int direct, Start* ptr)
 {
 	ExMessage msg;
 	Atlas* temp = direct == RIGHT ? images : rimages;
 	BeginBatchDraw();
 	cleardevice();
-	putimage(0, 0, back);
+	Anime::draw_back_img(ptr);
+	//putimage(0, 0, back);
 	draw_lucency(MAINW / 2, MAINH / 2, temp->get_image(0), temp->get_mask_image(0));
 	++co;
 	cout << "co" << co << endl;
@@ -346,8 +351,9 @@ int Character::exhibit(int direct, IMAGE* back)
 				i = picfp >= runsize + standing_size - 1 ? 0 : ++i;
 				BeginBatchDraw();
 				cleardevice();
-				putimage(0, 0, back);
-				draw_lucency(MAINW/2, MAINH/2, temp->get_image(picfp), temp->get_mask_image(picfp));
+				Anime::draw_back_img(ptr);
+				//putimage(0, 0, back);
+				draw_lucency(MAINW / 2, MAINH / 2, temp->get_image(picfp), temp->get_mask_image(picfp));
 				outtextxy(0, 0, "按enter键选择角色");
 				EndBatchDraw();
 				Timer::endkeep(FRAME);

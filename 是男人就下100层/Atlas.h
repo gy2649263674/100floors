@@ -70,3 +70,4 @@ struct Picset
 		this->stand = stand;
 	}
 };
+

@@ -8,6 +8,5 @@
 #include "Timer.h"
 #include "Anime.h"
 #include "Character.h"
-#include "Draw.h"
 #include"scene.h"
 #include"Atlas.h"

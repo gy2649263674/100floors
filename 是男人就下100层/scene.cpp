@@ -51,18 +51,17 @@ void Start::ChooseMap(ExMessage& msg)
 	left.init("left");
 	left.init("right");*/
 	cleardevice();
-	putimage(0, 0, back_ground->get_image(cur_back));
+	Anime::draw_back_img(this);
+	//putimage(0, 0, back_ground->get_image(cur_back));
 	while (1)
 	{
-		settextstyle(50, 0, "consola");
-		outtextxy(WORDX, (MAINH - 100), "就决定是你了");
 		while (peekmessage(&msg, EX_KEY | EX_MOUSE))
 		{
 			if ((msg.vkcode == VK_LEFT || msg.vkcode == VK_RIGHT) && msg.message == WM_KEYUP)
 			{
-				//int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
-				/*cur_back = (cur_back + 1 * delt + back_ground->get_size()) % back_ground->get_size();*/
-				run(msg, cur_back, back_ground);
+				int delt = (msg.vkcode) - (VK_LEFT + VK_RIGHT) / 2;//正负绝对左右移动
+				cur_back = (cur_back + 1 * delt + back_ground.size()) % back_ground.size();
+				//run(msg, cur_back, back_ground);
 			}
 			else if (msg.vkcode == VK_RETURN)
 			{
@@ -70,8 +69,14 @@ void Start::ChooseMap(ExMessage& msg)
 				return;
 			}
 			cleardevice();
-			putimage(0, 0, back_ground->get_image(cur_back));
 		}
+		BeginBatchDraw();
+
+		Anime::draw_back_img(this);
+		settextstyle(50, 0, "consola");
+		outtextxy(WORDX, (MAINH - 100), "就决定是你了");
+ 		EndBatchDraw();
+		Sleep(15);
 	}
 
 }
@@ -147,4 +152,19 @@ entertain Start::setmode(ExMessage& msg)
 			outtextxy(0, 0, "按enter键选择模式");
 		}
 	}
+
 }
+#include"Anime.h"
+void Anime::draw_back_img(Start* se)
+{
+	if ((se->back_frame)[(se->cur_back)] / 3 >= (se->back_ground)[(se->cur_back)].get_size() - 1)
+	{
+		(se->back_frame)[se->cur_back] = 0;
+	}
+	else
+	{
+		++(se->back_frame)[se->cur_back];
+	}
+	putimage(0, 0, se->back_ground[se->cur_back].get_image(se->back_frame[se->cur_back] / 3));
+}
+

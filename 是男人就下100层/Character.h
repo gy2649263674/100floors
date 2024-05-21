@@ -4,11 +4,45 @@
 #include"board.h"
 #include<string>
 #include"Atlas.h"
+#include"unit.h"
+#include<fstream>
 #define PICGAP 2
 #define STOPGAP 8
 class Character;
 void draw_lucency(Character& role, int direct);
 void draw_lucency(int x, int y, IMAGE* ori, IMAGE* mask);
+class Start;
+class Rank
+{
+public:
+	static int score;
+	string username;
+	void record()
+	{
+		ofstream out("score.txt");
+		//out << username << " " << score;
+	}
+	/*void update()
+	{
+		int his = 0;
+		ifstream in("score.txt");
+		in >> his;
+		if (his > score)
+		{
+			fstream
+		}
+	}*/
+	void getmax()
+	{
+
+
+	}
+	void getusername()
+	{
+
+	}
+};
+
 class Character
 {
 	friend void draw_lucency(Character& role, int direct);
@@ -86,13 +120,14 @@ public:
 		settextcolor(RGB(250, 240, 0));
 		outtextxy(780, 100, "SCORE: ");
 		settextcolor(WHITE);
-		settextstyle(20, 20, "OCR A");
+		settextstyle(20, 20, "OCRA");
+		//outtextxy(780, 150, &(to_string(Rank::score))[0]);
 		outtextxy(780, 150, &(to_string(score))[0]);
 		//outtextxy(800, 100, sc);
 	}
 
 	bool is_dead();
-	int exhibit(int dir, IMAGE* back = 0);
+	int exhibit(int direct,Start *ptr);
 	int direct = 0;
 	int x = 0;
 	int y = 0;

@@ -1,5 +1,4 @@
 ﻿#include "Timer.h"
-
 bool Timer::timer(clock_t ms,int num)
 {
 	static clock_t t[10] = { 0 };

@@ -11,7 +11,6 @@
 #include "Timer.h"
 #include "Anime.h"
 #include "Character.h"
-#include "Draw.h"
 #include"scene.h"
 #include "Item.h"
 #include<deque>
@@ -43,6 +42,7 @@ Character role;
 deque<Picset*>appearence;
 map<Boardtype, map<int, IMAGE>>boardimg;
 map<Boardtype, map<int, IMAGE>>boardimg_mask;
+int Rank::score = 0;
 enum {
 	goback,
 	restart,
@@ -65,11 +65,12 @@ public:
 	{
 		//setbkcolor(WHITE);
 		setbkmode(OPAQUE);
-		settextstyle(80, 10, "");
+		setbkmode(TRANSPARENT);
+		settextstyle(70, 10, "");
 		settextcolor(WHITE);
 		outtextxy(800, 0, "");
 		//setfillcolor(WHITE);
-		outtextxy(800, 500, "按空格键暂停");
+		outtextxy(800, 650, "按空格键暂停");
 		if (GetAsyncKeyState(VK_SPACE) == 0)
 		{
 			return 0;
@@ -102,10 +103,11 @@ public:
 		EndBatchDraw();
 		cleardevice();
 		putimage(0, 0, se.get_background());
+		setbkmode(OPAQUE);
 		setfillcolor(BLACK);
-		settextcolor(RED);
+		settextcolor(WHITE);
 		settextstyle(50, 10, "");
-		outtextxy(MAINW / 2, MAINH / 2, "骚年,游戏可以重开，人生不能重来");
+		outtextxy(MAINW / 2-100, MAINH / 2, "骚年,游戏可以重开，人生不能重来");
 		outtextxy(MAINW / 2, MAINH / 2 + 50, "摁ESC退出");
 		outtextxy(MAINW / 2, MAINH / 2 + 100, "按ENTER重开");
 		ExMessage msg;
@@ -356,7 +358,7 @@ void gamedraw(int dir = 0)
 	role.draw_score();
 }
 #define BOARD_A 0.005
-#define MAXV 10
+#define MAXV 13
 double Board::V = 3;
 #define BOARDSIZE 20
 #define BOARDBUFFER 30
@@ -401,7 +403,8 @@ int tempgameing(entertain mode = normal)
 	{
 		BeginBatchDraw();
 		cleardevice();
-		putimage(0, 0, se.get_background());
+		Anime::draw_back_img(&se);
+		//putimage(0, 0, se.get_background());
 		board_move(false, mode);
 		gamedraw(role.character_move());
 		if (master.gaming(msg) == -1)
@@ -455,7 +458,7 @@ void testbutton(entertain defaultmode = normal)
 	while (1 ^ EXIT)
 	{
 		se.enter_scene();
-		while (peekmessage(&msg, EX_KEY | EX_MOUSE) | 1)
+		while (peekmessage(&msg, EX_KEY | EX_MOUSE))
 		{
 			Btname opt;
 			opt = Btname(se.process_command(msg));
@@ -478,7 +481,6 @@ void testbutton(entertain defaultmode = normal)
 					else if (op == 2)
 					{
 						se.enter_scene();
-
 						break;
 					}
 					else
@@ -521,8 +523,8 @@ void testbutton(entertain defaultmode = normal)
 				GODMODE ^= 1;
 				se.chanegbt(enter_bt)->rename(GODMODE ? "关闭作弊" : "开启作弊");
 			}
-			
 		}
+		Sleep(15);
 	}
 	return;
 }
