@@ -230,19 +230,10 @@ public:
 	{
 		back_ground[0].add_image("map\\fire","fire", MAINW, MAINH, 36, ".png");
 		back_ground[1].add_image("map\\man","", MAINW, MAINH, 18, ".png");
-		//back_ground[2].add_image("map\\space","", MAINW, MAINH,200 , ".png");
 		back_ground[2].add_image("map\\escape","", MAINW, MAINH, 24, ".png");
 		back_ground[3].add_image("map\\space","", MAINW, MAINH, 6, ".png");
 		back_ground[4].add_image("map\\wind","", MAINW, MAINH, 20, ".png");
 		back_ground[5].add_image("map\\ring","", MAINW, MAINH, 48, ".png");
-		/*back_ground[1].add_image(MAPDIR, "1", MAINW, MAINH, 1);
-		back_ground[2].add_image(MAPDIR, "2", MAINW, MAINH, 1);
-		back_ground[3].add_image(MAPDIR, "3", MAINW, MAINH, 1);*/
-		//back_ground[0].add_image(MAPDIR, "\\math\\fire", MAINW, MAINH, 36, ".png");
-		//back_ground[0].add_image(MAPDIR, "\\fire\\fire", MAINW, MAINH, 36, ".png");
-		//back_ground[0].add_image(MAPDIR, "\\fire\\fire", MAINW, MAINH, 36, ".png");
-
-
 	}
 	void init_button()
 	{

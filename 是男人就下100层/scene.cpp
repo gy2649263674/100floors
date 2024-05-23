@@ -30,7 +30,7 @@ int Start::process_command(ExMessage& msg)
 	{
 		if (buttons[i]->in_area(msg))
 		{
-			com = buttons[i]->react(msg) ? i : com;
+			com = buttons[i]->react(msg) ? i : -1;
 			enter_scene();
 			return com;
 		}

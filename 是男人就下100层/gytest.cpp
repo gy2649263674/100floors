@@ -75,7 +75,7 @@ public:
 		{
 			return 0;
 		}
-		peekmessage(&msg, EX_KEY, true);
+		//peekmessage(&msg, EX_KEY, true);
 		while (1)
 		{
 			BeginBatchDraw();
@@ -530,7 +530,6 @@ void testbutton(entertain defaultmode = normal)
 }
 int main(void)
 {
-
 	testbutton();
 	return 0;
 
