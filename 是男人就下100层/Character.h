@@ -103,7 +103,7 @@ public:
 	int curframe = 0;
 	int uv = 0;
 	int dircetion = 0;
-	int jump = 0;
+	int jump = 100;
 	bool have_armo;
 	int standing_size = 0;
 	int runsize = 0;
