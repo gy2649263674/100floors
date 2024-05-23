@@ -234,6 +234,7 @@ public:
 		back_ground[3].add_image("map\\space","", MAINW, MAINH, 6, ".png");
 		back_ground[4].add_image("map\\wind","", MAINW, MAINH, 20, ".png");
 		back_ground[5].add_image("map\\ring","", MAINW, MAINH, 48, ".png");
+		back_ground[6].add_image("map\\girl","", MAINW, MAINH, 40,".png");
 	}
 	void init_button()
 	{
