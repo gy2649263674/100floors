@@ -113,7 +113,7 @@ int Character::character_move()
 				{
 					if (board[i].item_type == 0)
 					{
-						health = 3;
+						health = MAXHEALTH;
 						board[i].have_item = false;
 					}
 					else if (board[i].item_type == 1)

@@ -57,11 +57,10 @@ public:
 		this->h = 60;
 		this->x = board.x + board.len / 2 - this->h / 2;
 		this->y = board.y -3*this->h;
-		this->health = 3;
 		this->h = 60;
 		this->have_armo = false;
 		this->jump = 0;
-		this->health = 3;
+		this->health = MAXHEALTH;
 		this->ob = -1;
 	}
 	void resetrun()

@@ -54,6 +54,7 @@
 #define BOARDH 40
 #define FPS 60
 #define FRAME 1000/60
+#define MAXHEALTH 5
 enum entertain
 {
 	normal,
